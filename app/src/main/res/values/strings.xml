@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">MealShare</string>
+
+
+    <string name="meal">Meal:</string>
+    <string name="description">Description:</string>
+    <string name="location">Location:</string>
+    <string name="amount_of_portions">Amount Of Portions:</string>
+    <string name="price">Price:</string>
+    <string name="portions_left">Portions Left:</string>
+    <string name="new_meal_header">Create A New Meal</string>
+    <string name="save">Safe</string>
+    <string name="cancel">Cancel</string>
+    <string name="buy">Buy</string>
+    <string name="back">Back</string>
+    <string name="validate_empty_field">You must fill out this information!</string>
+
+
 </resources>

@@ -15,7 +15,7 @@
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="2dp"
         android:background="@drawable/button_style"
-        android:text="Save"
+        android:text="@string/save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnCancel"
         app:layout_constraintStart_toStartOf="parent" />
@@ -28,7 +28,7 @@
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="2dp"
         android:background="@drawable/button_style"
-        android:text="Cancel"
+        android:text="@string/cancel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnSave" />
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="43dp"
         android:layout_marginTop="22dp"
-        android:text="Meal"
+        android:text="@string/meal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtNewMealHeader" />
 
@@ -58,8 +58,8 @@
         style="@style/InputHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="17dp"
-        android:text="Description"
+        android:layout_marginTop="15dp"
+        android:text="@string/description"
         app:layout_constraintStart_toStartOf="@+id/editMealName"
         app:layout_constraintTop_toBottomOf="@+id/editMealName" />
 
@@ -78,26 +78,26 @@
         style="@style/InputHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Amout Of Portions"
-        app:layout_constraintStart_toStartOf="@+id/editDescription"
-        app:layout_constraintTop_toBottomOf="@+id/editDescription" />
+        android:layout_marginTop="15dp"
+        android:text="@string/amount_of_portions"
+        app:layout_constraintStart_toStartOf="@+id/editLocation"
+        app:layout_constraintTop_toBottomOf="@+id/editLocation" />
 
     <EditText
         android:id="@+id/editAmount"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
+        android:layout_marginEnd="19dp"
         android:ems="10"
         android:inputType="number"
+        app:layout_constraintEnd_toStartOf="@+id/editPrice"
         app:layout_constraintStart_toStartOf="@+id/txtAmountHeader"
         app:layout_constraintTop_toBottomOf="@+id/txtAmountHeader" />
 
     <EditText
-        android:id="@+id/editText7"
+        android:id="@+id/editLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="@+id/txtLocationHeader"
@@ -108,20 +108,39 @@
         style="@style/InputHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
-        android:text="Location"
-        app:layout_constraintStart_toStartOf="@+id/editAmount"
-        app:layout_constraintTop_toBottomOf="@+id/editAmount" />
+        android:layout_marginTop="16dp"
+        android:text="@string/location"
+        app:layout_constraintStart_toStartOf="@+id/editDescription"
+        app:layout_constraintTop_toBottomOf="@+id/editDescription" />
 
     <TextView
         android:id="@+id/txtNewMealHeader"
         style="@style/ActivityHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
         android:layout_marginTop="26dp"
-        android:text="Create A New Meal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:text="@string/new_meal_header"
+        app:layout_constraintStart_toEndOf="@+id/txtMealNameHeader"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editPrice"
+        android:layout_width="136dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toEndOf="@+id/editLocation"
+        app:layout_constraintStart_toEndOf="@+id/editLocation"
+        app:layout_constraintTop_toTopOf="@+id/editAmount" />
+
+    <TextView
+        android:id="@+id/txtPriceHeader"
+        style="@style/InputHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/price"
+        app:layout_constraintBottom_toTopOf="@+id/editPrice"
+        app:layout_constraintStart_toStartOf="@+id/editPrice" />
 
 </android.support.constraint.ConstraintLayout>
