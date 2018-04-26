@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/SMAPproj.iml" filepath="$PROJECT_DIR$/SMAPproj.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SMAPProj.iml" filepath="$PROJECT_DIR$/SMAPProj.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
