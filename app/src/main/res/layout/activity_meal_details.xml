@@ -6,4 +6,122 @@
     android:layout_height="match_parent"
     tools:context="com.mealsharedev.mealshare.MealDetailsActivity">
 
+    <TextView
+        android:id="@+id/txtDescription"
+        style="@style/InputHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="108dp"
+        android:text="@string/description"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtPortionsLeft"
+        style="@style/InputHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="17dp"
+        android:layout_marginBottom="27dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="39dp"
+        android:text="@string/portions_left"
+        app:layout_constraintBottom_toBottomOf="@+id/txtPortions"
+        app:layout_constraintStart_toStartOf="@+id/txtPortions"
+        app:layout_constraintTop_toBottomOf="@+id/txtLocation" />
+
+    <TextView
+        android:id="@+id/txtLocationHeader"
+        style="@style/InputHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/location"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtDescription" />
+
+    <TextView
+        android:id="@+id/txtMealDetailHeader"
+        style="@style/ActivityHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="41dp"
+        android:text="Lasagna"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtPriceHeader2"
+        style="@style/InputHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="9dp"
+        android:text="@string/price"
+        app:layout_constraintBottom_toTopOf="@+id/txtPrice"
+        app:layout_constraintStart_toStartOf="@+id/txtPrice" />
+
+    <Button
+        android:id="@+id/btnBuy"
+        style="@style/MyButtons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="70dp"
+        android:layout_marginEnd="50dp"
+        android:background="@drawable/button_style"
+        android:text="@string/buy"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/btnBack"
+        style="@style/MyButtons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="43dp"
+        android:background="@drawable/button_style"
+        android:text="@string/back"
+        app:layout_constraintBottom_toBottomOf="@+id/btnBuy"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btnBuy" />
+
+    <TextView
+        android:id="@+id/txtDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="138dp"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="@+id/txtLocationHeader"
+        app:layout_constraintTop_toBottomOf="@+id/txtLocationHeader" />
+
+    <TextView
+        android:id="@+id/txtPortions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/txtPrice"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txtPrice" />
+
+    <TextView
+        android:id="@+id/txtPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="76dp"
+        android:layout_marginEnd="84dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/btnBuy"
+        app:layout_constraintEnd_toEndOf="@+id/btnBuy" />
 </android.support.constraint.ConstraintLayout>
