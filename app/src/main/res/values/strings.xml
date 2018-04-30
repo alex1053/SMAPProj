@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">MealShare</string>
+    <string name="facebook_app_id">1700542143373822</string>
+    <string name="fb_login_protocol_scheme">fb1700542143373822</string>
 
 
     <string name="meal">Meal:</string>
@@ -14,6 +16,7 @@
     <string name="buy">Buy</string>
     <string name="back">Back</string>
     <string name="validate_empty_field">You must fill out this information!</string>
+    <string name="signout">Sign out!</string>
 
 
 </resources>
