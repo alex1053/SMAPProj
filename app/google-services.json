@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "606919638340",
+    "firebase_url": "https://smapproj-7b4cb.firebaseio.com",
+    "project_id": "smapproj-7b4cb",
+    "storage_bucket": "smapproj-7b4cb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:606919638340:android:6a8333bd53e5c720",
+        "android_client_info": {
+          "package_name": "com.mealsharedev.mealshare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "606919638340-bn176g5gsvcm2h064d9kdl7d4pb3r249.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mealsharedev.mealshare",
+            "certificate_hash": "18e0a1d366839d9c159c0209bd9f06759ced451f"
+          }
+        },
+        {
+          "client_id": "606919638340-gvjns1kkq0afeus6374876h0pkvugfff.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmTm1pEWTujxbUxk8b7QgPZDTA0ghV_8Y"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "606919638340-gvjns1kkq0afeus6374876h0pkvugfff.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
