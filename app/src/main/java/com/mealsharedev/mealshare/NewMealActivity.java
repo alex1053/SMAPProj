@@ -11,7 +11,7 @@ import android.widget.EditText;
 public class NewMealActivity extends AppCompatActivity {
 
     Button btnCancel;
-    EditText mealName, mealDescription, mealPrice, mealLocation, mealAmount;
+    EditText mealName, mealDescription, mealPrice, mealLocation, mealAmount, mealZipCode, mealCity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +28,8 @@ public class NewMealActivity extends AppCompatActivity {
         mealName = findViewById(R.id.editMealName);
         mealDescription = findViewById(R.id.editDescription);
         mealLocation = findViewById(R.id.editLocation);
+        mealZipCode = findViewById(R.id.editZipCode);
+        mealCity = findViewById(R.id.editCity);
         mealPrice = findViewById(R.id.editPrice);
         mealAmount = findViewById(R.id.editAmount);
 
@@ -46,6 +48,8 @@ public class NewMealActivity extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
                 if(mealName.getText().toString().length() == 0)
                     mealName.setError(getText(R.string.validate_empty_field));
+                if(mealName.getText().toString().length() > 30)
+                    mealName.setError(getText(R.string.validate_too_many_characters));
             }
         });
         mealDescription.addTextChangedListener(new TextWatcher() {
@@ -68,6 +72,30 @@ public class NewMealActivity extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
                 if(mealLocation.getText().toString().length() == 0)
                     mealLocation.setError(getText(R.string.validate_empty_field));
+            }
+        });
+        mealZipCode.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(mealZipCode.getText().toString().length() == 0)
+                    mealZipCode.setError(getText(R.string.validate_empty_field));
+                if(mealZipCode.getText().toString().length() > 4)
+                    mealZipCode.setError(getText(R.string.validate_too_many_characters));
+            }
+        });
+        mealCity.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(mealCity.getText().toString().length() == 0)
+                    mealCity.setError(getText(R.string.validate_empty_field));
             }
         });
         mealAmount.addTextChangedListener(new TextWatcher() {

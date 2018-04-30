@@ -12,37 +12,29 @@
         style="@style/MyButtons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="2dp"
         android:background="@drawable/button_style"
         android:text="@string/save"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnCancel"
-        app:layout_constraintStart_toStartOf="parent" />
+        tools:layout_editor_absoluteX="60dp"
+        tools:layout_editor_absoluteY="447dp" />
 
     <Button
         android:id="@+id/btnCancel"
         style="@style/MyButtons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="2dp"
         android:background="@drawable/button_style"
         android:text="@string/cancel"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnSave" />
+        tools:layout_editor_absoluteX="222dp"
+        tools:layout_editor_absoluteY="447dp" />
 
     <TextView
         android:id="@+id/txtMealNameHeader"
         style="@style/InputHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="43dp"
-        android:layout_marginTop="22dp"
         android:text="@string/meal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtNewMealHeader" />
+        tools:layout_editor_absoluteX="43dp"
+        tools:layout_editor_absoluteY="73dp" />
 
     <EditText
         android:id="@+id/editMealName"
@@ -50,49 +42,44 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        app:layout_constraintStart_toStartOf="@+id/txtMealNameHeader"
-        app:layout_constraintTop_toBottomOf="@+id/txtMealNameHeader" />
+        tools:layout_editor_absoluteX="43dp"
+        tools:layout_editor_absoluteY="92dp" />
 
     <TextView
         android:id="@+id/txtDescription"
         style="@style/InputHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
         android:text="@string/description"
-        app:layout_constraintStart_toStartOf="@+id/editMealName"
-        app:layout_constraintTop_toBottomOf="@+id/editMealName" />
+        tools:layout_editor_absoluteX="43dp"
+        tools:layout_editor_absoluteY="147dp" />
 
     <EditText
         android:id="@+id/editDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
         android:ems="10"
         android:inputType="textMultiLine"
-        app:layout_constraintStart_toStartOf="@+id/txtDescription"
-        app:layout_constraintTop_toBottomOf="@+id/txtDescription" />
+        tools:layout_editor_absoluteX="43dp"
+        tools:layout_editor_absoluteY="166dp" />
 
     <TextView
         android:id="@+id/txtAmountHeader"
         style="@style/InputHeader"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_height="16dp"
         android:text="@string/amount_of_portions"
-        app:layout_constraintStart_toStartOf="@+id/editLocation"
-        app:layout_constraintTop_toBottomOf="@+id/editLocation" />
+        tools:layout_editor_absoluteX="43dp"
+        tools:layout_editor_absoluteY="374dp" />
 
     <EditText
         android:id="@+id/editAmount"
-        android:layout_width="0dp"
+        android:layout_width="128dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="19dp"
         android:ems="10"
         android:inputType="number"
-        app:layout_constraintEnd_toStartOf="@+id/editPrice"
-        app:layout_constraintStart_toStartOf="@+id/txtAmountHeader"
-        app:layout_constraintTop_toBottomOf="@+id/txtAmountHeader" />
+        tools:layout_editor_absoluteX="43dp"
+        tools:layout_editor_absoluteY="390dp" />
 
     <EditText
         android:id="@+id/editLocation"
@@ -100,29 +87,26 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        app:layout_constraintStart_toStartOf="@+id/txtLocationHeader"
-        app:layout_constraintTop_toBottomOf="@+id/txtLocationHeader" />
+        tools:layout_editor_absoluteX="43dp"
+        tools:layout_editor_absoluteY="243dp" />
 
     <TextView
-        android:id="@+id/txtLocationHeader"
+        android:id="@+id/txtAddressHeader"
         style="@style/InputHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/location"
-        app:layout_constraintStart_toStartOf="@+id/editDescription"
-        app:layout_constraintTop_toBottomOf="@+id/editDescription" />
+        android:text="@string/address"
+        tools:layout_editor_absoluteX="43dp"
+        tools:layout_editor_absoluteY="225dp" />
 
     <TextView
         android:id="@+id/txtNewMealHeader"
         style="@style/ActivityHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="26dp"
         android:text="@string/new_meal_header"
-        app:layout_constraintStart_toEndOf="@+id/txtMealNameHeader"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:layout_editor_absoluteX="99dp"
+        tools:layout_editor_absoluteY="26dp" />
 
     <EditText
         android:id="@+id/editPrice"
@@ -130,9 +114,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="numberDecimal"
-        app:layout_constraintEnd_toEndOf="@+id/editLocation"
-        app:layout_constraintStart_toEndOf="@+id/editLocation"
-        app:layout_constraintTop_toTopOf="@+id/editAmount" />
+        tools:layout_editor_absoluteX="186dp"
+        tools:layout_editor_absoluteY="393dp" />
 
     <TextView
         android:id="@+id/txtPriceHeader"
@@ -140,7 +123,43 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/price"
-        app:layout_constraintBottom_toTopOf="@+id/editPrice"
-        app:layout_constraintStart_toStartOf="@+id/editPrice" />
+        tools:layout_editor_absoluteX="190dp"
+        tools:layout_editor_absoluteY="374dp" />
+
+    <TextView
+        android:id="@+id/txtZipCode"
+        style="@style/InputHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/zipcode"
+        tools:layout_editor_absoluteX="43dp"
+        tools:layout_editor_absoluteY="297dp" />
+
+    <EditText
+        android:id="@+id/editZipCode"
+        android:layout_width="125dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPostalAddress"
+        tools:layout_editor_absoluteX="43dp"
+        tools:layout_editor_absoluteY="316dp" />
+
+    <TextView
+        android:id="@+id/txtCityHeader"
+        style="@style/InputHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/city"
+        tools:layout_editor_absoluteX="186dp"
+        tools:layout_editor_absoluteY="297dp" />
+
+    <EditText
+        android:id="@+id/editCity"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        tools:layout_editor_absoluteX="186dp"
+        tools:layout_editor_absoluteY="316dp" />
 
 </android.support.constraint.ConstraintLayout>
