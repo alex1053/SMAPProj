@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="meal">Måltid:</string>
+    <string name="description">Beskrivelse:</string>
+    <string name="location">Lokation:</string>
+    <string name="address">Adresse:</string>
+    <string name="zipcode">Postnummer:</string>
+    <string name="city">By:</string>
+    <string name="amount_of_portions">Portioner:</string>
+    <string name="price">Pris:</string>
+    <string name="portions_left">Tilbageværende Portioner:</string>
+    <string name="new_meal_header">Del Måltid</string>
+    <string name="user">Lavet af:</string>
+    <string name="save">Gem</string>
+    <string name="cancel">Annuller</string>
+    <string name="buy">Køb</string>
+    <string name="back">Tilbage</string>
+    <string name="validate_empty_field">Information påkrævet!</string>
+    <string name="validate_too_many_characters">Max antal tegn: 30</string>
+    <string name="validate_zipcode">Postnummer skal være 4 cifre</string>
+    <string name="signout">Log ud!</string>
+</resources>
