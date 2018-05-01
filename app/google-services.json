@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "606919638340-j76lkd0nslpqml2cdieqkk25hr65qau1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mealsharedev.mealshare",
+            "certificate_hash": "1032a466d202e866d729889212d16603fd5fef0f"
+          }
+        },
+        {
           "client_id": "606919638340-bn176g5gsvcm2h064d9kdl7d4pb3r249.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

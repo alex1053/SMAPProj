@@ -12,112 +12,136 @@
         style="@style/InputHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="108dp"
         android:text="@string/description"
-        tools:layout_editor_absoluteX="28dp"
-        tools:layout_editor_absoluteY="108dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/txtPortionsLeft"
         style="@style/InputHeader"
         android:layout_width="wrap_content"
         android:layout_height="17dp"
+        android:layout_marginBottom="119dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="119dp"
         android:text="@string/portions_left"
-        tools:layout_editor_absoluteX="28dp"
-        tools:layout_editor_absoluteY="338dp" />
+        app:layout_constraintBottom_toBottomOf="@+id/btnBack"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txtLocation" />
 
     <TextView
         android:id="@+id/txtLocationHeader"
         style="@style/InputHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="38dp"
         android:text="@string/location"
-        tools:layout_editor_absoluteX="28dp"
-        tools:layout_editor_absoluteY="195dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtDescription" />
 
     <TextView
         android:id="@+id/txtMealDetailHeader"
         style="@style/ActivityHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="41dp"
         android:text="Lasagna"
-        tools:layout_editor_absoluteX="151dp"
-        tools:layout_editor_absoluteY="41dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/txtPriceHeader2"
         style="@style/InputHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:text="@string/price"
-        tools:layout_editor_absoluteX="202dp"
-        tools:layout_editor_absoluteY="338dp" />
+        app:layout_constraintBottom_toTopOf="@+id/txtPrice"
+        app:layout_constraintStart_toStartOf="@+id/txtPrice" />
 
     <Button
         android:id="@+id/btnBuy"
         style="@style/MyButtons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="37dp"
+        android:layout_marginEnd="50dp"
         android:background="@drawable/button_style"
         android:text="@string/buy"
-        tools:layout_editor_absoluteX="234dp"
-        tools:layout_editor_absoluteY="426dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/btnBack"
         style="@style/MyButtons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="37dp"
+        android:layout_marginStart="44dp"
         android:background="@drawable/button_style"
         android:text="@string/back"
-        tools:layout_editor_absoluteX="44dp"
-        tools:layout_editor_absoluteY="426dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/txtDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="138dp"
         android:text="World best lasagna. Nothing else to say!"
-        tools:layout_editor_absoluteX="28dp"
-        tools:layout_editor_absoluteY="138dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/txtLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:text="Finlandsgade 26, 8200 Aarhus N"
-        tools:layout_editor_absoluteX="28dp"
-        tools:layout_editor_absoluteY="219dp" />
+        app:layout_constraintStart_toStartOf="@+id/txtLocationHeader"
+        app:layout_constraintTop_toBottomOf="@+id/txtLocationHeader" />
 
     <TextView
         android:id="@+id/txtPortions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="3"
-        tools:layout_editor_absoluteX="28dp"
-        tools:layout_editor_absoluteY="365dp" />
+        app:layout_constraintStart_toStartOf="@+id/txtPortionsLeft"
+        app:layout_constraintTop_toBottomOf="@+id/txtPortionsLeft" />
 
     <TextView
         android:id="@+id/txtPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="42dp"
+        android:layout_marginEnd="86dp"
         android:text="29 DKK"
-        tools:layout_editor_absoluteX="202dp"
-        tools:layout_editor_absoluteY="365dp" />
+        app:layout_constraintBottom_toTopOf="@+id/btnBuy"
+        app:layout_constraintEnd_toEndOf="@+id/btnBuy" />
 
     <TextView
         android:id="@+id/txtUserHeader"
         style="@style/InputHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="31dp"
         android:text="@string/user"
-        tools:layout_editor_absoluteX="28dp"
-        tools:layout_editor_absoluteY="269dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtLocation" />
 
     <TextView
         android:id="@+id/txtUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:text="Anders Lehman"
-        tools:layout_editor_absoluteX="28dp"
-        tools:layout_editor_absoluteY="296dp" />
+        app:layout_constraintStart_toStartOf="@+id/txtUserHeader"
+        app:layout_constraintTop_toBottomOf="@+id/txtUserHeader" />
 </android.support.constraint.ConstraintLayout>

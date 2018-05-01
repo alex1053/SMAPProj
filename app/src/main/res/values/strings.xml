@@ -10,8 +10,15 @@
     <string name="address">Address:</string>
     <string name="zipcode">Zipcode:</string>
     <string name="city">City:</string>
-    <string name="amount_of_portions">Amount Of Portions:</string>
+    <string name="amount_of_portions">Portions:</string>
     <string name="price">Price:</string>
+    <string name="minute">Minute:</string>
+    <string name="hour">Hour:</string>
+    <string name="day">Day:</string>
+    <string name="month">Month:</string>
+    <string name="year">Year:</string>
+    <string name="time">Time:</string>
+    <string name="date">Date:</string>
     <string name="portions_left">Portions Left:</string>
     <string name="new_meal_header">Share Meal</string>
     <string name="user">Cooked by:</string>
@@ -23,4 +30,96 @@
     <string name="validate_too_many_characters">Maximum characters: 30</string>
     <string name="validate_zipcode">Zipcode must be 4 numbers</string>
     <string name="signout">Sign out!</string>
+
+    <string-array name="day_array">
+        <item>1st</item>
+        <item>2nd</item>
+        <item>3rd</item>
+        <item>4th</item>
+        <item>5th</item>
+        <item>6th</item>
+        <item>7th</item>
+        <item>8th</item>
+        <item>9th</item>
+        <item>10th</item>
+        <item>11th</item>
+        <item>12th</item>
+        <item>13th</item>
+        <item>14th</item>
+        <item>15th</item>
+        <item>16th</item>
+        <item>17th</item>
+        <item>18th</item>
+        <item>19th</item>
+        <item>20th</item>
+        <item>21st</item>
+        <item>22nd</item>
+        <item>23rd</item>
+        <item>24th</item>
+        <item>25th</item>
+        <item>26th</item>
+        <item>27th</item>
+        <item>28th</item>
+        <item>29th</item>
+        <item>30th</item>
+        <item>31st</item>
+    </string-array>
+
+    <string-array name="month_array">
+        <item>January</item>
+        <item>Febuary</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
+    </string-array>
+
+    <string-array name="year_array">
+        <item>2018</item>
+        <item>2019</item>
+        <item>2020</item>
+        <item>2021</item>
+        <item>2022</item>
+    </string-array>
+
+    <string-array name="hour_array">
+        <item>01</item>
+        <item>02</item>
+        <item>03</item>
+        <item>04</item>
+        <item>05</item>
+        <item>06</item>
+        <item>07</item>
+        <item>08</item>
+        <item>09</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+    </string-array>
+
+    <string-array name="minute_array">
+        <item>00</item>
+        <item>15</item>
+        <item>30</item>
+        <item>45</item>
+    </string-array>
+
 </resources>

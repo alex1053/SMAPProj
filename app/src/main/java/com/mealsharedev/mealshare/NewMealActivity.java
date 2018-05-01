@@ -5,26 +5,33 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.mealsharedev.mealshare.Models.Meal;
 
 public class NewMealActivity extends AppCompatActivity {
 
-    Button btnCancel;
-    EditText mealName, mealDescription, mealPrice, mealLocation, mealAmount, mealZipCode, mealCity;
+    Button btnCancel, btnSave;
+    EditText mealName, mealDescription, mealPrice, mealLocation, mealAmount, mealZipCode, mealCity, mealDay, mealMonth, mealYear, mealHour, mealMinute;
+    Spinner spinDay, spinMonth, spinYear, spinHour, spinMinute;
+    DatabaseReference mDatabase;
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_meal);
 
-        btnCancel = findViewById(R.id.btnCancel);
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mAuth = FirebaseAuth.getInstance();
+
+
         mealName = findViewById(R.id.editMealName);
         mealDescription = findViewById(R.id.editDescription);
         mealLocation = findViewById(R.id.editLocation);
@@ -32,11 +39,92 @@ public class NewMealActivity extends AppCompatActivity {
         mealCity = findViewById(R.id.editCity);
         mealPrice = findViewById(R.id.editPrice);
         mealAmount = findViewById(R.id.editAmount);
-
+        InitializeButtons();
+        InitializeSpinners();
         InitializeValidate();
     }
 
-    public void InitializeValidate()
+    private void writeNewMeal()
+    {
+        //String UserEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        String UserEmail = "dav";
+
+        Meal meal = new Meal(UserEmail,
+                             mealName.getText().toString(),
+                             mealDescription.getText().toString(),
+                             mealAmount.getText().toString(),
+                             mealPrice.getText().toString(),
+                             mealLocation.getText().toString(),
+                             mealZipCode.getText().toString(),
+                             mealCity.getText().toString(),
+                             getTimeStamp());
+
+       // meal.subscribers.add("Jegvilspisemed@gmail.com");
+
+        mDatabase.child(UserEmail).child(mealName.getText().toString()).setValue(meal);
+    }
+
+    private String getTimeStamp()
+    {
+        return spinDay.getSelectedItem().toString() + " " + spinMonth.getSelectedItem().toString() + " " + spinYear.getSelectedItem().toString()
+                + ". " + spinHour.getSelectedItem().toString() + ":" + spinMinute.getSelectedItem().toString();
+    }
+
+    private void InitializeButtons()
+    {
+        btnCancel = findViewById(R.id.btnCancel);
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+        btnSave = findViewById(R.id.btnSave);
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                writeNewMeal();
+            }
+        });
+    }
+
+    private void InitializeSpinners()
+    {
+        spinDay = findViewById(R.id.spinDay);
+        spinMonth = findViewById(R.id.spinMonth);
+        spinYear = findViewById(R.id.spinYear);
+        spinHour = findViewById(R.id.spinHour);
+        spinMinute = findViewById(R.id.spinMinute);
+
+        //Inspired by: https://developer.android.com/guide/topics/ui/controls/spinner
+        ArrayAdapter<CharSequence> monthadapter = ArrayAdapter.createFromResource(this,
+                R.array.month_array, android.R.layout.simple_spinner_item);
+        monthadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinMonth.setAdapter(monthadapter);
+
+        ArrayAdapter<CharSequence> dayadapter = ArrayAdapter.createFromResource(this,
+                R.array.day_array, android.R.layout.simple_spinner_item);
+        dayadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinDay.setAdapter(dayadapter);
+
+        ArrayAdapter<CharSequence> yearadapter = ArrayAdapter.createFromResource(this,
+                R.array.year_array, android.R.layout.simple_spinner_item);
+        dayadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinYear.setAdapter(yearadapter);
+
+        ArrayAdapter<CharSequence> houradapter = ArrayAdapter.createFromResource(this,
+                R.array.hour_array, android.R.layout.simple_spinner_item);
+        dayadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinHour.setAdapter(houradapter);
+
+        ArrayAdapter<CharSequence> minutadapter = ArrayAdapter.createFromResource(this,
+                R.array.minute_array, android.R.layout.simple_spinner_item);
+        dayadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinMinute.setAdapter(minutadapter);
+    }
+
+    private void InitializeValidate()
     {
         //Inspired by: https://stackoverflow.com/questions/2763022/android-how-can-i-validate-edittext-input
         mealName.addTextChangedListener(new TextWatcher() {
