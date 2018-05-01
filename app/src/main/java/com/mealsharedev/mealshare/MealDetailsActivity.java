@@ -26,13 +26,12 @@ public class MealDetailsActivity extends AppCompatActivity {
                 finish();
             }
         });
-        btnBack.setOnClickListener(new View.OnClickListener() {
+        btnBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 OpenDialogWindow();
             }
         });
-
     }
 
 
