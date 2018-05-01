@@ -13,9 +13,9 @@
     <string name="amount_of_portions">Amount Of Portions:</string>
     <string name="price">Price:</string>
     <string name="portions_left">Portions Left:</string>
+    <string name="new_meal_header">Share Meal</string>
     <string name="user">Cooked by:</string>
-    <string name="new_meal_header">Create A New Meal</string>
-    <string name="save">Safe</string>
+    <string name="save">Save</string>
     <string name="cancel">Cancel</string>
     <string name="buy">Buy</string>
     <string name="back">Back</string>
@@ -23,6 +23,4 @@
     <string name="validate_too_many_characters">Maximum characters: 30</string>
     <string name="validate_zipcode">Zipcode must be 4 numbers</string>
     <string name="signout">Sign out!</string>
-
-
 </resources>

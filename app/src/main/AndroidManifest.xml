@@ -3,6 +3,7 @@
     package="com.mealsharedev.mealshare">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:allowBackup="true"
@@ -22,6 +23,7 @@
         <activity android:name=".MealDetailsActivity" />
         <activity android:name=".MainActivity"/>
         <activity android:name=".NewMealActivity"/>
+        <activity android:name=".headerActivity"/>
 
         <meta-data android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"/>

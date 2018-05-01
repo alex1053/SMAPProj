@@ -59,6 +59,7 @@ public class LoginActivity extends headerActivity {
 
             @Override
             public void onCancel() {
+                Toast.makeText(LoginActivity.this, "CANCEL!", Toast.LENGTH_SHORT).show();
                 // App code
             }
 
