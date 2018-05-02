@@ -14,13 +14,13 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginBottom="34dp"
-        app:layout_constraintBottom_toTopOf="@+id/newMealBtn"
+        app:layout_constraintBottom_toTopOf="@+id/btnNewMeal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/newMealBtn"
+        android:id="@+id/btnNewMeal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -42,6 +42,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newMealBtn" />
+        app:layout_constraintTop_toBottomOf="@+id/btnNewMeal" />
 
 </android.support.constraint.ConstraintLayout>
