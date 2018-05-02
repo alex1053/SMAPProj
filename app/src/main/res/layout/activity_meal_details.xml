@@ -8,13 +8,15 @@
     tools:layout_editor_absoluteY="81dp">
 
     <TextView
-        android:id="@+id/txtDescription"
+        android:id="@+id/txtDescriptionHeader"
         style="@style/InputHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="109dp"
         android:layout_marginStart="28dp"
         android:layout_marginTop="108dp"
         android:text="@string/description"
+        app:layout_constraintBottom_toTopOf="@+id/txtTimeStampHeader"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,9 +25,9 @@
         style="@style/InputHeader"
         android:layout_width="wrap_content"
         android:layout_height="17dp"
-        android:layout_marginBottom="119dp"
+        android:layout_marginBottom="135dp"
         android:layout_marginStart="28dp"
-        android:layout_marginTop="119dp"
+        android:layout_marginTop="135dp"
         android:text="@string/portions_left"
         app:layout_constraintBottom_toBottomOf="@+id/btnBack"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,10 +38,9 @@
         style="@style/InputHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="38dp"
+        android:layout_marginTop="7dp"
         android:text="@string/location"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/txtDescription"
         app:layout_constraintTop_toBottomOf="@+id/txtDescription" />
 
     <TextView
@@ -54,7 +55,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/txtPriceHeader2"
+        android:id="@+id/txtPriceHeader"
         style="@style/InputHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -91,17 +92,16 @@
         android:id="@+id/txtDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="138dp"
+        android:layout_marginTop="11dp"
         android:text="World best lasagna. Nothing else to say!"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/txtDescriptionHeader"
+        app:layout_constraintTop_toBottomOf="@+id/txtDescriptionHeader" />
 
     <TextView
         android:id="@+id/txtLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="4dp"
         android:text="Finlandsgade 26, 8200 Aarhus N"
         app:layout_constraintStart_toStartOf="@+id/txtLocationHeader"
         app:layout_constraintTop_toBottomOf="@+id/txtLocationHeader" />
@@ -119,11 +119,11 @@
         android:id="@+id/txtPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="42dp"
-        android:layout_marginEnd="86dp"
+        android:layout_marginBottom="58dp"
+        android:layout_marginEnd="14dp"
         android:text="29 DKK"
         app:layout_constraintBottom_toTopOf="@+id/btnBuy"
-        app:layout_constraintEnd_toEndOf="@+id/btnBuy" />
+        app:layout_constraintEnd_toEndOf="@+id/txtTimeStamp" />
 
     <TextView
         android:id="@+id/txtUserHeader"
@@ -131,7 +131,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
-        android:layout_marginTop="31dp"
+        android:layout_marginTop="30dp"
         android:text="@string/user"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtLocation" />
@@ -140,7 +140,7 @@
         android:id="@+id/txtUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="7dp"
         android:text="Anders Lehman"
         app:layout_constraintStart_toStartOf="@+id/txtUserHeader"
         app:layout_constraintTop_toBottomOf="@+id/txtUserHeader" />
@@ -151,17 +151,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="7dp"
-        android:layout_marginEnd="33dp"
         android:text="@string/time"
         app:layout_constraintBottom_toTopOf="@+id/txtTimeStamp"
-        app:layout_constraintEnd_toEndOf="@+id/txtTimeStamp" />
+        app:layout_constraintStart_toStartOf="@+id/txtTimeStamp" />
 
     <TextView
         android:id="@+id/txtTimeStamp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="26dp"
+        android:layout_marginBottom="41dp"
+        android:layout_marginStart="79dp"
         android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/txtPriceHeader2"
-        app:layout_constraintStart_toStartOf="@+id/txtPriceHeader2" />
+        app:layout_constraintBottom_toTopOf="@+id/txtPriceHeader"
+        app:layout_constraintStart_toEndOf="@+id/txtUser" />
 </android.support.constraint.ConstraintLayout>

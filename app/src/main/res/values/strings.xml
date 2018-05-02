@@ -30,6 +30,8 @@
     <string name="validate_too_many_characters">Maximum characters: 30</string>
     <string name="validate_zipcode">Zipcode must be 4 numbers</string>
     <string name="signout">Sign out!</string>
+    <string name="main_info">Pick a meal from the list:</string>
+
 
     <string-array name="day_array">
         <item>1st</item>

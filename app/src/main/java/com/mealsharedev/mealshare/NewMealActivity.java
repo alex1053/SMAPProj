@@ -31,7 +31,6 @@ public class NewMealActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
 
-
         mealName = findViewById(R.id.editMealName);
         mealDescription = findViewById(R.id.editDescription);
         mealLocation = findViewById(R.id.editLocation);
@@ -42,13 +41,17 @@ public class NewMealActivity extends AppCompatActivity {
         InitializeButtons();
         InitializeSpinners();
         InitializeValidate();
+
+        Meal meal = new Meal("mail","name","meal","desc","portion","price","location","zip","city","time");
+        mDatabase.child("meals").child(meal.mealName).setValue(meal);
     }
 
     private void writeNewMeal()
     {
-        String UserEmail = mAuth.getCurrentUser().getEmail().toString();
-        String UserName = mAuth.getCurrentUser().getDisplayName().toString();
-        //String UserEmail = "dav";
+        //String UserEmail = mAuth.getCurrentUser().getEmail().toString();
+        //String UserName = mAuth.getCurrentUser().getDisplayName().toString();
+        String UserEmail = "mail";
+        String UserName = "name";
 
         Meal meal = new Meal(UserEmail,
                              UserName,
@@ -61,9 +64,7 @@ public class NewMealActivity extends AppCompatActivity {
                              mealCity.getText().toString(),
                              getTimeStamp());
 
-       // meal.subscribers.add("Jegvilspisemed@gmail.com");
-
-        mDatabase.child("meals").child(UserName + "_" + mealName.getText().toString()).setValue(meal);
+        mDatabase.child("meals").child(mealName.getText().toString()).setValue(meal);
     }
 
     private String getTimeStamp()
@@ -86,7 +87,7 @@ public class NewMealActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 writeNewMeal();
-                finish();
+                //finish();
             }
         });
     }

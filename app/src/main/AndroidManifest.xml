@@ -19,7 +19,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".NewUserActivity" />
         <activity android:name=".MealDetailsActivity" />
         <activity android:name=".MainActivity"/>
         <activity android:name=".NewMealActivity"/>

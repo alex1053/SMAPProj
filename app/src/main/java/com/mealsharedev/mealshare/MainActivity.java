@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Parcelable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -35,7 +36,8 @@ public class MainActivity extends headerActivity {
     };
     Button btnNewMeal;
     ListView MealListView;
-    DatabaseReference mDatabase;
+    ArrayList<Meal> meals = new ArrayList<>();
+    //DatabaseReference mDatabase;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,7 +47,7 @@ public class MainActivity extends headerActivity {
         IntentFilter filter = new IntentFilter(LOGOUT_BROADCAST);
         LocalBroadcastManager.getInstance(this).registerReceiver(receiver, filter);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+       // mDatabase = FirebaseDatabase.getInstance().getReference();
 
         btnNewMeal = findViewById(R.id.btnNewMeal);
         btnNewMeal.setOnClickListener(new View.OnClickListener() {
@@ -58,7 +60,7 @@ public class MainActivity extends headerActivity {
         Intent intent = getIntent();
         setHeadings(intent.getStringExtra("user"));
 
-        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();
+        /*DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();
 
         DatabaseReference meals = databaseRef.child("meals");
 
@@ -76,9 +78,9 @@ public class MainActivity extends headerActivity {
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
+        });*/
 
-        //InitializaListView();
+        InitializaListView();
     }
 
     public void OpenNewMealActivity()
@@ -90,18 +92,31 @@ public class MainActivity extends headerActivity {
     public void OpenMealDetails(Meal meal)
     {
         Intent intent = new Intent(this, MealDetailsActivity.class);
+        intent.putExtra("meal", meal);
         startActivity(intent);
     }
 
     public void InitializaListView()
     {
-        MealAdapter mealAdapter = new MealAdapter(this, null);
+        Meal meal = new Meal("hhh", "Anders Lehman", "Lasagna", "Delicious italian lasagna!", "6", "39", "Finlandsgade 26","8200", "Aarhus N", "22-08-18. 19:00");
+        Meal meal2 = new Meal("hhh", "Anders Lehman", "Burger", "Delicious american burger!", "3", "59", "Finlandsgade 26","8200", "Aarhus N", "22-08-18. 19:00");
+        Meal meal3 = new Meal("hhh", "Anders Lehman", "Sharwama med kylling", "info info info!", "6", "39", "Edwin Rahrs vej 26","8210", "Brabrand", "22-08-18. 19:00");
+        Meal meal4 = new Meal("hhh", "Anders Lehman", "Cokoladekage m. kaffeglasur", "Bedste kage i verden!", "10", "20", "Skanderborgvej 26","8660", "Skanderborg", "22-08-18. 19:00");
+        Meal meal5 = new Meal("hhh", "Anders Lehman", "Sushi", "Delicious italian lasagna!", "2", "119", "Søndergade 7","8000", "Aarhus", "22-08-18. 19:00");
+
+        meals.add(meal);
+        meals.add(meal2);
+        meals.add(meal3);
+        meals.add(meal4);
+        meals.add(meal5);
+
+        MealAdapter mealAdapter = new MealAdapter(this, meals);
         MealListView = findViewById(R.id.listView);
         MealListView.setAdapter(mealAdapter);
         MealListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //OpenMealDetails(meals.get(position));
+                OpenMealDetails(meals.get(i));
             }
         });
     }
