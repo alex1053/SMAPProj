@@ -52,6 +52,10 @@ public class MealAdapter extends BaseAdapter {
             txtMealName.setText(meal.mealName);
             TextView txtPrice = (TextView) convertView.findViewById(R.id.txtPrice);
             txtPrice.setText(meal.price + " DKK");
+            TextView txtLocation = (TextView) convertView.findViewById(R.id.txtLocation);
+            txtLocation.setText(meal.city);
+            TextView txtPortions = (TextView) convertView.findViewById(R.id.txtPortions);
+            txtPortions.setText(meal.portions + " Portions Left");
         }
         return convertView;
     }
