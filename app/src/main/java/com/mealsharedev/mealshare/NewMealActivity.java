@@ -46,10 +46,12 @@ public class NewMealActivity extends AppCompatActivity {
 
     private void writeNewMeal()
     {
-        //String UserEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-        String UserEmail = "dav";
+        String UserEmail = mAuth.getCurrentUser().getEmail().toString();
+        String UserName = mAuth.getCurrentUser().getDisplayName().toString();
+        //String UserEmail = "dav";
 
         Meal meal = new Meal(UserEmail,
+                             UserName,
                              mealName.getText().toString(),
                              mealDescription.getText().toString(),
                              mealAmount.getText().toString(),
@@ -61,7 +63,7 @@ public class NewMealActivity extends AppCompatActivity {
 
        // meal.subscribers.add("Jegvilspisemed@gmail.com");
 
-        mDatabase.child(UserEmail).child(mealName.getText().toString()).setValue(meal);
+        mDatabase.child("meals").child(UserName + "_" + mealName.getText().toString()).setValue(meal);
     }
 
     private String getTimeStamp()
@@ -84,6 +86,7 @@ public class NewMealActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 writeNewMeal();
+                finish();
             }
         });
     }
