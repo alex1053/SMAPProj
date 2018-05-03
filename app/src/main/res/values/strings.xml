@@ -31,7 +31,10 @@
     <string name="validate_zipcode">Zipcode must be 4 numbers</string>
     <string name="signout">Sign out!</string>
     <string name="main_info">Pick a meal from the list:</string>
-
+    <string name="notification_mealjoined">Someone has joined you meal!</string>
+    <string name="notification_mealcomment">Someone has comment on yout meal!</string>
+    <string name="notification_mealremoved">Someone has removed a meal you were assigned to!</string>
+    <string name="notification_newmeal">Someone has shared a new meal!</string>
 
     <string-array name="day_array">
         <item>1st</item>

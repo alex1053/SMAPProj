@@ -4,17 +4,27 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.mealsharedev.mealshare.Adapters.CommentAdapter;
+import com.mealsharedev.mealshare.Models.Comment;
 import com.mealsharedev.mealshare.Models.Meal;
+
+import java.util.ArrayList;
 
 public class MealDetailsActivity extends AppCompatActivity {
 
-    Button btnBuy, btnBack;
+    Button btnBuy, btnBack, btnComment;
     TextView txtMeal, txtUser, txtLocation, txtTime, txtDescription, txtPrice, txtPortions;
     Meal meal;
+    ListView CommentListView;
+    ArrayList<Comment> comments = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +33,7 @@ public class MealDetailsActivity extends AppCompatActivity {
 
         btnBuy = findViewById(R.id.btnBuy);
         btnBack = findViewById(R.id.btnBack);
+        btnComment = findViewById(R.id.btnComment);
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -35,6 +46,13 @@ public class MealDetailsActivity extends AppCompatActivity {
                 OpenDialogWindow();
             }
         });
+        btnComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                OpenCommentDialogWindow();
+            }
+        });
+
 
         meal = getIntent().getParcelableExtra("meal");
 
@@ -53,6 +71,8 @@ public class MealDetailsActivity extends AppCompatActivity {
         txtPrice.setText(meal.price + " DKK");
         txtUser.setText(meal.userName);
         txtPortions.setText(meal.portions);
+
+        //InitializaListView();
     }
 
     public String getLocationString()
@@ -79,4 +99,44 @@ public class MealDetailsActivity extends AppCompatActivity {
 
          builder.show();
      }
+
+    public void OpenCommentDialogWindow()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Write a comment:");
+
+        final EditText newcomment = new EditText(this);
+        newcomment.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(newcomment);
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Comment comment = new Comment("Lars Larsen", newcomment.getText().toString());
+                comments.add(comment);
+                dialog.cancel();
+            }
+        });
+        builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {dialog.cancel();}
+        });
+
+        builder.show();
+    }
+
+    public void InitializaListView()
+    {
+        CommentAdapter mealAdapter = new CommentAdapter(this, comments);
+        CommentListView = findViewById(R.id.ListViewComment);
+        CommentListView.setAdapter(mealAdapter);
+        CommentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            }
+        });
+    }
+
+
+
 }

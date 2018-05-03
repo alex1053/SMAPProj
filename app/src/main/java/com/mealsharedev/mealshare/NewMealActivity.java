@@ -4,15 +4,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCanceledListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.mealsharedev.mealshare.Models.Comment;
 import com.mealsharedev.mealshare.Models.Meal;
 
 public class NewMealActivity extends AppCompatActivity {
@@ -20,7 +28,8 @@ public class NewMealActivity extends AppCompatActivity {
     Button btnCancel, btnSave;
     EditText mealName, mealDescription, mealPrice, mealLocation, mealAmount, mealZipCode, mealCity, mealDay, mealMonth, mealYear, mealHour, mealMinute;
     Spinner spinDay, spinMonth, spinYear, spinHour, spinMinute;
-    DatabaseReference mDatabase;
+    DatabaseReference mDatabaseRef;
+    FirebaseDatabase mDatabase;
     FirebaseAuth mAuth;
 
     @Override
@@ -28,7 +37,8 @@ public class NewMealActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_meal);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase = FirebaseDatabase.getInstance();
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
 
         mealName = findViewById(R.id.editMealName);
@@ -42,8 +52,8 @@ public class NewMealActivity extends AppCompatActivity {
         InitializeSpinners();
         InitializeValidate();
 
-        Meal meal = new Meal("mail","name","meal","desc","portion","price","location","zip","city","time");
-        mDatabase.child("meals").child(meal.mealName).setValue(meal);
+        //Meal meal = new Meal("mail","name","meal","desc","portion","price","location","zip","city","time");
+        //mDatabaseRef.child("meals").child(meal.mealName).setValue(meal);
     }
 
     private void writeNewMeal()
@@ -64,7 +74,62 @@ public class NewMealActivity extends AppCompatActivity {
                              mealCity.getText().toString(),
                              getTimeStamp());
 
-        mDatabase.child("meals").child(mealName.getText().toString()).setValue(meal);
+        DatabaseReference mealsRef = mDatabase.getReference("meals");
+
+        String key = mealsRef.push().getKey();
+    //    String meals1 = mDatabaseRef.child("meals").child(mealName.getText().toString()).push().getKey();
+     //   Task<Void> meals = mDatabaseRef.child("meals").child(key).setValue(meal);
+         mealsRef.child(key).setValue(new Comment("what what", "yo!"));
+         /*
+         addOnCompleteListener(this, new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                Log.d("FIREBASE", "task complete");
+            }
+        }).addOnFailureListener(this, new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("FIREBASE", "task failed");
+            }
+        }).addOnSuccessListener(this, new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d("FIREBASE", "task Success");
+            }
+        }).addOnCanceledListener(this, new OnCanceledListener() {
+            @Override
+            public void onCanceled() {
+                Log.d("FIREBASE", "task cancel");
+            }
+        });
+        */
+        Log.d("FIREBASE", mealsRef.toString());
+
+    }
+
+    private void writeNewMeal2()
+    {
+        String UserEmail = mAuth.getCurrentUser().getEmail().toString();
+        String UserName = mAuth.getCurrentUser().getDisplayName().toString();
+        //String UserEmail = "mail";
+        //String UserName = "name";
+
+        Meal meal = new Meal(UserEmail,
+                UserName,
+                mealName.getText().toString(),
+                mealDescription.getText().toString(),
+                mealAmount.getText().toString(),
+                mealPrice.getText().toString(),
+                mealLocation.getText().toString(),
+                mealZipCode.getText().toString(),
+                mealCity.getText().toString(),
+                getTimeStamp());
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("meals");
+
+        myRef.setValue(meal);
+
     }
 
     private String getTimeStamp()
@@ -88,6 +153,7 @@ public class NewMealActivity extends AppCompatActivity {
             public void onClick(View view) {
                 writeNewMeal();
                 //finish();
+                Toast.makeText(NewMealActivity.this, "Your meal is now shared!", Toast.LENGTH_SHORT).show();
             }
         });
     }
