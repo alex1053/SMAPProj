@@ -31,6 +31,8 @@ public class Meal implements Parcelable {
         this.zipCode = zipCode;
         this.city = city;
         this.timeStamp = timeStamp;
+
+        //this.comments = new ArrayList<>();
     }
 
     public String userMail;
@@ -43,6 +45,7 @@ public class Meal implements Parcelable {
     public String zipCode;
     public String city;
     public String timeStamp;
+    //public ArrayList<Comment> comments;
 
     //public List<String> subscribers;
     //Parcing of the cityweatherobjects
