@@ -1,33 +1,53 @@
 package com.mealsharedev.mealshare;
 
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.support.annotation.NonNull;
-import android.support.v4.content.LocalBroadcastManager;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.mealsharedev.mealshare.Adapters.CommentAdapter;
 import com.mealsharedev.mealshare.Adapters.MealAdapter;
 import com.mealsharedev.mealshare.Models.Meal;
+import com.mealsharedev.mealshare.services.MealUpdateService;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 public class MainActivity extends headerActivity {
+    MealUpdateService updateService;
 
-    BroadcastReceiver receiver = new BroadcastReceiver() {
+    private BroadcastReceiver updateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            ArrayList<Meal> tmpList = intent.getParcelableArrayListExtra(MealUpdateService.NEW_MEALS_EXTRA);
+            meals.clear();
+            meals.addAll(tmpList);
+            mealOverviewAdapter.notifyDataSetChanged();
+        }
+    };
+
+    ServiceConnection updateServiceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            updateService = ((MealUpdateService.MealUpdateServiceBinder) service).getService();
+            updateService.updateMeals();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    };
+
+    BroadcastReceiver signOutReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             finish();
@@ -37,14 +57,17 @@ public class MainActivity extends headerActivity {
     ListView MealListView;
     ArrayList<Meal> meals = new ArrayList<>();
     FirebaseFirestore mDB;
+    MealAdapter mealOverviewAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        InitializaListView();
+        bindToUpdateService();
 
-        IntentFilter filter = new IntentFilter(LOGOUT_BROADCAST);
-        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, filter);
+        IntentFilter signOutFilter = new IntentFilter(SIGNOUT_BROADCAST);
+        LocalBroadcastManager.getInstance(this).registerReceiver(signOutReceiver, signOutFilter);
 
 
         mDB = FirebaseFirestore.getInstance();
@@ -65,26 +88,13 @@ public class MainActivity extends headerActivity {
 
         Intent intent = getIntent();
         setHeadings(intent.getStringExtra("user"));
-        //GetData();
-        InitializaListView();
     }
 
-
-    public void GetData() {
-        mDB.collection("meals")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for(QueryDocumentSnapshot document : task.getResult()){
-                                Map<String, Object> meal = document.getData();
-                                Meal tempMeal = new Meal(meal);
-                                meals.add(tempMeal);
-                            }
-                        }
-                    }
-                });
+    private void bindToUpdateService() {
+        Intent intent = new Intent(this, MealUpdateService.class);
+        bindService(intent, updateServiceConnection, BIND_AUTO_CREATE);
+        IntentFilter filter = new IntentFilter(MealUpdateService.NEW_MEALS_AVAILABLE);
+        LocalBroadcastManager.getInstance(this).registerReceiver(updateReceiver, filter);
     }
 
     public void OpenNewMealActivity() {
@@ -104,21 +114,9 @@ public class MainActivity extends headerActivity {
     }
 
     public void InitializaListView() {
-        /*Meal meal = new Meal("hhh", "Anders Lehman", "Lasagna", "Delicious italian lasagna!", "6", "39", "Finlandsgade 26", "8200", "Aarhus N", "22-08-18. 19:00");
-        Meal meal2 = new Meal("hhh", "Anders Lehman", "Burger", "Delicious american burger!", "3", "59", "Finlandsgade 26", "8200", "Aarhus N", "22-08-18. 19:00");
-        Meal meal3 = new Meal("hhh", "Anders Lehman", "Sharwama med kylling", "info info info!", "6", "39", "Edwin Rahrs vej 26", "8210", "Brabrand", "22-08-18. 19:00");
-        Meal meal4 = new Meal("hhh", "Anders Lehman", "Cokoladekage m. kaffeglasur", "Bedste kage i verden!", "10", "20", "Skanderborgvej 26", "8660", "Skanderborg", "22-08-18. 19:00");
-        Meal meal5 = new Meal("hhh", "Anders Lehman", "Sushi", "Delicious italian lasagna!", "2", "119", "Søndergade 7", "8000", "Aarhus", "22-08-18. 19:00");
-
-        meals.add(meal);
-        meals.add(meal2);
-        meals.add(meal3);
-        meals.add(meal4);
-        meals.add(meal5);*/
-
-        MealAdapter mealAdapter = new MealAdapter(this, meals);
+        mealOverviewAdapter = new MealAdapter(this, meals);
         MealListView = findViewById(R.id.listView);
-        MealListView.setAdapter(mealAdapter);
+        MealListView.setAdapter(mealOverviewAdapter);
         MealListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

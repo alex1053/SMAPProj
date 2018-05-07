@@ -1,9 +1,9 @@
 package com.mealsharedev.mealshare;
 
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,6 +19,8 @@ import com.mealsharedev.mealshare.Models.Meal;
 import java.util.ArrayList;
 
 public class MealDetailsActivity extends AppCompatActivity {
+
+    CommentAdapter mealAdapter;
 
     Button btnBuy, btnBack, btnComment;
     TextView txtMeal, txtUser, txtLocation, txtTime, txtDescription, txtPrice, txtPortions;
@@ -114,7 +116,7 @@ public class MealDetailsActivity extends AppCompatActivity {
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Comment comment = new Comment("Lars Larsen", newcomment.getText().toString());
+                Comment comment = new Comment(newcomment.getText().toString());
                 comments.add(comment);
                 dialog.cancel();
             }
@@ -130,7 +132,7 @@ public class MealDetailsActivity extends AppCompatActivity {
     }
 
     public void InitializaListView() {
-        CommentAdapter mealAdapter = new CommentAdapter(this, comments);
+        mealAdapter = new CommentAdapter(this, comments);
         CommentListView = findViewById(R.id.ListViewComment);
         CommentListView.setAdapter(mealAdapter);
         CommentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

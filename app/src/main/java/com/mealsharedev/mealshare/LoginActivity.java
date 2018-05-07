@@ -1,9 +1,8 @@
 package com.mealsharedev.mealshare;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -11,17 +10,19 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.mealsharedev.mealshare.Models.User;
 
 import java.util.Arrays;
 
@@ -30,6 +31,7 @@ public class LoginActivity extends headerActivity {
 
     private static final String EMAIL = "email";
     private FirebaseAuth mAuth;
+    private FirebaseFirestore mDB;
 
     CallbackManager callbackManager;
     LoginButton loginButton;
@@ -41,6 +43,7 @@ public class LoginActivity extends headerActivity {
         setContentView(R.layout.activity_login);
 
         mAuth = FirebaseAuth.getInstance();
+        mDB = FirebaseFirestore.getInstance();
 
         callbackManager = CallbackManager.Factory.create();
 
@@ -69,7 +72,7 @@ public class LoginActivity extends headerActivity {
                 // App code
             }
         });
-        if(mAuth.getCurrentUser() != null){
+        if (mAuth.getCurrentUser() != null) {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
         }
@@ -87,7 +90,7 @@ public class LoginActivity extends headerActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
 //        setHeadings(currentUser.getDisplayName());
-        if(currentUser != null) {
+        if (currentUser != null) {
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra("user", currentUser.getDisplayName());
             startActivity(intent);
@@ -106,6 +109,10 @@ public class LoginActivity extends headerActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("signinSuccess", "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+
+                            User dbUser = new User(user.getUid(), user.getDisplayName(), user.getEmail());
+                            addUserToDatabase(dbUser);
+
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             intent.putExtra("user", user.getDisplayName());
                             startActivity(intent);
@@ -117,6 +124,23 @@ public class LoginActivity extends headerActivity {
                         }
 
                         // ...
+                    }
+                });
+    }
+
+    private void addUserToDatabase(User user) {
+        mDB.collection("users").document(user.getId())
+                .set(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("tag", "Success");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("tag", "Failed!!!!!!!!!!!!");
                     }
                 });
     }

@@ -1,8 +1,8 @@
 package com.mealsharedev.mealshare;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -13,7 +13,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -21,10 +20,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.mealsharedev.mealshare.Models.Comment;
 import com.mealsharedev.mealshare.Models.Meal;
-
-import java.util.UUID;
 
 public class NewMealActivity extends AppCompatActivity {
 
@@ -56,19 +52,18 @@ public class NewMealActivity extends AppCompatActivity {
 
     }
 
-    private void writeNewMeal()
-    {
+    private void writeNewMeal() {
         String UserId = mAuth.getCurrentUser().getUid();
 
         Meal meal = new Meal(UserId,
-                             mealName.getText().toString(),
-                             mealDescription.getText().toString(),
-                             mealAmount.getText().toString(),
-                             mealPrice.getText().toString(),
-                             mealLocation.getText().toString(),
-                             mealZipCode.getText().toString(),
-                             mealCity.getText().toString(),
-                             getTimeStamp());
+                mealName.getText().toString(),
+                mealDescription.getText().toString(),
+                mealAmount.getText().toString(),
+                mealPrice.getText().toString(),
+                mealLocation.getText().toString(),
+                mealZipCode.getText().toString(),
+                mealCity.getText().toString(),
+                getTimeStamp());
 
         mDB.collection("meals")
                 .add(meal)
@@ -81,7 +76,7 @@ public class NewMealActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        Log.d("tag","Success");
+                        Log.d("tag", "Success");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -94,8 +89,7 @@ public class NewMealActivity extends AppCompatActivity {
     }
 
 
-    private String getTimeStamp()
-    {
+    private String getTimeStamp() {
         return spinDay.getSelectedItem().toString() + " " + spinMonth.getSelectedItem().toString() + " " + spinYear.getSelectedItem().toString()
                 + ". " + spinHour.getSelectedItem().toString() + ":" + spinMinute.getSelectedItem().toString();
     }
@@ -153,8 +147,7 @@ public class NewMealActivity extends AppCompatActivity {
         });
     }
 
-    private void InitializeSpinners()
-    {
+    private void InitializeSpinners() {
         spinDay = findViewById(R.id.spinDay);
         spinMonth = findViewById(R.id.spinMonth);
         spinYear = findViewById(R.id.spinYear);
@@ -189,93 +182,116 @@ public class NewMealActivity extends AppCompatActivity {
         spinMinute.setAdapter(minutadapter);
     }
 
-    private void InitializeValidate()
-    {
+    private void InitializeValidate() {
         //Inspired by: https://stackoverflow.com/questions/2763022/android-how-can-i-validate-edittext-input
         mealName.addTextChangedListener(new TextWatcher() {
-            @Override public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
-            @Override public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(mealName.getText().toString().length() == 0)
+                if (mealName.getText().toString().length() == 0)
                     mealName.setError(getText(R.string.validate_empty_field));
-                if(mealName.getText().toString().length() > 30)
+                if (mealName.getText().toString().length() > 30)
                     mealName.setError(getText(R.string.validate_too_many_characters));
             }
         });
         mealDescription.addTextChangedListener(new TextWatcher() {
-            @Override public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
-            @Override public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(mealDescription.getText().toString().length() == 0)
+                if (mealDescription.getText().toString().length() == 0)
                     mealDescription.setError(getText(R.string.validate_empty_field));
             }
         });
         mealLocation.addTextChangedListener(new TextWatcher() {
-            @Override public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
-            @Override public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(mealLocation.getText().toString().length() == 0)
+                if (mealLocation.getText().toString().length() == 0)
                     mealLocation.setError(getText(R.string.validate_empty_field));
             }
         });
         mealZipCode.addTextChangedListener(new TextWatcher() {
-            @Override public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
-            @Override public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(mealZipCode.getText().toString().length() == 0)
+                if (mealZipCode.getText().toString().length() == 0)
                     mealZipCode.setError(getText(R.string.validate_empty_field));
-                if(mealZipCode.getText().toString().length() > 4)
+                if (mealZipCode.getText().toString().length() > 4)
                     mealZipCode.setError(getText(R.string.validate_too_many_characters));
                 if (mealZipCode.getText().toString().length() < 4)
                     mealZipCode.setError("");
             }
         });
         mealCity.addTextChangedListener(new TextWatcher() {
-            @Override public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
-            @Override public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(mealCity.getText().toString().length() == 0)
+                if (mealCity.getText().toString().length() == 0)
                     mealCity.setError(getText(R.string.validate_empty_field));
             }
         });
         mealAmount.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(mealAmount.getText().toString().length() == 0)
+                if (mealAmount.getText().toString().length() == 0)
                     mealAmount.setError(getText(R.string.validate_empty_field));
             }
         });
         mealPrice.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(mealPrice.getText().toString().length() == 0)
+                if (mealPrice.getText().toString().length() == 0)
                     mealPrice.setError(getText(R.string.validate_empty_field));
             }
         });
