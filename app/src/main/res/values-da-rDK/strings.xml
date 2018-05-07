@@ -16,6 +16,7 @@
     <string name="time">Tid:</string>
     <string name="date">Dato:</string>
     <string name="portions_left">Tilbageværende Portioner:</string>
+    <string name="DKK">DKK</string>
     <string name="new_meal_header">Del Måltid</string>
     <string name="user">Lavet af:</string>
     <string name="save">Gem</string>
