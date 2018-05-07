@@ -75,33 +75,34 @@ public class MealDetailsActivity extends AppCompatActivity {
         //InitializaListView();
     }
 
-    public String getLocationString()
-    {
+    public String getLocationString() {
         return meal.address + ", " + meal.zipCode + " " + meal.city;
     }
 
     //Inspired by: https://stackoverflow.com/questions/10903754/input-text-dialog-android?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
-     public void OpenDialogWindow()
-     {
-         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-         builder.setTitle("Reserve This Meal");
+    public void OpenDialogWindow() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Reserve This Meal");
 
-         builder.setMessage("Are you sure you want to reserve " + meal.mealName + " for " + meal.price + " DKK?");
+        builder.setMessage("Are you sure you want to reserve " + meal.mealName + " for " + meal.price + " DKK?");
 
-         builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-             @Override
-             public void onClick(DialogInterface dialog, int which) {finish();}
-         });
-         builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-             @Override
-             public void onClick(DialogInterface dialog, int which) {dialog.cancel();}
-         });
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
 
-         builder.show();
-     }
+        builder.show();
+    }
 
-    public void OpenCommentDialogWindow()
-    {
+    public void OpenCommentDialogWindow() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Write a comment:");
 
@@ -119,14 +120,15 @@ public class MealDetailsActivity extends AppCompatActivity {
         });
         builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {dialog.cancel();}
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
         });
 
         builder.show();
     }
 
-    public void InitializaListView()
-    {
+    public void InitializaListView() {
         CommentAdapter mealAdapter = new CommentAdapter(this, comments);
         CommentListView = findViewById(R.id.ListViewComment);
         CommentListView.setAdapter(mealAdapter);
@@ -136,7 +138,6 @@ public class MealDetailsActivity extends AppCompatActivity {
             }
         });
     }
-
 
 
 }
