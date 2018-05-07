@@ -12,11 +12,6 @@ import com.mealsharedev.mealshare.R;
 
 import java.util.ArrayList;
 
-/**
- * Created by Laura on 03-05-2018.
- */
-
-
 public class CommentAdapter extends BaseAdapter {
 
     private Context context;
@@ -54,7 +49,7 @@ public class CommentAdapter extends BaseAdapter {
         Comment comment = comments.get(position);
         if (comment != null) {
             TextView txtUsername = (TextView) convertView.findViewById(R.id.txtUser);
-            txtUsername.setText(comment.getUserId());
+            txtUsername.setText(comment.displayName);
             TextView txtComment = (TextView) convertView.findViewById(R.id.txtComment);
             txtComment.setText(comment.comment);
         }

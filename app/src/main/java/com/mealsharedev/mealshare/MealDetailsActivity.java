@@ -115,7 +115,7 @@ public class MealDetailsActivity extends AppCompatActivity {
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Comment comment = new Comment("Lars Larsen", newcomment.getText().toString());
+                Comment comment = new Comment(newcomment.getText().toString());
                 comments.add(comment);
                 dialog.cancel();
             }

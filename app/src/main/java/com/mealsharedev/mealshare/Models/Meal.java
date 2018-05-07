@@ -6,13 +6,10 @@ import android.os.Parcelable;
 import java.util.Map;
 import java.util.UUID;
 
-/**
- * Created by Laura on 01-05-2018.
- */
 public class Meal implements Parcelable {
 
-    public Meal(String userid, String mealName, String description, String portions, String price, String address, String zipCode, String city, String timeStamp) {
-        this.userId = userid;
+    public Meal(String displayName, String mealName, String description, String portions, String price, String address, String zipCode, String city, String timeStamp) {
+        this.displayName = displayName;
         this.mealName = mealName;
         this.description = description;
         this.portions = portions;
@@ -26,7 +23,7 @@ public class Meal implements Parcelable {
     }
 
     public Meal(Map<String, Object> hashmap) {
-        this.userId = hashmap.get("userId") != null ? hashmap.get("userId").toString() : "skrrt";
+        this.displayName = hashmap.get("userId") != null ? hashmap.get("userId").toString() : "skrrt";
         this.mealId = hashmap.get("mealId") != null ? hashmap.get("mealId").toString() : "et id";
         this.mealName = hashmap.get("mealName") != null ? hashmap.get("mealName").toString() : "etNavn";
         this.description = hashmap.get("description") != null ? hashmap.get("description").toString() : "";
@@ -38,15 +35,11 @@ public class Meal implements Parcelable {
         this.timeStamp = hashmap.get("timeStamp") != null ? hashmap.get("timeStamp").toString() : "noooo";
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
     public String getMealId() {
         return mealId;
     }
 
-    private String userId;
+    public String displayName;
     private String mealId;
     public String mealName;
     public String description;
@@ -58,7 +51,7 @@ public class Meal implements Parcelable {
     public String timeStamp;
 
     protected Meal(Parcel in) {
-        userId = in.readString();
+        displayName = in.readString();
         mealId = in.readString();
         mealName = in.readString();
         description = in.readString();
@@ -91,7 +84,7 @@ public class Meal implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(userId);
+        parcel.writeString(displayName);
         parcel.writeString(mealId);
         parcel.writeString(mealName);
         parcel.writeString(description);

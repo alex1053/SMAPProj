@@ -1,22 +1,24 @@
 package com.mealsharedev.mealshare.Models;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.UUID;
 
 public class Comment {
 
     public String comment;
-    private String UserId;
+    public String displayName;
     private String commentId;
 
-    public Comment(String comment, String userId) {
+    public Comment(String comment) {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
         this.comment = comment;
-        UserId = userId;
+        if (mAuth.getCurrentUser() != null) {
+            this.displayName = mAuth.getCurrentUser().getDisplayName();
+        }
 
         commentId = UUID.randomUUID().toString();
-    }
-
-    public String getUserId() {
-        return UserId;
     }
 
     public String getCommentId() {
