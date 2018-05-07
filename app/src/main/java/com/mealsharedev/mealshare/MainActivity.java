@@ -58,7 +58,7 @@ public class MainActivity extends headerActivity {
 
         Intent intent = getIntent();
         setHeadings(intent.getStringExtra("user"));
-        GetData();
+        //GetData();
         InitializaListView();
     }
 

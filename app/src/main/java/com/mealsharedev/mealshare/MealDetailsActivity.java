@@ -69,7 +69,7 @@ public class MealDetailsActivity extends AppCompatActivity {
         txtLocation.setText(getLocationString());
         txtTime.setText(meal.timeStamp);
         txtPrice.setText(meal.price + " DKK");
-        txtUser.setText(meal.userName);
+        //txtUser.setText(meal.userName);
         txtPortions.setText(meal.portions);
 
         //InitializaListView();
