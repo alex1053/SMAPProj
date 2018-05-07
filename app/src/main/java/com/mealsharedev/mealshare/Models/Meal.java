@@ -2,15 +2,7 @@ package com.mealsharedev.mealshare.Models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
 
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 import java.util.UUID;
 
@@ -33,18 +25,17 @@ public class Meal implements Parcelable {
         this.mealId = UUID.randomUUID().toString();
     }
 
-    public Meal(Map<String, Object> hashmap)
-    {
-        this.userId = hashmap.get("userId").toString();
-        this.mealId = hashmap.get("mealId").toString();
-        this.mealName = hashmap.get("mealName").toString();
-        this.description = hashmap.get("description").toString();
-        this.portions = hashmap.get("portions").toString();
-        this.price = hashmap.get("price").toString();
-        this.address = hashmap.get("address").toString();
-        this.zipCode = hashmap.get("zipCode").toString();
-        this.city = hashmap.get("city").toString();
-        this.timeStamp = hashmap.get("timeStamp").toString();
+    public Meal(Map<String, Object> hashmap) {
+        this.userId = hashmap.get("userId") != null ? hashmap.get("userId").toString() : "skrrt";
+        this.mealId = hashmap.get("mealId") != null ? hashmap.get("mealId").toString() : "et id";
+        this.mealName = hashmap.get("mealName") != null ? hashmap.get("mealName").toString() : "etNavn";
+        this.description = hashmap.get("description") != null ? hashmap.get("description").toString() : "";
+        this.portions = hashmap.get("portions") != null ? hashmap.get("portions").toString() : "1";
+        this.price = hashmap.get("price") != null ? hashmap.get("price").toString() : "firs";
+        this.address = hashmap.get("address") != null ? hashmap.get("address").toString() : "her";
+        this.zipCode = hashmap.get("zipCode") != null ? hashmap.get("zipCode").toString() : "8888";
+        this.city = hashmap.get("city") != null ? hashmap.get("city").toString() : "byenHer";
+        this.timeStamp = hashmap.get("timeStamp") != null ? hashmap.get("timeStamp").toString() : "noooo";
     }
 
     public String getUserId() {
@@ -113,6 +104,7 @@ public class Meal implements Parcelable {
     }
 
 
-    public Meal(){}
+    public Meal() {
+    }
 
 }

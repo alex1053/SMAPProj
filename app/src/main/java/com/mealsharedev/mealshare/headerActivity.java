@@ -2,7 +2,6 @@ package com.mealsharedev.mealshare;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
@@ -13,14 +12,13 @@ import android.widget.TextView;
 
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class headerActivity extends AppCompatActivity {
 
-    public static final String LOGOUT_BROADCAST = "logoutBroadcast";
+    public static final String SIGNOUT_BROADCAST = "logoutBroadcast";
 
     ImageView HeaderImg;
-    Button  logout;
+    Button logout;
     TextView userID;
 
     @Override
@@ -32,7 +30,7 @@ public class headerActivity extends AppCompatActivity {
 
     }
 
-    protected void setHeadings (String user) {
+    protected void setHeadings(String user) {
         logout = findViewById(R.id.headerBtn);
         userID = findViewById(R.id.headerText);
 
@@ -44,7 +42,7 @@ public class headerActivity extends AppCompatActivity {
                 LoginManager.getInstance().logOut();
                 FirebaseAuth.getInstance().signOut();
 
-                Intent intent = new Intent(LOGOUT_BROADCAST);
+                Intent intent = new Intent(SIGNOUT_BROADCAST);
                 LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
 
                 //TODO redirect to LoginActivity (call finish()????)

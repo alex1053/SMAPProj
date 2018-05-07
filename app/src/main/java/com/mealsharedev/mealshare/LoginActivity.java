@@ -1,9 +1,8 @@
 package com.mealsharedev.mealshare;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -11,8 +10,6 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -69,7 +66,7 @@ public class LoginActivity extends headerActivity {
                 // App code
             }
         });
-        if(mAuth.getCurrentUser() != null){
+        if (mAuth.getCurrentUser() != null) {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
         }
@@ -87,7 +84,7 @@ public class LoginActivity extends headerActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
 //        setHeadings(currentUser.getDisplayName());
-        if(currentUser != null) {
+        if (currentUser != null) {
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra("user", currentUser.getDisplayName());
             startActivity(intent);

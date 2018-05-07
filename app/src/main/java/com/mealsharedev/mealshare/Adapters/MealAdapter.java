@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mealsharedev.mealshare.Models.Meal;
@@ -22,20 +21,25 @@ public class MealAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<Meal> meals;
 
-    public MealAdapter(Context context, ArrayList<Meal> meals){
+    public MealAdapter(Context context, ArrayList<Meal> meals) {
         this.context = context;
         this.meals = meals;
     }
 
     @Override
     public int getCount() {
-        return meals.size();}
+        return meals.size();
+    }
 
     @Override
-    public Object getItem(int position) {return meals.get(position);}
+    public Object getItem(int position) {
+        return meals.get(position);
+    }
 
     @Override
-    public long getItemId(int position) {return position;}
+    public long getItemId(int position) {
+        return position;
+    }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -47,7 +51,7 @@ public class MealAdapter extends BaseAdapter {
         }
 
         Meal meal = meals.get(position);
-        if(meal !=null){
+        if (meal != null) {
             TextView txtMealName = (TextView) convertView.findViewById(R.id.txtMealName);
             txtMealName.setText(meal.mealName);
             TextView txtPrice = (TextView) convertView.findViewById(R.id.txtPrice);
