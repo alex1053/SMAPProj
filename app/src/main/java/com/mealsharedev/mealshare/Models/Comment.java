@@ -1,21 +1,26 @@
 package com.mealsharedev.mealshare.Models;
 
-/**
- * Created by Laura on 03-05-2018.
- */
+import java.util.UUID;
 
 public class Comment {
 
-    public String username;
     public String comment;
+    private String UserId;
+    private String commentId;
 
-    public Comment(String username, String comment)
-    {
-        this.username = username;
+    public Comment(String comment, String userId) {
         this.comment = comment;
+        UserId = userId;
+
+        commentId = UUID.randomUUID().toString();
     }
 
-    public Comment(){
-
+    public String getUserId() {
+        return UserId;
     }
+
+    public String getCommentId() {
+        return commentId;
+    }
+
 }
