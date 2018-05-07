@@ -13,12 +13,16 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.mealsharedev.mealshare.Models.User;
 
 import java.util.Arrays;
 
@@ -27,6 +31,7 @@ public class LoginActivity extends headerActivity {
 
     private static final String EMAIL = "email";
     private FirebaseAuth mAuth;
+    private FirebaseFirestore mDB;
 
     CallbackManager callbackManager;
     LoginButton loginButton;
@@ -38,6 +43,7 @@ public class LoginActivity extends headerActivity {
         setContentView(R.layout.activity_login);
 
         mAuth = FirebaseAuth.getInstance();
+        mDB = FirebaseFirestore.getInstance();
 
         callbackManager = CallbackManager.Factory.create();
 
@@ -103,6 +109,10 @@ public class LoginActivity extends headerActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("signinSuccess", "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+
+                            User dbUser = new User(user.getUid(), user.getDisplayName(), user.getEmail());
+                            addUserToDatabase(dbUser);
+
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             intent.putExtra("user", user.getDisplayName());
                             startActivity(intent);
@@ -114,6 +124,23 @@ public class LoginActivity extends headerActivity {
                         }
 
                         // ...
+                    }
+                });
+    }
+
+    private void addUserToDatabase(User user) {
+        mDB.collection("users").document(user.getId())
+                .set(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("tag", "Success");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("tag", "Failed!!!!!!!!!!!!");
                     }
                 });
     }
