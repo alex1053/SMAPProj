@@ -12,15 +12,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by Laura on 01-05-2018.
  */
 public class Meal implements Parcelable {
 
-    public Meal(String user, String userName, String mealName, String description, String portions, String price, String address, String zipCode, String city, String timeStamp) {
-        this.userMail = user;
-        this.userName = userName;
+    public Meal(String userid, String mealName, String description, String portions, String price, String address, String zipCode, String city, String timeStamp) {
+        this.userId = userid;
         this.mealName = mealName;
         this.description = description;
         this.portions = portions;
@@ -29,12 +29,14 @@ public class Meal implements Parcelable {
         this.zipCode = zipCode;
         this.city = city;
         this.timeStamp = timeStamp;
+
+        this.mealId = UUID.randomUUID().toString();
     }
 
     public Meal(Map<String, Object> hashmap)
     {
-        this.userMail = hashmap.get("userMail").toString();
-        this.userName = hashmap.get("userName").toString();
+        this.userId = hashmap.get("userId").toString();
+        this.mealId = hashmap.get("mealId").toString();
         this.mealName = hashmap.get("mealName").toString();
         this.description = hashmap.get("description").toString();
         this.portions = hashmap.get("portions").toString();
@@ -43,15 +45,18 @@ public class Meal implements Parcelable {
         this.zipCode = hashmap.get("zipCode").toString();
         this.city = hashmap.get("city").toString();
         this.timeStamp = hashmap.get("timeStamp").toString();
-
     }
 
-    public Meal(String mealName) {
-        this.mealName = mealName;
+    public String getUserId() {
+        return userId;
     }
 
-    public String userMail;
-    public String userName;
+    public String getMealId() {
+        return mealId;
+    }
+
+    private String userId;
+    private String mealId;
     public String mealName;
     public String description;
     public String portions;
@@ -60,13 +65,10 @@ public class Meal implements Parcelable {
     public String zipCode;
     public String city;
     public String timeStamp;
-    //public ArrayList<Comment> comments;
 
-    //public List<String> subscribers;
-    //Parcing of the cityweatherobjects
     protected Meal(Parcel in) {
-        userMail = in.readString();
-        userName = in.readString();
+        userId = in.readString();
+        mealId = in.readString();
         mealName = in.readString();
         description = in.readString();
         portions = in.readString();
@@ -98,8 +100,8 @@ public class Meal implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(userMail);
-        parcel.writeString(userName);
+        parcel.writeString(userId);
+        parcel.writeString(mealId);
         parcel.writeString(mealName);
         parcel.writeString(description);
         parcel.writeString(portions);

@@ -24,6 +24,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.mealsharedev.mealshare.Models.Comment;
 import com.mealsharedev.mealshare.Models.Meal;
 
+import java.util.UUID;
+
 public class NewMealActivity extends AppCompatActivity {
 
     Button btnCancel, btnSave;
@@ -56,11 +58,9 @@ public class NewMealActivity extends AppCompatActivity {
 
     private void writeNewMeal()
     {
-        String UserEmail = mAuth.getCurrentUser().getEmail().toString();
-        String UserName = mAuth.getCurrentUser().getDisplayName().toString();
+        String UserId = mAuth.getCurrentUser().getUid();
 
-        Meal meal = new Meal(UserEmail,
-                             UserName,
+        Meal meal = new Meal(UserId,
                              mealName.getText().toString(),
                              mealDescription.getText().toString(),
                              mealAmount.getText().toString(),
