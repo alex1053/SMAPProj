@@ -50,7 +50,7 @@ public class CommentAdapter extends BaseAdapter {
         Comment comment = comments.get(position);
         if(comment !=null){
             TextView txtUsername = (TextView) convertView.findViewById(R.id.txtUser);
-            txtUsername.setText(comment.username);
+            //txtUsername.setText(comment.username);
             TextView txtComment = (TextView) convertView.findViewById(R.id.txtComment);
             txtComment.setText(comment.comment);
         }

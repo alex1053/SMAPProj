@@ -33,7 +33,7 @@ public class MainActivity extends headerActivity {
             finish();
         }
     };
-    Button btnNewMeal;
+    Button btnNewMeal, btnMyMeals;
     ListView MealListView;
     ArrayList<Meal> meals = new ArrayList<>();
     FirebaseFirestore mDB;
@@ -48,6 +48,13 @@ public class MainActivity extends headerActivity {
 
 
         mDB = FirebaseFirestore.getInstance();
+        btnMyMeals = findViewById(R.id.btnMyMeals);
+        btnMyMeals.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                OpenMyMealsActivity();
+            }
+        });
         btnNewMeal = findViewById(R.id.btnNewMeal);
         btnNewMeal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,6 +89,11 @@ public class MainActivity extends headerActivity {
 
     public void OpenNewMealActivity() {
         Intent intent = new Intent(this, NewMealActivity.class);
+        startActivity(intent);
+    }
+
+    public void OpenMyMealsActivity() {
+        Intent intent = new Intent(this, MyMealsActivity.class);
         startActivity(intent);
     }
 

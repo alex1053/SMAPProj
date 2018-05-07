@@ -100,9 +100,40 @@ public class NewMealActivity extends AppCompatActivity {
                 + ". " + spinHour.getSelectedItem().toString() + ":" + spinMinute.getSelectedItem().toString();
     }
 
+    private boolean CheckErrorFlags() {
+        if (mealName.getText().toString().length() == 0)
+            mealName.setError(getText(R.string.validate_empty_field));
+        if (mealDescription.getText().toString().length() == 0)
+            mealDescription.setError(getText(R.string.validate_empty_field));
+        if (mealLocation.getText().toString().length() == 0)
+            mealLocation.setError(getText(R.string.validate_empty_field));
+        if (mealZipCode.getText().toString().length() == 0)
+            mealZipCode.setError(getText(R.string.validate_empty_field));
+        if (mealCity.getText().toString().length() == 0)
+            mealCity.setError(getText(R.string.validate_empty_field));
+        if (mealAmount.getText().toString().length() == 0)
+            mealAmount.setError(getText(R.string.validate_empty_field));
+        if (mealAmount.getText().toString().length() == 0)
+            mealAmount.setError(getText(R.string.validate_empty_field));
+        if (mealPrice.getText().toString().length() == 0)
+            mealPrice.setError(getText(R.string.validate_empty_field));
+
+        if (mealName.getError() == null ||
+                mealDescription.getError() == null ||
+                mealPrice.getError() == null ||
+                mealAmount.getError() == null ||
+                mealCity.getError() == null ||
+                mealZipCode.getError() == null ||
+                mealLocation.getError() == null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     private void InitializeButtons()
     {
-        btnCancel = findViewById(R.id.btnCancel);
+        btnCancel = findViewById(R.id.btnRemove);
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,9 +144,11 @@ public class NewMealActivity extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                writeNewMeal();
-                //finish();
-                Toast.makeText(NewMealActivity.this, "Your meal is now shared!", Toast.LENGTH_SHORT).show();
+                if (CheckErrorFlags()) {
+                    writeNewMeal();
+                    Toast.makeText(NewMealActivity.this, "Your meal is now shared!", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
             }
         });
     }
@@ -205,6 +238,8 @@ public class NewMealActivity extends AppCompatActivity {
                     mealZipCode.setError(getText(R.string.validate_empty_field));
                 if(mealZipCode.getText().toString().length() > 4)
                     mealZipCode.setError(getText(R.string.validate_too_many_characters));
+                if (mealZipCode.getText().toString().length() < 4)
+                    mealZipCode.setError("");
             }
         });
         mealCity.addTextChangedListener(new TextWatcher() {
