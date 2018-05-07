@@ -8,7 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.mealsharedev.mealshare.Models.Comment;
-import com.mealsharedev.mealshare.Models.Meal;
 import com.mealsharedev.mealshare.R;
 
 import java.util.ArrayList;
@@ -23,20 +22,25 @@ public class CommentAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<Comment> comments;
 
-    public CommentAdapter(Context context, ArrayList<Comment> comments){
+    public CommentAdapter(Context context, ArrayList<Comment> comments) {
         this.context = context;
         this.comments = comments;
     }
 
     @Override
     public int getCount() {
-        return comments.size();}
+        return comments.size();
+    }
 
     @Override
-    public Object getItem(int position) {return comments.get(position);}
+    public Object getItem(int position) {
+        return comments.get(position);
+    }
 
     @Override
-    public long getItemId(int position) {return position;}
+    public long getItemId(int position) {
+        return position;
+    }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -48,9 +52,9 @@ public class CommentAdapter extends BaseAdapter {
         }
 
         Comment comment = comments.get(position);
-        if(comment !=null){
+        if (comment != null) {
             TextView txtUsername = (TextView) convertView.findViewById(R.id.txtUser);
-            txtUsername.setText(comment.username);
+            txtUsername.setText(comment.getUserId());
             TextView txtComment = (TextView) convertView.findViewById(R.id.txtComment);
             txtComment.setText(comment.comment);
         }
