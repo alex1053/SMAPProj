@@ -4,8 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
-import com.google.firebase.database.Exclude;
-import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,8 +29,25 @@ public class Meal implements Parcelable {
         this.zipCode = zipCode;
         this.city = city;
         this.timeStamp = timeStamp;
+    }
 
-        //this.comments = new ArrayList<>();
+    public Meal(Map<String, Object> hashmap)
+    {
+        this.userMail = hashmap.get("userMail").toString();
+        this.userName = hashmap.get("userName").toString();
+        this.mealName = hashmap.get("mealName").toString();
+        this.description = hashmap.get("description").toString();
+        this.portions = hashmap.get("portions").toString();
+        this.price = hashmap.get("price").toString();
+        this.address = hashmap.get("address").toString();
+        this.zipCode = hashmap.get("zipCode").toString();
+        this.city = hashmap.get("city").toString();
+        this.timeStamp = hashmap.get("timeStamp").toString();
+
+    }
+
+    public Meal(String mealName) {
+        this.mealName = mealName;
     }
 
     public String userMail;

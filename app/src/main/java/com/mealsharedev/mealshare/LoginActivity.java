@@ -68,9 +68,11 @@ public class LoginActivity extends headerActivity {
                 Toast.makeText(LoginActivity.this, exception.toString(), Toast.LENGTH_LONG).show();
                 // App code
             }
-
-
         });
+        if(mAuth.getCurrentUser() != null){
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Override
