@@ -1,8 +1,21 @@
 package com.mealsharedev.mealshare.dao;
 
+import android.app.Application;
+import android.content.Context;
+import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.v4.content.LocalBroadcastManager;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.mealsharedev.mealshare.Models.Comment;
 import com.mealsharedev.mealshare.Models.Meal;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 public class FirebaseDAO {
     //Action names
@@ -20,13 +33,32 @@ public class FirebaseDAO {
     public static final String DAO_COMMENTS_EXTRA = "commentsExtra";
 
     private FirebaseFirestore mFF;
+    private Context context;
 
-    public FirebaseDAO() {
+    public FirebaseDAO(Context context) {
+        context = context;
         mFF = FirebaseFirestore.getInstance();
     }
 
     public void getAllMeals() {
-
+        ArrayList<Meal> tmpList = new ArrayList<>();
+        mFF.collection("meals")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Map<String, Object> meal = document.getData();
+                                Meal tempMeal = new Meal(meal);
+                                tmpList.add(tempMeal);
+                            }
+                            Intent intent = new Intent(DAO_GET_ALL_MEALS);
+                            intent.putExtra(DAO_ALL_MEALS_EXTRA, tmpList);
+                            LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                        }
+                    }
+                });
     }
 
     public void getMyMeals(String userID) {
