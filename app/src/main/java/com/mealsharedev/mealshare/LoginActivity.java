@@ -32,7 +32,7 @@ import java.util.Arrays;
 public class LoginActivity extends headerActivity {
 
     private static final String EMAIL = "email";
-    private static final String SUBSCRIPTIONS = "userSubsriptions";
+    private static final String SUBSCRIPTIONS = "userSubscriptions";
     private FirebaseAuth mAuth;
     private FirebaseFirestore mDB;
 

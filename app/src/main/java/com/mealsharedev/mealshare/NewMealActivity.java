@@ -45,8 +45,8 @@ public class NewMealActivity extends AppCompatActivity {
     }
 
     private void writeNewMeal() {
-        String UserId = dao.getCurrentUserID();
-        Meal meal = new Meal(UserId,
+        String displayName = dao.getCurrentUserDisplayName();
+        Meal meal = new Meal(displayName,
                 mealName.getText().toString(),
                 mealDescription.getText().toString(),
                 mealAmount.getText().toString(),

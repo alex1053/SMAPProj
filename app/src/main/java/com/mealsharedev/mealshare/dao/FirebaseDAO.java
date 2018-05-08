@@ -225,4 +225,8 @@ public class FirebaseDAO {
     public String getCurrentUserID() {
         return mFA.getCurrentUser().getUid();
     }
+
+    public String getCurrentUserDisplayName() {
+        return mFA.getCurrentUser().getDisplayName();
+    }
 }
