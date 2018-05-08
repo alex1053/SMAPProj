@@ -8,15 +8,21 @@ import com.mealsharedev.mealshare.Models.Comment;
  */
 
 public class FirebaseDAO {
-    public static void getMyMeals(String userID) {
+    private FirebaseFirestore mFF;
+
+    public FirebaseDAO() {
+        mFF = FirebaseFirestore.getInstance();
+    }
+
+    public void getMyMeals(String userID) {
 
     }
 
-    public static void getAssignedMeals(String userID) {
+    public void getAssignedMeals(String userID) {
 
     }
 
-    public static void putComment(Comment comment) {
+    public void putComment(Comment comment) {
 
     }
 
