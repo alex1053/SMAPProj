@@ -23,7 +23,10 @@
     <string name="cancel">Annuller</string>
     <string name="buy">Køb</string>
     <string name="back">Tilbage</string>
+    <string name="delete">Fjern Måltid</string>
     <string name="mymeals">Mine Måltider</string>
+    <string name="shared_meals_header">Mine reserverede måltider</string>
+    <string name="my_meals_header">Mine måltider</string>
     <string name="validate_empty_field">Information påkrævet!</string>
     <string name="validate_too_many_characters">Max antal tegn: 30</string>
     <string name="validate_zipcode">Postnummer skal være 4 cifre</string>

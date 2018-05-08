@@ -30,7 +30,7 @@ public class headerActivity extends AppCompatActivity {
 
     }
 
-    protected void setHeadings(String user) {
+    protected void setHeadings(String user, String picURL) {
         logout = findViewById(R.id.headerBtn);
         userID = findViewById(R.id.headerText);
 

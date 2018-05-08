@@ -27,7 +27,10 @@
     <string name="cancel">Cancel</string>
     <string name="buy">Buy</string>
     <string name="back">Back</string>
+    <string name="delete">Delete Meal</string>
     <string name="mymeals">My Meals</string>
+    <string name="shared_meals_header">My reserved meals</string>
+    <string name="my_meals_header">My meals</string>
     <string name="validate_empty_field">You must fill out this information!</string>
     <string name="validate_too_many_characters">Maximum characters: 30</string>
     <string name="validate_zipcode">Zipcode must be 4 numbers</string>
