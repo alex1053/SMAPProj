@@ -7,9 +7,11 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -17,8 +19,8 @@ public class headerActivity extends AppCompatActivity {
 
     public static final String SIGNOUT_BROADCAST = "logoutBroadcast";
 
-    ImageView HeaderImg;
-    Button logout;
+    ImageView HeaderImg, ProfileImg;
+    ImageButton logout;
     TextView userID;
 
     @Override
@@ -30,9 +32,11 @@ public class headerActivity extends AppCompatActivity {
 
     }
 
-    protected void setHeadings(String user, String picURL) {
-        logout = findViewById(R.id.headerBtn);
+    protected void setHeadings(String user) {
+        logout = findViewById(R.id.imgSignOut);
         userID = findViewById(R.id.headerText);
+       // ProfileImg = findViewById(R.id.ProfileImg);
+        //Glide.with(this).load(picURL).into(ProfileImg);
 
         userID.setText(user);
 
