@@ -27,7 +27,6 @@ public class headerActivity extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.header);
-
         HeaderImg = findViewById(R.id.headerImg);
 
     }
@@ -35,8 +34,6 @@ public class headerActivity extends AppCompatActivity {
     protected void setHeadings(String user) {
         logout = findViewById(R.id.imgSignOut);
         userID = findViewById(R.id.headerText);
-       // ProfileImg = findViewById(R.id.ProfileImg);
-        //Glide.with(this).load(picURL).into(ProfileImg);
 
         userID.setText(user);
 

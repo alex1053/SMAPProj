@@ -13,8 +13,6 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.mealsharedev.mealshare.Adapters.MealAdapter;
 import com.mealsharedev.mealshare.Adapters.MyMealsAdapter;
 import com.mealsharedev.mealshare.Models.Meal;
 
@@ -29,6 +27,7 @@ public class MyMealsActivity extends AppCompatActivity {
     ArrayList<Meal> meals = new ArrayList<>();
     MyMealsAdapter mealOverviewAdapter;
     boolean isDeleteButtonPressed = false;
+    NotificationHandler notificationHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +35,7 @@ public class MyMealsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_my_meals);
 
         txtMealHeader = findViewById(R.id.txtListViewHeader);
-
+        notificationHandler = new NotificationHandler(this);
         Meal meal = new Meal("Lauraaaaa", "Maad","Besrkivelse","22","150","Skovagervej 21","8990","Fårup","Idag" );
         Meal meal2 = new Meal("Lauraaaaa", "Maad","Besrkivelse","22","150","Skovagervej 21","8990","Fårup","Idag" );
         Meal meal3 = new Meal("Lauraaaaa", "Maad","Besrkivelse","22","150","Skovagervej 21","8990","Fårup","Idag" );
@@ -161,6 +160,7 @@ public class MyMealsActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (isDeleteButtonPressed) {
                     OpenDialogWindow(meals.get(i));
+                    notificationHandler.NotifyCommentOnSameMeal(meals.get(i));
                 }
                 else{
                     OpenMealDetails(meals.get(i));
