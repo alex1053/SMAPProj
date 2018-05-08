@@ -87,7 +87,7 @@ public class MainActivity extends headerActivity {
         });
 
         Intent intent = getIntent();
-        setHeadings(intent.getStringExtra("user"),intent.getStringExtra("user"));
+        setHeadings(intent.getStringExtra("user"));
     }
 
     private void bindToUpdateService() {

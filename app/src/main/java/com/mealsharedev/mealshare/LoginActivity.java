@@ -93,7 +93,7 @@ public class LoginActivity extends headerActivity {
         if (currentUser != null) {
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra("user", currentUser.getDisplayName());
-            intent.putExtra("picture", currentUser.getPhotoUrl());
+            //intent.putExtra("picURL", currentUser.getPhotoUrl().toString());
             startActivity(intent);
         }
     }

@@ -73,7 +73,7 @@ public class MealDetailsActivity extends AppCompatActivity {
         txtPrice.setText(meal.price + " DKK");
         //txtUser.setText(meal.userName);
         txtPortions.setText(meal.portions);
-        String userid = meal.getUserId();
+       // String userid = meal.getUserId();
 
         //InitializaListView();
     }
