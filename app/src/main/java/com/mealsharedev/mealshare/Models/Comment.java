@@ -5,12 +5,19 @@ import android.os.Parcelable;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.Map;
 import java.util.UUID;
 
 public class Comment implements Parcelable {
     public String comment;
     public String displayName;
     private String commentId;
+
+    public Comment (Map<String, Object> hashmap) {
+        comment = hashmap.get("comment").toString();
+        displayName = hashmap.get("displayName").toString();
+        commentId = hashmap.get("commentId").toString();
+    }
 
     public Comment(String comment) {
 

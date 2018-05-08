@@ -33,6 +33,8 @@
     <string name="validate_zipcode">Zipcode must be 4 numbers</string>
     <string name="signout">Sign out!</string>
     <string name="main_info">Pick a meal from the list:</string>
+    <string name="put_comment_error">Failed to add comment</string>
+    <string name="put_meal_error">Failed to create meal</string>
 
     <string-array name="day_array">
         <item>1st</item>
