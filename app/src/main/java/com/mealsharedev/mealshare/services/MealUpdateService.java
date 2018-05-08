@@ -14,6 +14,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.mealsharedev.mealshare.Models.Meal;
+import com.mealsharedev.mealshare.dao.FirebaseDAO;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -30,7 +31,7 @@ public class MealUpdateService extends Service {
     public static final long UPDATE_INTERVAL_MILLIS = 120000; //2min
     private ArrayList<Meal> mealList = new ArrayList<>();
     private ArrayList<Meal> newMealList = new ArrayList<>();
-    private FirebaseFirestore fDb;
+    private FirebaseDAO dao;
     private Timer updateScheduler;
 
 
@@ -45,7 +46,7 @@ public class MealUpdateService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        fDb = FirebaseFirestore.getInstance();
+        dao = new FirebaseDAO();
         TimerTask scheduledUpdate = new TimerTask() {
             @Override
             public void run() {
@@ -74,21 +75,7 @@ public class MealUpdateService extends Service {
 
     public void updateMeals() {
         newMealList = new ArrayList<>();
-        fDb.collection("meals")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Map<String, Object> meal = document.getData();
-                                Meal tempMeal = new Meal(meal);
-                                newMealList.add(tempMeal);
-                            }
-                            compareAndBroadcast();
-                        }
-                    }
-                });
+        dao.getAllMeals();
     }
 
     private void compareAndBroadcast() {
