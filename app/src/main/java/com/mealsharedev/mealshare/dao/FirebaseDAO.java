@@ -12,6 +12,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -71,8 +73,37 @@ public class FirebaseDAO {
     }
 
     public void getMyMeals(String userID) {
-
+        ArrayList<Meal> mealList = new ArrayList<>();
+        mFF.collection("userSubscriptions").document(userID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    Map<String, Object> userSub = task.getResult().getData();
+                    UserSubscription subscription = new UserSubscription(userSub);
+                    mFF.collection("meals").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    for (String id : subscription.commentedList) {
+                                        if (document.getData().get("mealId").equals(id)) {
+                                            Meal tempMeal = new Meal(document.getData());
+                                            mealList.add(tempMeal);
+                                            break;
+                                        }
+                                    }
+                                }
+                                Intent intent = new Intent(DAO_GET_MY_MEALS);
+                                intent.putExtra(DAO_MY_MEALS_EXTRA, mealList);
+                                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                            }
+                        }
+                    });
+                }
+            }
+        });
     }
+
 
     public void getReservedMeals(String userID) {
 
