@@ -24,6 +24,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.mealsharedev.mealshare.Models.User;
+import com.mealsharedev.mealshare.Models.UserSubscription;
 
 import java.util.Arrays;
 
@@ -113,8 +114,9 @@ public class LoginActivity extends headerActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
 
                             User dbUser = new User(user.getUid(), user.getDisplayName(), user.getEmail());
+                            UserSubscription userSub = new UserSubscription(user.getUid());
                             addUserToDatabase(dbUser);
-                            setUpSubscriptions(dbUser);
+                            setUpSubscriptions(userSub);
 
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             intent.putExtra("user", user.getDisplayName());
@@ -148,12 +150,12 @@ public class LoginActivity extends headerActivity {
                 });
     }
 
-    private void setUpSubscriptions(User user) {
-        mDB.collection(SUBSCRIPTIONS).document(user.getId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+    private void setUpSubscriptions(UserSubscription user) {
+        mDB.collection(SUBSCRIPTIONS).document(user.getUserUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful() && task.getResult().getData() != null) {
-                   mDB.collection(SUBSCRIPTIONS).document(user.getId()).set(user);
+                   mDB.collection(SUBSCRIPTIONS).document(user.getUserUid()).set(user);
                 }
             }
         });
