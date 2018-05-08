@@ -111,17 +111,18 @@ public class MealDetailsActivity extends AppCompatActivity {
     //Inspired by: https://stackoverflow.com/questions/10903754/input-text-dialog-android?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
     public void OpenDialogWindow() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Reserve This Meal");
+        builder.setTitle(R.string.reserve);
 
-        builder.setMessage("Are you sure you want to reserve " + meal.mealName + " for " + meal.price + " DKK?");
+        builder.setMessage(R.string.reserve_question + meal.mealName + " for " + meal.price + " " + R.string.DKK + "?");
 
-        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
                 finish();
             }
         });
-        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
@@ -133,13 +134,13 @@ public class MealDetailsActivity extends AppCompatActivity {
 
     public void OpenCommentDialogWindow() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Write a comment:");
+        builder.setTitle(R.string.write_comment);
 
         final EditText newComment = new EditText(this);
         newComment.setInputType(InputType.TYPE_CLASS_TEXT);
         builder.setView(newComment);
 
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Comment comment = new Comment(newComment.getText().toString());
@@ -147,7 +148,7 @@ public class MealDetailsActivity extends AppCompatActivity {
                 dialog.cancel();
             }
         });
-        builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();

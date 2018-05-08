@@ -21,6 +21,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.mealsharedev.mealshare.Models.User;
 
@@ -30,6 +31,7 @@ import java.util.Arrays;
 public class LoginActivity extends headerActivity {
 
     private static final String EMAIL = "email";
+    private static final String SUBSCRIPTIONS = "userSubsriptions";
     private FirebaseAuth mAuth;
     private FirebaseFirestore mDB;
 
@@ -112,6 +114,7 @@ public class LoginActivity extends headerActivity {
 
                             User dbUser = new User(user.getUid(), user.getDisplayName(), user.getEmail());
                             addUserToDatabase(dbUser);
+                            setUpSubscriptions(dbUser);
 
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             intent.putExtra("user", user.getDisplayName());
@@ -143,5 +146,16 @@ public class LoginActivity extends headerActivity {
                         Log.d("tag", "Failed!!!!!!!!!!!!");
                     }
                 });
+    }
+
+    private void setUpSubscriptions(User user) {
+        mDB.collection(SUBSCRIPTIONS).document(user.getId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful() && task.getResult().getData() != null) {
+                   mDB.collection(SUBSCRIPTIONS).document(user.getId()).set(user);
+                }
+            }
+        });
     }
 }
