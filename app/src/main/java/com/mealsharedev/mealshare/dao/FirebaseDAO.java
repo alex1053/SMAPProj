@@ -72,7 +72,8 @@ public class FirebaseDAO {
                 });
     }
 
-    public void getMyMeals(String userID) {
+    public void getMyMeals() {
+        String userID = getCurrentUserID();
         ArrayList<Meal> mealList = new ArrayList<>();
         mFF.collection("userSubscriptions").document(userID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -85,7 +86,7 @@ public class FirebaseDAO {
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
-                                    for (String id : subscription.commentedList) {
+                                    for (String id : subscription.myMealList) {
                                         if (document.getData().get("mealId").equals(id)) {
                                             Meal tempMeal = new Meal(document.getData());
                                             mealList.add(tempMeal);
@@ -125,8 +126,18 @@ public class FirebaseDAO {
                                 Comment tmpComment = new Comment(document.getData());
                                 tmpList.add(tmpComment);
                             }
-                            Intent intent = new Intent(DAO_GET_ALL_MEALS);
-                            intent.putExtra(DAO_ALL_MEALS_EXTRA, tmpList);
+
+                            ArrayList<Comment> commentsForMeal = new ArrayList<>();
+                            for (String commentId : commentList) {
+                                for (Comment comment : tmpList) {
+                                    if (commentId.equals(comment.getCommentId())) {
+                                        commentsForMeal.add(comment);
+                                        break;
+                                    }
+                                }
+                            }
+                            Intent intent = new Intent(DAO_GET_COMMENTS);
+                            intent.putExtra(DAO_COMMENTS_EXTRA, commentsForMeal);
                             LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
                         }
                     }
@@ -177,8 +188,8 @@ public class FirebaseDAO {
                         }
                     }
                 });
-
-        mFF.collection("userSubscriptions").document(getCurrentUserID())
+        String userID = getCurrentUserID();
+        mFF.collection("userSubscriptions").document(userID)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -193,7 +204,8 @@ public class FirebaseDAO {
     }
 
     public void putMeal(Meal meal) {
-        mFF.collection("userSubscriptions").document(getCurrentUserID())
+        String userID = getCurrentUserID();
+        mFF.collection("userSubscriptions").document(userID)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
