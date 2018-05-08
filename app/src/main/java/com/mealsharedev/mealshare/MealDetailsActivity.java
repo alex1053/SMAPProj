@@ -1,7 +1,12 @@
 package com.mealsharedev.mealshare;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
@@ -15,12 +20,18 @@ import android.widget.TextView;
 import com.mealsharedev.mealshare.Adapters.CommentAdapter;
 import com.mealsharedev.mealshare.Models.Comment;
 import com.mealsharedev.mealshare.Models.Meal;
+import com.mealsharedev.mealshare.dao.FirebaseDAO;
+import com.mealsharedev.mealshare.services.MealUpdateService;
 
 import java.util.ArrayList;
+
+import static com.mealsharedev.mealshare.dao.FirebaseDAO.DAO_COMMENTS_EXTRA;
+import static com.mealsharedev.mealshare.dao.FirebaseDAO.DAO_GET_COMMENTS;
 
 public class MealDetailsActivity extends AppCompatActivity {
 
     CommentAdapter mealAdapter;
+    FirebaseDAO DAO;
 
     Button btnBuy, btnBack, btnComment;
     TextView txtMeal, txtUser, txtLocation, txtTime, txtDescription, txtPrice, txtPortions;
@@ -28,10 +39,26 @@ public class MealDetailsActivity extends AppCompatActivity {
     ListView CommentListView;
     ArrayList<Comment> comments = new ArrayList<>();
 
+    private BroadcastReceiver commentsReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            ArrayList<Comment> tmpList = intent.getParcelableArrayListExtra(DAO_COMMENTS_EXTRA);
+            comments.clear();
+            comments.addAll(tmpList);
+            mealAdapter.notifyDataSetChanged();
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meal_details);
+
+        IntentFilter filter = new IntentFilter(DAO_GET_COMMENTS);
+        LocalBroadcastManager.getInstance(this).registerReceiver(commentsReceiver, filter);
+
+        DAO = new FirebaseDAO(this);
+        DAO.getCommentsForMeal(meal.getMealId());
 
         btnBuy = findViewById(R.id.btnBuy);
         btnBack = findViewById(R.id.btnBack);
@@ -70,12 +97,11 @@ public class MealDetailsActivity extends AppCompatActivity {
         txtDescription.setText(meal.description);
         txtLocation.setText(getLocationString());
         txtTime.setText(meal.timeStamp);
-        txtPrice.setText(meal.price + " DKK");
-        //txtUser.setText(meal.userName);
+        txtPrice.setText(meal.price + " " + getResources().getString(R.string.DKK));
+        txtUser.setText(meal.displayName);
         txtPortions.setText(meal.portions);
-        String userid = meal.getUserId();
 
-        //InitializaListView();
+        InitializeListView();
     }
 
     public String getLocationString() {
@@ -109,15 +135,15 @@ public class MealDetailsActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Write a comment:");
 
-        final EditText newcomment = new EditText(this);
-        newcomment.setInputType(InputType.TYPE_CLASS_TEXT);
-        builder.setView(newcomment);
+        final EditText newComment = new EditText(this);
+        newComment.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(newComment);
 
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Comment comment = new Comment(newcomment.getText().toString());
-                comments.add(comment);
+                Comment comment = new Comment(newComment.getText().toString());
+                DAO.putComment(comment);
                 dialog.cancel();
             }
         });
@@ -131,7 +157,7 @@ public class MealDetailsActivity extends AppCompatActivity {
         builder.show();
     }
 
-    public void InitializaListView() {
+    public void InitializeListView() {
         mealAdapter = new CommentAdapter(this, comments);
         CommentListView = findViewById(R.id.ListViewComment);
         CommentListView.setAdapter(mealAdapter);
