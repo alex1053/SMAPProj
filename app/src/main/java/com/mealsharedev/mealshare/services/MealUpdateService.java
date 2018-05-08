@@ -46,7 +46,7 @@ public class MealUpdateService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        dao = new FirebaseDAO();
+        dao = new FirebaseDAO(this);
         TimerTask scheduledUpdate = new TimerTask() {
             @Override
             public void run() {

@@ -7,19 +7,15 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.UUID;
 
-public class Comment implements Parcelable{
+public class Comment implements Parcelable {
     public String comment;
     public String displayName;
     private String commentId;
 
     public Comment(String comment) {
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
         this.comment = comment;
-        if (mAuth.getCurrentUser() != null) {
-            this.displayName = mAuth.getCurrentUser().getDisplayName();
-        }
-
+        this.displayName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
         commentId = UUID.randomUUID().toString();
     }
 
