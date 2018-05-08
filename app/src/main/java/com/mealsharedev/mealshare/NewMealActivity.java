@@ -21,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.mealsharedev.mealshare.Models.Meal;
+import java.util.ArrayList;
 
 public class NewMealActivity extends AppCompatActivity {
 
@@ -63,7 +64,8 @@ public class NewMealActivity extends AppCompatActivity {
                 mealLocation.getText().toString(),
                 mealZipCode.getText().toString(),
                 mealCity.getText().toString(),
-                getTimeStamp());
+                getTimeStamp(),
+                new ArrayList<>());
 
         mDB.collection("meals")
                 .add(meal)
