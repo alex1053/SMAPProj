@@ -21,7 +21,6 @@ import com.mealsharedev.mealshare.Adapters.CommentAdapter;
 import com.mealsharedev.mealshare.Models.Comment;
 import com.mealsharedev.mealshare.Models.Meal;
 import com.mealsharedev.mealshare.dao.FirebaseDAO;
-import com.mealsharedev.mealshare.services.MealUpdateService;
 
 import java.util.ArrayList;
 
@@ -58,7 +57,7 @@ public class MealDetailsActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).registerReceiver(commentsReceiver, filter);
 
         DAO = new FirebaseDAO(this);
-        DAO.getCommentsForMeal(meal.getMealId());
+        DAO.getCommentsForMeal(meal.commentIdList);
 
         btnBuy = findViewById(R.id.btnBuy);
         btnBack = findViewById(R.id.btnBack);
@@ -144,7 +143,7 @@ public class MealDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Comment comment = new Comment(newComment.getText().toString());
-                DAO.putComment(comment);
+                DAO.putComment(comment, meal.getMealId());
                 dialog.cancel();
             }
         });

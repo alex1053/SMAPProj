@@ -39,6 +39,8 @@
     <string name="no">NO</string>
     <string name="reserve">Reserve this meal</string>
     <string name="reserve_question">Are you sure you want to reserve </string>
+    <string name="put_comment_error">Failed to add comment</string>
+    <string name="put_meal_error">Failed to create meal</string>
 
     <string-array name="day_array">
         <item>1st</item>

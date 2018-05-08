@@ -35,6 +35,8 @@
     <string name="no">NEJ</string>
     <string name="reserve">Reserver dette måltid</string>
     <string name="reserve_question">Er du sikker på du vil reservere </string>
+    <string name="put_comment_error">Kunne ikke oprette kommentar</string>
+    <string name="put_meal_error">Kunne ikke oprette måltid</string>
 
     <string-array name="day_array">
         <item>1.</item>
