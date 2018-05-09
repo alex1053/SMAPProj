@@ -95,6 +95,12 @@ public class MainActivity extends headerActivity {
         setHeadings(intent.getStringExtra("user"));
     }
 
+    @Override
+    public void onBackPressed() {
+        setResult(RESULT_CANCELED);
+        super.onBackPressed();
+    }
+
     private void bindToUpdateService() {
         Intent intent = new Intent(this, MealUpdateService.class);
         bindService(intent, updateServiceConnection, BIND_AUTO_CREATE);
