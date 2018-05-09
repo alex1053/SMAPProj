@@ -12,6 +12,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -19,11 +20,14 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.mealsharedev.mealshare.Models.Comment;
 import com.mealsharedev.mealshare.Models.Meal;
 import com.mealsharedev.mealshare.Models.UserSubscription;
+import com.mealsharedev.mealshare.NewMealActivity;
 import com.mealsharedev.mealshare.R;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class FirebaseDAO {
     //Action names
@@ -254,6 +258,15 @@ public class FirebaseDAO {
                 });
     }
 
+    public void updateMeal(Meal meal){
+        mFF.collection(context.getString(R.string.mealCollection)).document(meal.getMealId()).set(meal).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(getApplicationContext(), "Meal reserved!", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
     public void putMeal(Meal meal) {
         String userID = getCurrentUserID();
         mFF.collection(context.getString(R.string.subscriptionCollection)).document(userID)
@@ -274,6 +287,7 @@ public class FirebaseDAO {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+                        Toast.makeText(getApplicationContext(), R.string.meal_shared, Toast.LENGTH_SHORT).show();
                         Log.d("putMeal", "Success");
                     }
                 })
