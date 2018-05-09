@@ -136,4 +136,8 @@
         <item>45</item>
     </string-array>
 
+    <!-- Constants for all sorts of stuff -->
+    <string name="mealCollection">meals</string>
+    <string name="commentCollection">comments</string>
+    <string name="subscriptionCollection">userSubscriptions</string>
 </resources>

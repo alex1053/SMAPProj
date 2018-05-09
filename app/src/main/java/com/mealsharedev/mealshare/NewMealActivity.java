@@ -1,5 +1,6 @@
 package com.mealsharedev.mealshare;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -44,7 +45,7 @@ public class NewMealActivity extends AppCompatActivity {
 
     }
 
-    private void writeNewMeal() {
+    private Meal writeNewMeal() {
         String displayName = dao.getCurrentUserDisplayName();
         Meal meal = new Meal(displayName,
                 mealName.getText().toString(),
@@ -58,6 +59,7 @@ public class NewMealActivity extends AppCompatActivity {
                 new ArrayList<>());
 
         dao.putMeal(meal);
+        return meal;
     }
 
 
@@ -102,6 +104,7 @@ public class NewMealActivity extends AppCompatActivity {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                setResult(RESULT_CANCELED);
                 finish();
             }
         });
@@ -110,8 +113,11 @@ public class NewMealActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (CheckErrorFlags()) {
-                    writeNewMeal();
+                    Meal meal = writeNewMeal();
                     Toast.makeText(NewMealActivity.this, "Your meal is now shared!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent();
+                    intent.putExtra("meal", meal);
+                    setResult(RESULT_OK, intent);
                     finish();
                 }
             }

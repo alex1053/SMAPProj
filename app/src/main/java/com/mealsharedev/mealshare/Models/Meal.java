@@ -37,7 +37,7 @@ public class Meal implements Parcelable {
     }
 
     public Meal(Map<String, Object> hashmap) {
-        this.displayName = hashmap.get("userId") != null ? hashmap.get("userId").toString() : "skrrt";
+        this.displayName = hashmap.get("displayName") != null ? hashmap.get("displayName").toString() : "skrrt";
         this.mealId = hashmap.get("mealId") != null ? hashmap.get("mealId").toString() : "et id";
         this.mealName = hashmap.get("mealName") != null ? hashmap.get("mealName").toString() : "etNavn";
         this.description = hashmap.get("description") != null ? hashmap.get("description").toString() : "";

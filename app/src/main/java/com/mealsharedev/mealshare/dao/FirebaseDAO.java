@@ -22,6 +22,7 @@ import com.mealsharedev.mealshare.Models.UserSubscription;
 import com.mealsharedev.mealshare.R;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Map;
 
 public class FirebaseDAO {
@@ -51,7 +52,7 @@ public class FirebaseDAO {
 
     public void getAllMeals() {
         ArrayList<Meal> tmpList = new ArrayList<>();
-        mFF.collection("meals")
+        mFF.collection(context.getString(R.string.mealCollection))
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -73,106 +74,111 @@ public class FirebaseDAO {
     public void getMyMeals() {
         String userID = getCurrentUserID();
         ArrayList<Meal> mealList = new ArrayList<>();
-        mFF.collection("userSubscriptions").document(userID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    Map<String, Object> userSub = task.getResult().getData();
-                    UserSubscription subscription = new UserSubscription(userSub);
-                    mFF.collection("meals").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    for (String id : subscription.myMealList) {
-                                        if (document.getData().get("mealId").equals(id)) {
-                                            Meal tempMeal = new Meal(document.getData());
-                                            mealList.add(tempMeal);
-                                            break;
+        mFF.collection(context.getString(R.string.subscriptionCollection)).document(userID).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            Map<String, Object> userSub = task.getResult().getData();
+                            UserSubscription subscription = new UserSubscription(userSub);
+                            mFF.collection(context.getString(R.string.mealCollection)).get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                                    for (String id : subscription.myMealList) {
+                                                        if (document.getData().get("mealId").equals(id)) {
+                                                            Meal tempMeal = new Meal(document.getData());
+                                                            mealList.add(tempMeal);
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+                                                Intent intent = new Intent(DAO_GET_MY_MEALS);
+                                                intent.putExtra(DAO_MY_MEALS_EXTRA, mealList);
+                                                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                                            }
                                         }
-                                    }
-                                }
-                                Intent intent = new Intent(DAO_GET_MY_MEALS);
-                                intent.putExtra(DAO_MY_MEALS_EXTRA, mealList);
-                                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-                            }
+                                    });
                         }
-                    });
-                }
-            }
-        });
+                    }
+                });
     }
 
 
     public void getReservedMeals() {
         String userID = getCurrentUserID();
         ArrayList<Meal> mealList = new ArrayList<>();
-        mFF.collection("userSubscriptions").document(userID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    Map<String, Object> userSub = task.getResult().getData();
-                    UserSubscription subscription = new UserSubscription(userSub);
-                    mFF.collection("meals").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    for (String id : subscription.reservedMealsList) {
-                                        if (document.getData().get("mealId").equals(id)) {
-                                            Meal tempMeal = new Meal(document.getData());
-                                            mealList.add(tempMeal);
-                                            break;
+        mFF.collection(context.getString(R.string.subscriptionCollection)).document(userID).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            Map<String, Object> userSub = task.getResult().getData();
+                            UserSubscription subscription = new UserSubscription(userSub);
+                            mFF.collection(context.getString(R.string.mealCollection)).get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                                    for (String id : subscription.reservedMealsList) {
+                                                        if (document.getData().get("mealId").equals(id)) {
+                                                            Meal tempMeal = new Meal(document.getData());
+                                                            mealList.add(tempMeal);
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+                                                Intent intent = new Intent(DAO_GET_RESERVED_MEALS);
+                                                intent.putExtra(DAO_RESERVED_MEALS_EXTRA, mealList);
+                                                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                                            }
                                         }
-                                    }
-                                }
-                                Intent intent = new Intent(DAO_GET_RESERVED_MEALS);
-                                intent.putExtra(DAO_RESERVED_MEALS_EXTRA, mealList);
-                                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-                            }
+                                    });
                         }
-                    });
-                }
-            }
-        });
+                    }
+                });
     }
 
     public void getCommentedMealsForUser() {
         String userID = getCurrentUserID();
         ArrayList<Meal> mealList = new ArrayList<>();
-        mFF.collection("userSubscriptions").document(userID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    Map<String, Object> userSub = task.getResult().getData();
-                    UserSubscription subscription = new UserSubscription(userSub);
-                    mFF.collection("meals").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    for (String id : subscription.commentedList) {
-                                        if (document.getData().get("mealId").equals(id)) {
-                                            Meal tempMeal = new Meal(document.getData());
-                                            mealList.add(tempMeal);
-                                            break;
+        mFF.collection(context.getString(R.string.subscriptionCollection)).document(userID).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            Map<String, Object> userSub = task.getResult().getData();
+                            UserSubscription subscription = new UserSubscription(userSub);
+                            mFF.collection(context.getString(R.string.mealCollection)).get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                                    for (String id : subscription.commentedList) {
+                                                        if (document.getData().get("mealId").equals(id)) {
+                                                            Meal tempMeal = new Meal(document.getData());
+                                                            mealList.add(tempMeal);
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+                                                Intent intent = new Intent(DAO_GET_COMMENTED_MEALS);
+                                                intent.putExtra(DAO_COMMENTED_MEALS_EXTRA, mealList);
+                                                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                                            }
                                         }
-                                    }
-                                }
-                                Intent intent = new Intent(DAO_GET_COMMENTED_MEALS);
-                                intent.putExtra(DAO_COMMENTED_MEALS_EXTRA, mealList);
-                                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-                            }
+                                    });
                         }
-                    });
-                }
-            }
-        });
+                    }
+                });
     }
 
     public void getCommentsForMeal(ArrayList<String> commentList) {
-        ArrayList<Comment> tmpList = new ArrayList<>();
-        mFF.collection("comments")
+        mFF.collection(context.getString(R.string.commentCollection))
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -196,8 +202,8 @@ public class FirebaseDAO {
 
     }
 
-    public void putComment(Comment comment, String mealID) {
-        mFF.collection("comments").document(comment.getCommentId())
+    public void putComment(Comment comment, Meal meal) {
+        mFF.collection(context.getString(R.string.commentCollection)).document(comment.getCommentId())
                 .set(comment)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -211,44 +217,38 @@ public class FirebaseDAO {
                         Log.e("putComment", "Error: ", e);
                     }
                 });
-        mFF.collection("meals").document(mealID)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            Meal meal = new Meal(task.getResult().getData());
-                            meal.commentIdList.add(comment.getCommentId());
-                            mFF.collection("meals").document(mealID)
-                                    .set(meal)
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            Log.d("putComment:", "Comment added to meal");
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Log.e("putComment:", "Failed to add comment to meal", e);
-                                            mFF.collection("comments").document(comment.getCommentId())
-                                                    .delete();
-                                            Toast.makeText(context, R.string.put_comment_error, Toast.LENGTH_LONG).show();
-                                        }
-                                    });
-                        }
-                    }
-                });
+        meal.commentIdList.add(comment.getCommentId());
+        mFF.collection(context.getString(R.string.mealCollection)).document(meal.getMealId()).set(meal);
+
         String userID = getCurrentUserID();
-        mFF.collection("userSubscriptions").document(userID)
+        mFF.collection(context.getString(R.string.subscriptionCollection)).document(userID)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
                             UserSubscription subscriptions = new UserSubscription(task.getResult().getData());
-                            subscriptions.commentedList.add(comment.getCommentId());
-                            mFF.collection("userSubscriptions").document(getCurrentUserID()).set(subscriptions);
+                            boolean found = false;
+                            for (String id : subscriptions.myMealList) {
+                                if (id.equals(meal.getMealId())) {
+                                    found = true;
+                                    break;
+                                }
+                            }
+                            if (!found) {
+                                found = false;
+                                for (String id : subscriptions.commentedList) {
+                                    if (id.equals(meal.getMealId())) {
+                                        found = true;
+                                        break;
+                                    }
+                                }
+                                if (!found) {
+                                    subscriptions.commentedList.add(meal.getMealId());
+                                    mFF.collection(context.getString(R.string.subscriptionCollection))
+                                            .document(getCurrentUserID()).set(subscriptions);
+                                }
+                            }
                         }
                     }
                 });
@@ -256,7 +256,7 @@ public class FirebaseDAO {
 
     public void putMeal(Meal meal) {
         String userID = getCurrentUserID();
-        mFF.collection("userSubscriptions").document(userID)
+        mFF.collection(context.getString(R.string.subscriptionCollection)).document(userID)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -264,11 +264,12 @@ public class FirebaseDAO {
                         if (task.isSuccessful()) {
                             UserSubscription subscriptions = new UserSubscription(task.getResult().getData());
                             subscriptions.myMealList.add(meal.getMealId());
-                            mFF.collection("userSubscriptions").document(getCurrentUserID()).set(subscriptions);
+                            mFF.collection(context.getString(R.string.subscriptionCollection))
+                                    .document(getCurrentUserID()).set(subscriptions);
                         }
                     }
                 });
-        mFF.collection("meals").document(meal.getMealId())
+        mFF.collection(context.getString(R.string.mealCollection)).document(meal.getMealId())
                 .set(meal)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -281,6 +282,52 @@ public class FirebaseDAO {
                     public void onFailure(@NonNull Exception e) {
                         Log.e("putMeal", "ERROR", e);
                         Toast.makeText(context, R.string.put_meal_error, Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+
+    public void deleteMeal(Meal meal) {
+        mFF.collection(context.getString(R.string.mealCollection)).document(meal.getMealId()).delete();
+        for (String commentID : meal.commentIdList) {
+            mFF.collection(context.getString(R.string.commentCollection)).document(commentID).delete();
+        }
+        mFF.collection(context.getString(R.string.subscriptionCollection)).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                UserSubscription subscription = new UserSubscription(document.getData());
+                                if (subscription.getUserUid().equals(getCurrentUserID())) {
+                                    Iterator<String> i = subscription.myMealList.iterator();
+                                    while (i.hasNext()) {
+                                        String tmp = i.next();
+                                        if (tmp.equals(meal.getMealId())) {
+                                            i.remove();
+                                            break;
+                                        }
+                                    }
+                                }
+                                Iterator<String> k = subscription.commentedList.iterator();
+                                while (k.hasNext()) {
+                                    String tmp = k.next();
+                                    if (tmp.equals(meal.getMealId())) {
+                                        k.remove();
+                                        break;
+                                    }
+                                }
+                                Iterator<String> r = subscription.reservedMealsList.iterator();
+                                while (r.hasNext()) {
+                                    String tmp = r.next();
+                                    if (tmp.equals(meal.getMealId())) {
+                                        r.remove();
+                                        break;
+                                    }
+                                }
+                                mFF.collection(context.getString(R.string.subscriptionCollection))
+                                        .document(subscription.getUserUid()).set(subscription);
+                            }
+                        }
                     }
                 });
     }

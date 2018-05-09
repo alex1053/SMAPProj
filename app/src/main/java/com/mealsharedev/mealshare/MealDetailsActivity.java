@@ -152,8 +152,10 @@ public class MealDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Comment comment = new Comment(newComment.getText().toString());
-                DAO.putComment(comment, meal.getMealId());
+                DAO.putComment(comment, meal);
                 DAO.getCommentsForMeal(meal.commentIdList);
+                comments.add(comment);
+                mealAdapter.notifyDataSetChanged();
                 dialog.cancel();
             }
         });
