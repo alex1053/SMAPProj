@@ -5,10 +5,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -17,7 +17,6 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.mealsharedev.mealshare.Adapters.MyMealsAdapter;
 import com.mealsharedev.mealshare.Models.Meal;
 import com.mealsharedev.mealshare.dao.FirebaseDAO;
@@ -100,8 +99,7 @@ public class MyMealsActivity extends AppCompatActivity {
     }
 
     private void DeleteMeal(Meal mealToDelete) {
-
-
+        dao.deleteMeal(mealToDelete);
         isDeleteButtonPressed = false;
         btnDelete.setText(getString(R.string.delete));
         Toast.makeText(MyMealsActivity.this, "The meal is now deleted", Toast.LENGTH_SHORT).show();
@@ -171,8 +169,7 @@ public class MyMealsActivity extends AppCompatActivity {
                 if (isDeleteButtonPressed) {
                     OpenDialogWindow(meals.get(i));
                     notificationHandler.NotifyCommentOnSameMeal(meals.get(i));
-                }
-                else{
+                } else {
                     OpenMealDetails(meals.get(i));
                 }
             }
