@@ -8,35 +8,25 @@
     tools:layout_editor_absoluteY="81dp">
 
     <TextView
-        android:id="@+id/txtDescriptionHeader"
-        style="@style/InputHeader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="62dp"
-        android:text="@string/description"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
         android:id="@+id/txtPortionsLeft"
         style="@style/InputHeader"
         android:layout_width="wrap_content"
-        android:layout_height="17dp"
-        android:layout_marginStart="28dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="24dp"
         android:text="@string/portions_left"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/txtPrice"
+        app:layout_constraintStart_toEndOf="@+id/txtUser"
+        app:layout_constraintTop_toTopOf="@+id/txtPrice" />
 
     <TextView
         android:id="@+id/txtLocationHeader"
         style="@style/InputHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="26dp"
         android:text="@string/location"
-        app:layout_constraintStart_toStartOf="@+id/txtDescription"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtDescription" />
 
     <TextView
@@ -55,18 +45,17 @@
         style="@style/InputHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="19dp"
-        android:layout_marginTop="19dp"
+        android:layout_marginTop="16dp"
         android:text="@string/price"
-        app:layout_constraintStart_toStartOf="@+id/ListViewComment"
-        app:layout_constraintTop_toBottomOf="@+id/txtPortionsLeft" />
+        app:layout_constraintStart_toStartOf="@+id/txtUserHeader"
+        app:layout_constraintTop_toBottomOf="@+id/txtUserHeader" />
 
     <Button
         android:id="@+id/btnBuy"
         style="@style/MyButtons"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="16dp"
         android:layout_marginEnd="18dp"
         android:background="@drawable/button_style"
         android:text="@string/buy"
@@ -78,56 +67,56 @@
         android:id="@+id/btnBack"
         style="@style/MyButtons"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_height="40dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="16dp"
         android:background="@drawable/button_style"
         android:text="@string/back"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/btnComment"
         app:layout_constraintEnd_toStartOf="@+id/btnComment"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btnComment" />
 
     <TextView
         android:id="@+id/txtDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:text="World best lasagna. Nothing else to say!"
-        app:layout_constraintStart_toStartOf="@+id/txtDescriptionHeader"
-        app:layout_constraintTop_toBottomOf="@+id/txtDescriptionHeader" />
+        app:layout_constraintEnd_toStartOf="@+id/txtMealDetailHeader"
+        app:layout_constraintStart_toStartOf="@+id/txtMealDetailHeader"
+        app:layout_constraintTop_toBottomOf="@+id/txtMealDetailHeader" />
 
     <TextView
         android:id="@+id/txtLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="38dp"
-        android:layout_marginStart="38dp"
-        android:layout_marginTop="14dp"
+        android:layout_marginStart="37dp"
+        android:layout_marginTop="26dp"
         android:text="Finlandsgade 26, 8200 Aarhus N"
-        app:layout_constraintEnd_toEndOf="@+id/btnBuy"
-        app:layout_constraintStart_toEndOf="@+id/txtUserHeader"
+        app:layout_constraintStart_toEndOf="@+id/txtLocationHeader"
         app:layout_constraintTop_toBottomOf="@+id/txtDescription" />
 
     <TextView
         android:id="@+id/txtPortions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
+        android:layout_marginEnd="37dp"
+        android:layout_marginStart="34dp"
         android:text="3"
         app:layout_constraintBaseline_toBaselineOf="@+id/txtPortionsLeft"
-        app:layout_constraintStart_toStartOf="@+id/txtPrice" />
+        app:layout_constraintEnd_toEndOf="@+id/ListViewComment"
+        app:layout_constraintStart_toEndOf="@+id/txtPortionsLeft" />
 
     <TextView
         android:id="@+id/txtPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="13dp"
-        android:layout_marginStart="22dp"
+        android:layout_marginTop="16dp"
         android:text="29 DKK"
-        app:layout_constraintBottom_toTopOf="@+id/ListViewComment"
-        app:layout_constraintStart_toEndOf="@+id/txtPortionsLeft" />
+        app:layout_constraintStart_toStartOf="@+id/txtUser"
+        app:layout_constraintTop_toBottomOf="@+id/txtUser" />
 
     <TextView
         android:id="@+id/txtUserHeader"
@@ -145,7 +134,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
-        android:text="Anders Lehman"
+        android:text="Jens Jensen"
         app:layout_constraintStart_toStartOf="@+id/txtTimeStamp"
         app:layout_constraintTop_toBottomOf="@+id/txtTimeStamp" />
 
@@ -155,7 +144,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="19dp"
         android:text="@string/time"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtLocationHeader" />
@@ -164,8 +153,7 @@
         android:id="@+id/txtTimeStamp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="19dp"
         android:text="TextView"
         app:layout_constraintStart_toStartOf="@+id/txtLocation"
         app:layout_constraintTop_toBottomOf="@+id/txtLocation" />
@@ -177,22 +165,33 @@
         android:layout_marginBottom="14dp"
         android:layout_marginEnd="9dp"
         android:layout_marginStart="9dp"
-        android:layout_marginTop="13dp"
+        android:layout_marginTop="18dp"
         app:layout_constraintBottom_toTopOf="@+id/btnBack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtPriceHeader" />
+        app:layout_constraintTop_toTopOf="@+id/txtCommentHeader" />
 
     <Button
         android:id="@+id/btnComment"
         style="@style/MyButtons"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_height="40dp"
         android:background="@drawable/button_style"
         android:text="Comment"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/btnBuy"
         app:layout_constraintEnd_toStartOf="@+id/btnBuy"
-        app:layout_constraintStart_toEndOf="@+id/btnBack" />
+        app:layout_constraintStart_toEndOf="@+id/btnBack"
+        app:layout_constraintTop_toTopOf="@+id/btnBuy" />
+
+    <TextView
+        android:id="@+id/txtCommentHeader"
+        style="@style/InputHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        android:text="@string/comments"
+        app:layout_constraintEnd_toEndOf="@+id/txtPriceHeader"
+        app:layout_constraintStart_toEndOf="@+id/txtPriceHeader"
+        app:layout_constraintTop_toBottomOf="@+id/txtPriceHeader" />
 
 </android.support.constraint.ConstraintLayout>

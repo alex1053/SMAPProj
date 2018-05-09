@@ -10,17 +10,18 @@
     <RelativeLayout
         android:id="@+id/relativeLayout2"
         android:layout_width="368dp"
-        android:layout_height="60dp"
+        android:layout_height="71dp"
         tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="134dp">
+        tools:layout_editor_absoluteY="132dp">
 
         <TextView
             android:id="@+id/txtMealName"
             style="@style/MealName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
+            android:layout_marginTop="12dp"
             android:text="Lasagna" />
 
         <TextView
@@ -28,11 +29,11 @@
             style="@style/ListViewInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginEnd="13dp"
-            android:layout_marginRight="13dp"
+            android:layout_below="@+id/txtMealName"
+            android:layout_marginEnd="33dp"
+            android:layout_marginRight="33dp"
             android:text="TextView" />
 
         <TextView
@@ -40,12 +41,11 @@
             style="@style/ListViewInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/txtTimeStamp"
-            android:layout_alignBottom="@+id/txtTimeStamp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginLeft="13dp"
-            android:layout_marginStart="13dp"
+            android:layout_below="@+id/txtMealName"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
             android:text="8200, Aarhus N" />
     </RelativeLayout>
 

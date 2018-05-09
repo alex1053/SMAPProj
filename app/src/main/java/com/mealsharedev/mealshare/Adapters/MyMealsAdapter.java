@@ -55,7 +55,7 @@ public class MyMealsAdapter extends BaseAdapter {
             TextView txtMealName = (TextView) convertView.findViewById(R.id.txtMealName);
             txtMealName.setText(meal.mealName);
             TextView txtLocation = (TextView) convertView.findViewById(R.id.txtLocation);
-            txtLocation.setText(meal.zipCode + ", " + meal.city);
+            txtLocation.setText(meal.zipCode + " " + meal.city);
             TextView txtTimeStamp = (TextView) convertView.findViewById(R.id.txtTimeStamp);
             txtTimeStamp.setText(meal.timeStamp);
         }
