@@ -96,6 +96,7 @@ public class LoginActivity extends headerActivity {
         if (currentUser != null) {
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra("user", currentUser.getDisplayName());
+            //intent.putExtra("picURL", currentUser.getPhotoUrl().toString());
             startActivity(intent);
         }
     }
