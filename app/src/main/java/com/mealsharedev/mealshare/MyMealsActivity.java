@@ -27,6 +27,7 @@ import java.util.Iterator;
 import static com.mealsharedev.mealshare.dao.FirebaseDAO.DAO_GET_MY_MEALS;
 import static com.mealsharedev.mealshare.dao.FirebaseDAO.DAO_GET_RESERVED_MEALS;
 import static com.mealsharedev.mealshare.dao.FirebaseDAO.DAO_MY_MEALS_EXTRA;
+import static com.mealsharedev.mealshare.dao.FirebaseDAO.DAO_RESERVED_MEALS_EXTRA;
 
 public class MyMealsActivity extends AppCompatActivity {
 
@@ -54,7 +55,7 @@ public class MyMealsActivity extends AppCompatActivity {
     BroadcastReceiver assignedMealsReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            ArrayList<Meal> tmpList = intent.getParcelableArrayListExtra(DAO_MY_MEALS_EXTRA);
+            ArrayList<Meal> tmpList = intent.getParcelableArrayListExtra(DAO_RESERVED_MEALS_EXTRA);
             meals.clear();
             meals.addAll(tmpList);
             mealOverviewAdapter.notifyDataSetChanged();
@@ -71,6 +72,9 @@ public class MyMealsActivity extends AppCompatActivity {
 
         IntentFilter filter = new IntentFilter(DAO_GET_MY_MEALS);
         LocalBroadcastManager.getInstance(this).registerReceiver(myMealsReceiver, filter);
+
+        IntentFilter filterr = new IntentFilter(DAO_GET_RESERVED_MEALS);
+        LocalBroadcastManager.getInstance(MyMealsActivity.this).registerReceiver(assignedMealsReceiver, filterr);
 
         InitializeButtons();
         SetViewByButtons(btnMyMeals.isChecked());
@@ -190,6 +194,7 @@ public class MyMealsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 btnMyMeals.setChecked(true);
                 btnAssignedMeals.setChecked(false);
+                dao.getMyMeals();
                 SetViewByButtons(btnMyMeals.isChecked());
             }
         });
@@ -200,8 +205,7 @@ public class MyMealsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 btnAssignedMeals.setChecked(true);
                 btnMyMeals.setChecked(false);
-                IntentFilter filter = new IntentFilter(DAO_GET_RESERVED_MEALS);
-                LocalBroadcastManager.getInstance(MyMealsActivity.this).registerReceiver(myMealsReceiver, filter);
+                dao.getReservedMeals();
                 SetViewByButtons(btnMyMeals.isChecked());
             }
         });
