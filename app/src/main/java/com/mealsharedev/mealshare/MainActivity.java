@@ -55,6 +55,7 @@ public class MainActivity extends headerActivity {
     BroadcastReceiver signOutReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            MainActivity.this.setResult(RESULT_OK);
             finish();
         }
     };
