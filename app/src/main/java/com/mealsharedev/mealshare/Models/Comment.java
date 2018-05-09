@@ -2,11 +2,10 @@ package com.mealsharedev.mealshare.Models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import com.google.firebase.auth.FirebaseAuth;
-
-import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
@@ -26,7 +25,7 @@ public class Comment implements Parcelable {
     public Comment(String comment) {
         this.comment = comment;
         this.displayName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-        this.commentDate = SimpleDateFormat.getDateTimeInstance().format(new Date());
+        this.commentDate = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.DEFAULT, Locale.GERMAN).format(new Date());
         this.commentId = UUID.randomUUID().toString();
     }
 
