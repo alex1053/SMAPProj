@@ -34,6 +34,9 @@
     <string name="validate_zipcode">Postnummer skal være 4 cifre</string>
     <string name="signout">Log ud!</string>
     <string name="main_info">Vælg et måltid fra listen:</string>
+    <string name="welcome">Velkommen</string>
+    <string name="comments">Kommentarer</string>
+    <string name="no_portions">Ingen potioner tilbage!</string>
     <string name="write_comment">Skriv en kommentar:</string>
     <string name="yes">JA</string>
     <string name="no">NEJ</string>
@@ -41,6 +44,7 @@
     <string name="reserve_question">Er du sikker på du vil reservere </string>
     <string name="put_comment_error">Kunne ikke oprette kommentar</string>
     <string name="put_meal_error">Kunne ikke oprette måltid</string>
+    <string name="meal_shared">Dit måltid er delt!</string>
 
     <string-array name="day_array">
         <item>01</item>

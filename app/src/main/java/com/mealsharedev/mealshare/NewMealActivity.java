@@ -120,7 +120,6 @@ public class NewMealActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (CheckErrorFlags()) {
                     Meal meal = writeNewMeal();
-                    Toast.makeText(NewMealActivity.this, "Your meal is now shared!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent();
                     intent.putExtra("meal", meal);
                     setResult(RESULT_OK, intent);

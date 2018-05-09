@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mealsharedev.mealshare.Adapters.CommentAdapter;
 import com.mealsharedev.mealshare.Models.Comment;
@@ -121,13 +122,19 @@ public class MealDetailsActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.reserve);
 
-        builder.setMessage(R.string.reserve_question + meal.mealName + " for " + meal.price + " " + R.string.DKK + "?");
+        builder.setMessage(getResources().getString(R.string.reserve_question) + " " + meal.mealName + " for " + meal.price + " " + getResources().getString(R.string.DKK) + "?");
 
         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
-                finish();
+                if (Integer.parseInt(meal.portions) < 1) {
+                    Toast.makeText(getApplicationContext(), R.string.no_portions, Toast.LENGTH_LONG).show();
+                    dialog.cancel();
+                } else {
+                    meal.portions = String.valueOf(Integer.parseInt(meal.portions) - 1);
+                    DAO.updateMeal(meal);
+                    finish();
+                }
             }
         });
         builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
