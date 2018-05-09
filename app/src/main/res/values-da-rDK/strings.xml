@@ -20,6 +20,7 @@
     <string name="new_meal_header">Del Måltid</string>
     <string name="user">Lavet af:</string>
     <string name="save">Gem</string>
+    <string name="OK">OK</string>
     <string name="cancel">Annuller</string>
     <string name="buy">Køb</string>
     <string name="back">Tilbage</string>
@@ -32,6 +33,13 @@
     <string name="validate_zipcode">Postnummer skal være 4 cifre</string>
     <string name="signout">Log ud!</string>
     <string name="main_info">Vælg et måltid fra listen:</string>
+    <string name="write_comment">Skriv en kommentar:</string>
+    <string name="yes">JA</string>
+    <string name="no">NEJ</string>
+    <string name="reserve">Reserver dette måltid</string>
+    <string name="reserve_question">Er du sikker på du vil reservere </string>
+    <string name="put_comment_error">Kunne ikke oprette kommentar</string>
+    <string name="put_meal_error">Kunne ikke oprette måltid</string>
 
     <string-array name="day_array">
         <item>1.</item>

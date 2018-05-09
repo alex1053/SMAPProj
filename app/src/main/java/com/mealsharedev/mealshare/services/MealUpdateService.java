@@ -1,24 +1,24 @@
 package com.mealsharedev.mealshare.services;
 
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Binder;
 import android.os.IBinder;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.mealsharedev.mealshare.Models.Meal;
+import com.mealsharedev.mealshare.dao.FirebaseDAO;
 
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static com.mealsharedev.mealshare.dao.FirebaseDAO.DAO_ALL_MEALS_EXTRA;
+import static com.mealsharedev.mealshare.dao.FirebaseDAO.DAO_GET_ALL_MEALS;
 
 /**
  * Created by alexb on 07-05-2018.
@@ -30,10 +30,8 @@ public class MealUpdateService extends Service {
     public static final long UPDATE_INTERVAL_MILLIS = 120000; //2min
     private ArrayList<Meal> mealList = new ArrayList<>();
     private ArrayList<Meal> newMealList = new ArrayList<>();
-    private FirebaseFirestore fDb;
+    private FirebaseDAO dao;
     private Timer updateScheduler;
-
-
     private final IBinder binder = new MealUpdateServiceBinder();
 
     public class MealUpdateServiceBinder extends Binder {
@@ -42,10 +40,21 @@ public class MealUpdateService extends Service {
         }
     }
 
+    private BroadcastReceiver mealListReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            newMealList = intent.getParcelableArrayListExtra(DAO_ALL_MEALS_EXTRA);
+            compareAndBroadcast();
+        }
+    };
+
     @Override
     public void onCreate() {
         super.onCreate();
-        fDb = FirebaseFirestore.getInstance();
+        dao = new FirebaseDAO(this);
+        IntentFilter filter = new IntentFilter(DAO_GET_ALL_MEALS);
+        LocalBroadcastManager.getInstance(this).registerReceiver(mealListReceiver, filter);
+
         TimerTask scheduledUpdate = new TimerTask() {
             @Override
             public void run() {
@@ -59,7 +68,7 @@ public class MealUpdateService extends Service {
 
     @Override
     public void onDestroy() {
-        if(updateScheduler != null) {
+        if (updateScheduler != null) {
             updateScheduler.cancel();
             updateScheduler = null;
         }
@@ -74,21 +83,7 @@ public class MealUpdateService extends Service {
 
     public void updateMeals() {
         newMealList = new ArrayList<>();
-        fDb.collection("meals")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Map<String, Object> meal = document.getData();
-                                Meal tempMeal = new Meal(meal);
-                                newMealList.add(tempMeal);
-                            }
-                            compareAndBroadcast();
-                        }
-                    }
-                });
+        dao.getAllMeals();
     }
 
     private void compareAndBroadcast() {

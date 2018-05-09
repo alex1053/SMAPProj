@@ -24,6 +24,7 @@
     <string name="new_meal_header">Share Meal</string>
     <string name="user">Cooked by:</string>
     <string name="save">Save</string>
+    <string name="OK">OK</string>
     <string name="cancel">Cancel</string>
     <string name="buy">Buy</string>
     <string name="back">Back</string>
@@ -36,6 +37,13 @@
     <string name="validate_zipcode">Zipcode must be 4 numbers</string>
     <string name="signout">Sign out!</string>
     <string name="main_info">Pick a meal from the list:</string>
+    <string name="write_comment">Write a comment:</string>
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
+    <string name="reserve">Reserve this meal</string>
+    <string name="reserve_question">Are you sure you want to reserve </string>
+    <string name="put_comment_error">Failed to add comment</string>
+    <string name="put_meal_error">Failed to create meal</string>
 
     <string-array name="day_array">
         <item>1st</item>

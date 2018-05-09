@@ -1,11 +1,9 @@
 package com.mealsharedev.mealshare;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -13,31 +11,25 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.mealsharedev.mealshare.Models.Meal;
+import com.mealsharedev.mealshare.dao.FirebaseDAO;
+
+import java.util.ArrayList;
 
 public class NewMealActivity extends AppCompatActivity {
 
     Button btnCancel, btnSave;
     EditText mealName, mealDescription, mealPrice, mealLocation, mealAmount, mealZipCode, mealCity, mealDay, mealMonth, mealYear, mealHour, mealMinute;
     Spinner spinDay, spinMonth, spinYear, spinHour, spinMinute;
-    FirebaseFirestore mDB;
 
-    FirebaseAuth mAuth;
+    private FirebaseDAO dao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_meal);
 
-        mAuth = FirebaseAuth.getInstance();
-        mDB = FirebaseFirestore.getInstance();
+        dao = new FirebaseDAO(this);
 
         mealName = findViewById(R.id.editMealName);
         mealDescription = findViewById(R.id.editDescription);
@@ -53,9 +45,8 @@ public class NewMealActivity extends AppCompatActivity {
     }
 
     private void writeNewMeal() {
-        String UserId = mAuth.getCurrentUser().getUid();
-
-        Meal meal = new Meal(UserId,
+        String displayName = dao.getCurrentUserDisplayName();
+        Meal meal = new Meal(displayName,
                 mealName.getText().toString(),
                 mealDescription.getText().toString(),
                 mealAmount.getText().toString(),
@@ -63,29 +54,10 @@ public class NewMealActivity extends AppCompatActivity {
                 mealLocation.getText().toString(),
                 mealZipCode.getText().toString(),
                 mealCity.getText().toString(),
-                getTimeStamp());
+                getTimeStamp(),
+                new ArrayList<>());
 
-        mDB.collection("meals")
-                .add(meal)
-                .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentReference> task) {
-                        Log.d("tag", "Completed");
-                    }
-                })
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d("tag", "Success");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("tag", "Failed!!!!!!!!!!!!");
-                    }
-                });
-
+        dao.putMeal(meal);
     }
 
 
@@ -125,8 +97,7 @@ public class NewMealActivity extends AppCompatActivity {
         }
     }
 
-    private void InitializeButtons()
-    {
+    private void InitializeButtons() {
         btnCancel = findViewById(R.id.btnRemove);
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override

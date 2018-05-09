@@ -3,12 +3,25 @@ package com.mealsharedev.mealshare.Models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.UUID;
 
 public class Meal implements Parcelable {
+    public String displayName;
+    private String mealId;
+    public String mealName;
+    public String description;
+    public String portions;
+    public String price;
+    public String address;
+    public String zipCode;
+    public String city;
+    public String timeStamp;
+    public ArrayList<String> commentIdList;
 
-    public Meal(String displayName, String mealName, String description, String portions, String price, String address, String zipCode, String city, String timeStamp) {
+    public Meal(String displayName, String mealName, String description, String portions, String price,
+                String address, String zipCode, String city, String timeStamp, ArrayList<String> comments) {
         this.displayName = displayName;
         this.mealName = mealName;
         this.description = description;
@@ -18,6 +31,7 @@ public class Meal implements Parcelable {
         this.zipCode = zipCode;
         this.city = city;
         this.timeStamp = timeStamp;
+        this.commentIdList = comments;
 
         this.mealId = UUID.randomUUID().toString();
     }
@@ -33,22 +47,12 @@ public class Meal implements Parcelable {
         this.zipCode = hashmap.get("zipCode") != null ? hashmap.get("zipCode").toString() : "8888";
         this.city = hashmap.get("city") != null ? hashmap.get("city").toString() : "byenHer";
         this.timeStamp = hashmap.get("timeStamp") != null ? hashmap.get("timeStamp").toString() : "noooo";
+        this.commentIdList = hashmap.get("commentIdList") != null ? (ArrayList<String>) hashmap.get("commentIdList") : new ArrayList<>();
     }
 
     public String getMealId() {
         return mealId;
     }
-
-    public String displayName;
-    private String mealId;
-    public String mealName;
-    public String description;
-    public String portions;
-    public String price;
-    public String address;
-    public String zipCode;
-    public String city;
-    public String timeStamp;
 
     protected Meal(Parcel in) {
         displayName = in.readString();
@@ -61,6 +65,7 @@ public class Meal implements Parcelable {
         zipCode = in.readString();
         city = in.readString();
         timeStamp = in.readString();
+        commentIdList = in.createStringArrayList();
 
     }
 
@@ -94,6 +99,7 @@ public class Meal implements Parcelable {
         parcel.writeString(zipCode);
         parcel.writeString(city);
         parcel.writeString(timeStamp);
+        parcel.writeStringArray(commentIdList.toArray(new String[0]));
     }
 
 
