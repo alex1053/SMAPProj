@@ -12,8 +12,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -122,16 +120,11 @@ public class FirebaseDAO {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Comment tmpComment = new Comment(document.getData());
-                                tmpList.add(tmpComment);
-                            }
-
                             ArrayList<Comment> commentsForMeal = new ArrayList<>();
                             for (String commentId : commentList) {
-                                for (Comment comment : tmpList) {
-                                    if (commentId.equals(comment.getCommentId())) {
-                                        commentsForMeal.add(comment);
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    if (commentId.equals(document.getData().get("commentId"))) {
+                                        commentsForMeal.add(new Comment(document.getData()));
                                         break;
                                     }
                                 }
