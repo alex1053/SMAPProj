@@ -45,8 +45,6 @@ public class headerActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(SIGNOUT_BROADCAST);
                 LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
-
-                //TODO redirect to LoginActivity (call finish()????)
             }
         });
     }
