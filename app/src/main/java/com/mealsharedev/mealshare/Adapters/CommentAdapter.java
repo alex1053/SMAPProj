@@ -52,6 +52,8 @@ public class CommentAdapter extends BaseAdapter {
             txtUsername.setText(comment.displayName);
             TextView txtComment = (TextView) convertView.findViewById(R.id.txtComment);
             txtComment.setText(comment.comment);
+            TextView txtDate = (TextView) convertView.findViewById(R.id.txtDate);
+            txtDate.setText(comment.getCommentDate());
         }
         return convertView;
     }
