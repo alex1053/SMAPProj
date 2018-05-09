@@ -23,6 +23,8 @@ import com.mealsharedev.mealshare.Models.Meal;
 import com.mealsharedev.mealshare.dao.FirebaseDAO;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import static com.mealsharedev.mealshare.dao.FirebaseDAO.DAO_COMMENTS_EXTRA;
 import static com.mealsharedev.mealshare.dao.FirebaseDAO.DAO_GET_COMMENTS;
@@ -44,6 +46,13 @@ public class MealDetailsActivity extends AppCompatActivity {
             ArrayList<Comment> tmpList = intent.getParcelableArrayListExtra(DAO_COMMENTS_EXTRA);
             comments.clear();
             comments.addAll(tmpList != null ? tmpList : new ArrayList<>());
+
+            Collections.sort(comments, new Comparator<Comment>() {
+                @Override
+                public int compare(Comment o1, Comment o2) {
+                    return o1.getCommentDate().compareTo(o2.getCommentDate());
+                }
+            });
             mealAdapter.notifyDataSetChanged();
         }
     };
@@ -144,6 +153,7 @@ public class MealDetailsActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 Comment comment = new Comment(newComment.getText().toString());
                 DAO.putComment(comment, meal.getMealId());
+                DAO.getCommentsForMeal(meal.commentIdList);
                 dialog.cancel();
             }
         });

@@ -5,25 +5,29 @@ import android.os.Parcelable;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
 
 public class Comment implements Parcelable {
     public String comment;
     public String displayName;
+    private String commentDate;
     private String commentId;
 
-    public Comment (Map<String, Object> hashmap) {
+    public Comment(Map<String, Object> hashmap) {
         comment = hashmap.get("comment").toString();
         displayName = hashmap.get("displayName").toString();
         commentId = hashmap.get("commentId").toString();
+        commentDate = hashmap.get("commentDate").toString();
     }
 
     public Comment(String comment) {
-
         this.comment = comment;
         this.displayName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-        commentId = UUID.randomUUID().toString();
+        this.commentDate = SimpleDateFormat.getDateTimeInstance().format(new Date());
+        this.commentId = UUID.randomUUID().toString();
     }
 
     @Override
@@ -35,12 +39,14 @@ public class Comment implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(comment);
         dest.writeString(displayName);
+        dest.writeString(commentDate);
         dest.writeString(commentId);
     }
 
     protected Comment(Parcel parcel) {
         comment = parcel.readString();
         displayName = parcel.readString();
+        commentDate = parcel.readString();
         commentId = parcel.readString();
     }
 
@@ -60,5 +66,7 @@ public class Comment implements Parcelable {
         return commentId;
     }
 
-
+    public String getCommentDate() {
+        return commentDate;
+    }
 }
