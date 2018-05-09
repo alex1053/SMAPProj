@@ -94,20 +94,6 @@ public class LoginActivity extends headerActivity {
         }
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-//        setHeadings(currentUser.getDisplayName());
-        if (currentUser != null) {
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra("user", currentUser.getDisplayName());
-            //intent.putExtra("picURL", currentUser.getPhotoUrl().toString());
-            startActivity(intent);
-        }
-    }
-
     private void handleFacebookAccessToken(AccessToken token) {
         Log.d("TokenHandler", "handleFacebookAccessToken:" + token);
 
