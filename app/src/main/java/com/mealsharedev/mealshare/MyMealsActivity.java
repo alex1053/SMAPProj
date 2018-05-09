@@ -1,7 +1,11 @@
 package com.mealsharedev.mealshare;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,10 +17,15 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.mealsharedev.mealshare.Adapters.MyMealsAdapter;
 import com.mealsharedev.mealshare.Models.Meal;
+import com.mealsharedev.mealshare.dao.FirebaseDAO;
 
 import java.util.ArrayList;
+
+import static com.mealsharedev.mealshare.dao.FirebaseDAO.DAO_GET_MY_MEALS;
+import static com.mealsharedev.mealshare.dao.FirebaseDAO.DAO_MY_MEALS_EXTRA;
 
 public class MyMealsActivity extends AppCompatActivity {
 
@@ -28,6 +37,17 @@ public class MyMealsActivity extends AppCompatActivity {
     MyMealsAdapter mealOverviewAdapter;
     boolean isDeleteButtonPressed = false;
     NotificationHandler notificationHandler;
+    private FirebaseDAO dao;
+
+    BroadcastReceiver myMealsReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            ArrayList<Meal> tmpList = intent.getParcelableArrayListExtra(DAO_MY_MEALS_EXTRA);
+            meals.clear();
+            meals.addAll(tmpList);
+            mealOverviewAdapter.notifyDataSetChanged();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,25 +56,15 @@ public class MyMealsActivity extends AppCompatActivity {
 
         txtMealHeader = findViewById(R.id.txtListViewHeader);
         notificationHandler = new NotificationHandler(this);
-        Meal meal = new Meal("Lauraaaaa", "Maad","Besrkivelse","22","150","Skovagervej 21","8990","Fårup","Idag" );
-        Meal meal2 = new Meal("Lauraaaaa", "Maad","Besrkivelse","22","150","Skovagervej 21","8990","Fårup","Idag" );
-        Meal meal3 = new Meal("Lauraaaaa", "Maad","Besrkivelse","22","150","Skovagervej 21","8990","Fårup","Idag" );
-        Meal meal4 = new Meal("Lauraaaaa", "Maad","Besrkivelse","22","150","Skovagervej 21","8990","Fårup","Idag" );
-        Meal meal5 = new Meal("Lauraaaaa", "Maad","Besrkivelse","22","150","Skovagervej 21","8990","Fårup","Idag" );
-        Meal meal6 = new Meal("Lauraaaaa", "Maad","Besrkivelse","22","150","Skovagervej 21","8990","Fårup","Idag" );
-        Meal meal7 = new Meal("Lauraaaaa", "Maad","Besrkivelse","22","150","Skovagervej 21","8990","Fårup","Idag" );
-        meals.add(meal);
-        meals.add(meal);
-        meals.add(meal2);
-        meals.add(meal3);
-        meals.add(meal4);
-        meals.add(meal5);
-        meals.add(meal6);
-        meals.add(meal7);
+
+        IntentFilter filter = new IntentFilter(DAO_GET_MY_MEALS);
+        LocalBroadcastManager.getInstance(this).registerReceiver(myMealsReceiver, filter);
 
         InitializeButtons();
         SetViewByButtons(btnMyMeals.isChecked());
         InitializaListView();
+        dao = new FirebaseDAO(this);
+        dao.getMyMeals();
     }
 
     private void SetViewByButtons(boolean myMeals) {

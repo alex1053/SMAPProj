@@ -155,7 +155,7 @@ public class LoginActivity extends headerActivity {
         mDB.collection(SUBSCRIPTIONS).document(user.getUserUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful() && task.getResult().getData() != null) {
+                if(task.isSuccessful() && task.getResult().getData() == null) {
                    mDB.collection(SUBSCRIPTIONS).document(user.getUserUid()).set(user);
                 }
             }

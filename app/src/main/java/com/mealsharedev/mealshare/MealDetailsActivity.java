@@ -43,7 +43,7 @@ public class MealDetailsActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             ArrayList<Comment> tmpList = intent.getParcelableArrayListExtra(DAO_COMMENTS_EXTRA);
             comments.clear();
-            comments.addAll(tmpList);
+            comments.addAll(tmpList != null ? tmpList : new ArrayList<>());
             mealAdapter.notifyDataSetChanged();
         }
     };
@@ -57,7 +57,6 @@ public class MealDetailsActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).registerReceiver(commentsReceiver, filter);
 
         DAO = new FirebaseDAO(this);
-        DAO.getCommentsForMeal(meal.commentIdList);
 
         btnBuy = findViewById(R.id.btnBuy);
         btnBack = findViewById(R.id.btnBack);
@@ -83,6 +82,7 @@ public class MealDetailsActivity extends AppCompatActivity {
 
 
         meal = getIntent().getParcelableExtra("meal");
+        DAO.getCommentsForMeal(meal.commentIdList);
 
         txtMeal = findViewById(R.id.txtMealDetailHeader);
         txtDescription = findViewById(R.id.txtDescription);

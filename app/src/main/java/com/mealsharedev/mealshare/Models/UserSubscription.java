@@ -21,10 +21,10 @@ public class UserSubscription implements Parcelable {
     }
 
     public UserSubscription(Map<String, Object> hashmap) {
-        userUid = hashmap.get("userUid").toString();
+        userUid = hashmap.get("userUid") != null ? hashmap.get("userUid").toString() : "user";
         myMealList = hashmap.get("myMealList") != null ? (ArrayList<String>) hashmap.get("myMealList") : new ArrayList<>();
-        myMealList = hashmap.get("commentedList") != null ? (ArrayList<String>) hashmap.get("commentedList") : new ArrayList<>();
-        myMealList = hashmap.get("reservedMealsList") != null ? (ArrayList<String>) hashmap.get("myMealList") : new ArrayList<>();
+        commentedList = hashmap.get("commentedList") != null ? (ArrayList<String>) hashmap.get("commentedList") : new ArrayList<>();
+        reservedMealsList = hashmap.get("reservedMealsList") != null ? (ArrayList<String>) hashmap.get("myMealList") : new ArrayList<>();
     }
 
     @Override
