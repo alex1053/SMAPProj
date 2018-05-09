@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import static com.mealsharedev.mealshare.dao.FirebaseDAO.DAO_GET_MY_MEALS;
+import static com.mealsharedev.mealshare.dao.FirebaseDAO.DAO_GET_RESERVED_MEALS;
 import static com.mealsharedev.mealshare.dao.FirebaseDAO.DAO_MY_MEALS_EXTRA;
 
 public class MyMealsActivity extends AppCompatActivity {
@@ -41,6 +42,16 @@ public class MyMealsActivity extends AppCompatActivity {
     private FirebaseDAO dao;
 
     BroadcastReceiver myMealsReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            ArrayList<Meal> tmpList = intent.getParcelableArrayListExtra(DAO_MY_MEALS_EXTRA);
+            meals.clear();
+            meals.addAll(tmpList);
+            mealOverviewAdapter.notifyDataSetChanged();
+        }
+    };
+
+    BroadcastReceiver assignedMealsReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             ArrayList<Meal> tmpList = intent.getParcelableArrayListExtra(DAO_MY_MEALS_EXTRA);
@@ -93,8 +104,10 @@ public class MyMealsActivity extends AppCompatActivity {
     private void SetViewByButtons(boolean myMeals) {
         if (myMeals) {
             txtMealHeader.setText(getString(R.string.my_meals_header));
+            btnDelete.setText(getString(R.string.delete));
         } else {
             txtMealHeader.setText(getString(R.string.shared_meals_header));
+            btnDelete.setText(getString(R.string.unsubcribe));
         }
     }
 
@@ -187,6 +200,8 @@ public class MyMealsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 btnAssignedMeals.setChecked(true);
                 btnMyMeals.setChecked(false);
+                IntentFilter filter = new IntentFilter(DAO_GET_RESERVED_MEALS);
+                LocalBroadcastManager.getInstance(MyMealsActivity.this).registerReceiver(myMealsReceiver, filter);
                 SetViewByButtons(btnMyMeals.isChecked());
             }
         });
