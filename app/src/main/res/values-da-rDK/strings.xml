@@ -15,7 +15,7 @@
     <string name="year">År:</string>
     <string name="time">Tid:</string>
     <string name="date">Dato:</string>
-    <string name="portions_left">Tilbageværende Portioner:</string>
+    <string name="portions_left">Portioner</string>
     <string name="DKK">DKK</string>
     <string name="new_meal_header">Del Måltid</string>
     <string name="user">Lavet af:</string>
@@ -24,7 +24,8 @@
     <string name="cancel">Annuller</string>
     <string name="buy">Køb</string>
     <string name="back">Tilbage</string>
-    <string name="delete">Fjern Måltid</string>
+    <string name="delete">Aflys Måltid</string>
+    <string name="unsubcribe">Afmeld Meal</string>
     <string name="mymeals">Mine Måltider</string>
     <string name="shared_meals_header">Mine reserverede måltider</string>
     <string name="my_meals_header">Mine måltider</string>
