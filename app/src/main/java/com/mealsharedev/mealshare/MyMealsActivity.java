@@ -22,6 +22,7 @@ import com.mealsharedev.mealshare.Models.Meal;
 import com.mealsharedev.mealshare.dao.FirebaseDAO;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import static com.mealsharedev.mealshare.dao.FirebaseDAO.DAO_GET_MY_MEALS;
 import static com.mealsharedev.mealshare.dao.FirebaseDAO.DAO_MY_MEALS_EXTRA;
@@ -35,6 +36,7 @@ public class MyMealsActivity extends AppCompatActivity {
     ArrayList<Meal> meals = new ArrayList<>();
     MyMealsAdapter mealOverviewAdapter;
     boolean isDeleteButtonPressed = false;
+    ArrayList<Meal> deletedMeals = new ArrayList<>();
     NotificationHandler notificationHandler;
     private FirebaseDAO dao;
 
@@ -66,6 +68,28 @@ public class MyMealsActivity extends AppCompatActivity {
         dao.getMyMeals();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+
+    private void setResultForActivity() {
+        if(deletedMeals.size() > 0) {
+            Intent intent = new Intent();
+            intent.putExtra("deletedMeals", deletedMeals);
+            setResult(RESULT_OK, intent);
+        } else {
+            setResult(RESULT_CANCELED);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResultForActivity();
+        super.onBackPressed();
+    }
+
     private void SetViewByButtons(boolean myMeals) {
         if (myMeals) {
             txtMealHeader.setText(getString(R.string.my_meals_header));
@@ -85,6 +109,15 @@ public class MyMealsActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 DeleteMeal(mealToDelete);
+                Iterator<Meal> i = meals.iterator();
+                while (i.hasNext()) {
+                    Meal tmp = i.next();
+                    if(tmp.getMealId().equals(mealToDelete.getMealId())) {
+                        i.remove();
+                        mealOverviewAdapter.notifyDataSetChanged();
+                        break;
+                    }
+                }
                 dialog.cancel();
             }
         });
@@ -101,6 +134,7 @@ public class MyMealsActivity extends AppCompatActivity {
     private void DeleteMeal(Meal mealToDelete) {
         dao.deleteMeal(mealToDelete);
         isDeleteButtonPressed = false;
+        deletedMeals.add(mealToDelete);
         btnDelete.setText(getString(R.string.delete));
         Toast.makeText(MyMealsActivity.this, "The meal is now deleted", Toast.LENGTH_SHORT).show();
     }
@@ -132,6 +166,7 @@ public class MyMealsActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                setResultForActivity();
                 finish();
             }
         });

@@ -154,6 +154,8 @@ public class MealDetailsActivity extends AppCompatActivity {
                 Comment comment = new Comment(newComment.getText().toString());
                 DAO.putComment(comment, meal);
                 DAO.getCommentsForMeal(meal.commentIdList);
+                comments.add(comment);
+                mealAdapter.notifyDataSetChanged();
                 dialog.cancel();
             }
         });

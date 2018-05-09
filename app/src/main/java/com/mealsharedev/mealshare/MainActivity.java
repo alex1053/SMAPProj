@@ -20,9 +20,14 @@ import com.mealsharedev.mealshare.Models.Meal;
 import com.mealsharedev.mealshare.services.MealUpdateService;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class MainActivity extends headerActivity {
     MealUpdateService updateService;
+    private static final int NEW_MEAL_REQUEST_CODE = 1;
+    private static final int DETAILS_REQUEST_CODE = 2;
+    private static final int MY_MEALS_REQUEST_CODE = 3;
+
 
     private BroadcastReceiver updateReceiver = new BroadcastReceiver() {
         @Override
@@ -99,18 +104,51 @@ public class MainActivity extends headerActivity {
 
     public void OpenNewMealActivity() {
         Intent intent = new Intent(this, NewMealActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, NEW_MEAL_REQUEST_CODE);
     }
 
     public void OpenMyMealsActivity() {
         Intent intent = new Intent(this, MyMealsActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, MY_MEALS_REQUEST_CODE);
     }
 
     public void OpenMealDetails(Meal meal) {
         Intent intent = new Intent(this, MealDetailsActivity.class);
         intent.putExtra("meal", meal);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case NEW_MEAL_REQUEST_CODE:
+                    Meal newMeal = data.getParcelableExtra("meal");
+                    meals.add(newMeal);
+                    break;
+                case MY_MEALS_REQUEST_CODE:
+                    ArrayList<Meal> tmpList = data.getParcelableArrayListExtra("deletedMeals");
+                    for (Meal meal : tmpList) {
+                        Iterator<Meal> i = meals.iterator();
+                        while (i.hasNext()) {
+                            Meal old = i.next();
+                            if(meal.getMealId().equals(old.getMealId())) {
+                                i.remove();
+                                break;
+                            }
+                        }
+                    }
+                    break;
+            }
+            mealOverviewAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        unbindService(updateServiceConnection);
+        super.onDestroy();
     }
 
     public void InitializaListView() {
