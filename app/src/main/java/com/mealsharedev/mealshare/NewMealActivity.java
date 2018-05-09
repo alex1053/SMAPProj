@@ -17,10 +17,15 @@ import com.mealsharedev.mealshare.dao.FirebaseDAO;
 
 import java.util.ArrayList;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class NewMealActivity extends AppCompatActivity {
 
     Button btnCancel, btnSave;
-    EditText mealName, mealDescription, mealPrice, mealLocation, mealAmount, mealZipCode, mealCity, mealDay, mealMonth, mealYear, mealHour, mealMinute;
+    EditText mealName, mealDescription, mealPrice, mealLocation, mealAmount, mealZipCode, mealCity;
     Spinner spinDay, spinMonth, spinYear, spinHour, spinMinute;
 
     private FirebaseDAO dao;
@@ -64,11 +69,12 @@ public class NewMealActivity extends AppCompatActivity {
 
 
     private String getTimeStamp() {
-        return spinDay.getSelectedItem().toString() + " " + spinMonth.getSelectedItem().toString() + " " + spinYear.getSelectedItem().toString()
-                + ". " + spinHour.getSelectedItem().toString() + ":" + spinMinute.getSelectedItem().toString();
+        return spinDay.getSelectedItem().toString() + "-" + spinMonth.getSelectedItem().toString() + "-" + spinYear.getSelectedItem().toString()
+                + " " + spinHour.getSelectedItem().toString() + ":" + spinMinute.getSelectedItem().toString();
     }
 
     private boolean CheckErrorFlags() {
+            ValidateDate();
         if (mealName.getText().toString().length() == 0)
             mealName.setError(getText(R.string.validate_empty_field));
         if (mealDescription.getText().toString().length() == 0)
@@ -157,6 +163,32 @@ public class NewMealActivity extends AppCompatActivity {
                 R.array.minute_array, android.R.layout.simple_spinner_item);
         dayadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinMinute.setAdapter(minutadapter);
+    }
+
+    private void ValidateDate() {
+        String input = spinDay.getSelectedItem().toString() + " " + spinMonth.getSelectedItem().toString() + " " + spinYear.getSelectedItem().toString() + " " +  spinHour.getSelectedItem().toString() + ":" + spinMinute.getSelectedItem().toString();
+
+        SimpleDateFormat parser = new SimpleDateFormat("dd MM yyyy HH:mm");
+        Date mealdate = null;
+        try {
+            mealdate = parser.parse(input);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Date now = new Date();
+        String Today = parser.format(now);
+        Date today = null;
+
+        try {
+            today = parser.parse(Today);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        if(mealdate.before(today)) {
+            Toast.makeText(NewMealActivity.this, "You need to pick a valid date", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void InitializeValidate() {

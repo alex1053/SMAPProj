@@ -14,10 +14,6 @@
                 android:right="16dp"
                 android:bottom="0dp"
                 />
-            <size
-                android:width="65dp"
-                android:height="30dp"
-                />
             <stroke
                 android:width="3dp"
                 android:color="@color/red"

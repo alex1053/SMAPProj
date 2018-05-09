@@ -46,7 +46,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".MyMealsActivity" />
-        <activity android:name=".list_mymeals_item"></activity>
+
         <service android:name=".services.MealUpdateService"/>
 
     </application>
