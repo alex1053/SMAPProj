@@ -41,6 +41,7 @@
     <string name="welcome">Welcome</string>
     <string name="comments">Comments</string>
     <string name="no_portions">No portions left!</string>
+    <string name="still_updating_meal">Please wait a moment and try again</string>
     <string name="write_comment">Write a comment:</string>
     <string name="yes">YES</string>
     <string name="no">NO</string>

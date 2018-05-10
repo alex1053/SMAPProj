@@ -28,8 +28,6 @@ public class MealUpdateService extends Service {
     public static final String NEW_MEALS_AVAILABLE = "newMealsAvailable";
     public static final String NEW_MEALS_EXTRA = "newMealsExtra";
     public static final long UPDATE_INTERVAL_MILLIS = 120000; //2min
-    private ArrayList<Meal> mealList = new ArrayList<>();
-    private ArrayList<Meal> newMealList = new ArrayList<>();
     private FirebaseDAO dao;
     private Timer updateScheduler;
     private final IBinder binder = new MealUpdateServiceBinder();
@@ -43,8 +41,11 @@ public class MealUpdateService extends Service {
     private BroadcastReceiver mealListReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            newMealList = intent.getParcelableArrayListExtra(DAO_ALL_MEALS_EXTRA);
-            compareAndBroadcast();
+            ArrayList<Meal> tmpList = intent.getParcelableArrayListExtra(DAO_ALL_MEALS_EXTRA);
+            Intent broadcastIntent = new Intent();
+            broadcastIntent.putExtra(NEW_MEALS_EXTRA, tmpList);
+            broadcastIntent.setAction(NEW_MEALS_AVAILABLE);
+            LocalBroadcastManager.getInstance(MealUpdateService.this).sendBroadcast(broadcastIntent);
         }
     };
 
@@ -82,37 +83,6 @@ public class MealUpdateService extends Service {
     }
 
     public void updateMeals() {
-        newMealList = new ArrayList<>();
         dao.getAllMeals();
-    }
-
-    private void compareAndBroadcast() {
-        boolean newMealsPresent = false;
-        if (newMealList.size() != mealList.size()) {
-            newMealsPresent = true;
-        } else {
-            //Compare mealIds to check for changes
-            for (Meal newMeal : newMealList) {
-                boolean found = false;
-                for (Meal oldMeal : mealList) {
-                    if (newMeal.getMealId().equals(oldMeal.getMealId())) {
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found) {
-                    newMealsPresent = true;
-                    break;
-                }
-            }
-        }
-
-        if (newMealsPresent) {
-            mealList = newMealList;
-            Intent broadcastIntent = new Intent();
-            broadcastIntent.putExtra(NEW_MEALS_EXTRA, mealList);
-            broadcastIntent.setAction(NEW_MEALS_AVAILABLE);
-            LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent);
-        }
     }
 }

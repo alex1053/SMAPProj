@@ -12,7 +12,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -20,7 +19,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.mealsharedev.mealshare.Models.Comment;
 import com.mealsharedev.mealshare.Models.Meal;
 import com.mealsharedev.mealshare.Models.UserSubscription;
-import com.mealsharedev.mealshare.NewMealActivity;
 import com.mealsharedev.mealshare.R;
 
 import java.util.ArrayList;
@@ -36,6 +34,7 @@ public class FirebaseDAO {
     public static final String DAO_GET_RESERVED_MEALS = "getReservedMeals";
     public static final String DAO_GET_COMMENTED_MEALS = "getCommentedMeals";
     public static final String DAO_GET_COMMENTS = "getCommentsForMeal";
+    public static final String DAO_MEAL_BY_ID = "mealById";
 
     //Extra names
     public static final String DAO_ALL_MEALS_EXTRA = "allMealsExtra";
@@ -43,6 +42,7 @@ public class FirebaseDAO {
     public static final String DAO_RESERVED_MEALS_EXTRA = "reservedMealsExtra";
     public static final String DAO_COMMENTED_MEALS_EXTRA = "commentedMealsExtra";
     public static final String DAO_COMMENTS_EXTRA = "commentsExtra";
+    public static final String DAO_MEAL_BY_ID_EXTRA = "mealById";
 
     private FirebaseFirestore mFF;
     private FirebaseAuth mFA;
@@ -110,6 +110,19 @@ public class FirebaseDAO {
                 });
     }
 
+    public void getMealByID(String id) {
+        mFF.collection(context.getString(R.string.mealCollection)).document(id).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            Intent intent = new Intent(DAO_MEAL_BY_ID);
+                            intent.putExtra(DAO_MEAL_BY_ID_EXTRA, new Meal(task.getResult().getData()));
+                            LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                        }
+                    }
+                });
+    }
 
     public void getReservedMeals() {
         String userID = getCurrentUserID();
@@ -258,7 +271,7 @@ public class FirebaseDAO {
                 });
     }
 
-    public void updateMeal(Meal meal){
+    public void updateMeal(Meal meal) {
         mFF.collection(context.getString(R.string.mealCollection)).document(meal.getMealId()).set(meal).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
