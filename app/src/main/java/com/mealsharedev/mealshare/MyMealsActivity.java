@@ -8,7 +8,6 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -33,7 +32,7 @@ import static com.mealsharedev.mealshare.dao.FirebaseDAO.DAO_RESERVED_MEALS_EXTR
 public class MyMealsActivity extends headerActivity {
 
     TextView txtMealHeader;
-    RadioButton btnMyMeals, btnAssignedMeals;
+    RadioButton btnMyMeals, btnReservedMeals;
     Button btnBack, btnDelete;
     ListView MealListView;
     ArrayList<Meal> meals = new ArrayList<>();
@@ -104,7 +103,7 @@ public class MyMealsActivity extends headerActivity {
 
 
     private void setResultForActivity() {
-        if(deletedMeals.size() > 0) {
+        if (deletedMeals.size() > 0) {
             Intent intent = new Intent();
             intent.putExtra("deletedMeals", deletedMeals);
             setResult(RESULT_OK, intent);
@@ -143,7 +142,7 @@ public class MyMealsActivity extends headerActivity {
                 Iterator<Meal> i = meals.iterator();
                 while (i.hasNext()) {
                     Meal tmp = i.next();
-                    if(tmp.getMealId().equals(mealToDelete.getMealId())) {
+                    if (tmp.getMealId().equals(mealToDelete.getMealId())) {
                         i.remove();
                         mealOverviewAdapter.notifyDataSetChanged();
                         break;
@@ -163,11 +162,16 @@ public class MyMealsActivity extends headerActivity {
     }
 
     private void DeleteMeal(Meal mealToDelete) {
-        dao.deleteMeal(mealToDelete);
-        isDeleteButtonPressed = false;
-        deletedMeals.add(mealToDelete);
-        btnDelete.setText(getString(R.string.delete));
-        Toast.makeText(MyMealsActivity.this, "The meal is now deleted", Toast.LENGTH_SHORT).show();
+        if (btnMyMeals.isChecked()) {
+            dao.deleteMeal(mealToDelete);
+            isDeleteButtonPressed = false;
+            deletedMeals.add(mealToDelete);
+            btnDelete.setText(getString(R.string.delete));
+            Toast.makeText(MyMealsActivity.this, getString(R.string.meal_deleted), Toast.LENGTH_SHORT).show();
+        } else {
+            mealToDelete.portions = String.valueOf(Integer.parseInt(mealToDelete.portions) + 1);
+            dao.optOutMeal(mealToDelete);
+        }
     }
 
     public void OpenMealDetails(Meal meal) {
@@ -207,17 +211,17 @@ public class MyMealsActivity extends headerActivity {
             @Override
             public void onClick(View view) {
                 btnMyMeals.setChecked(true);
-                btnAssignedMeals.setChecked(false);
+                btnReservedMeals.setChecked(false);
                 dao.getMyMeals();
                 SetViewByButtons(btnMyMeals.isChecked());
             }
         });
 
-        btnAssignedMeals = findViewById(R.id.btnAssignedMeals);
-        btnAssignedMeals.setOnClickListener(new View.OnClickListener() {
+        btnReservedMeals = findViewById(R.id.btnAssignedMeals);
+        btnReservedMeals.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                btnAssignedMeals.setChecked(true);
+                btnReservedMeals.setChecked(true);
                 btnMyMeals.setChecked(false);
                 dao.getReservedMeals();
                 SetViewByButtons(btnMyMeals.isChecked());

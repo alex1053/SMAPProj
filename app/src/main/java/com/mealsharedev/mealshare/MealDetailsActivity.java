@@ -155,7 +155,7 @@ public class MealDetailsActivity extends AppCompatActivity {
                         dialog.cancel();
                     } else {
                         meal.portions = String.valueOf(Integer.parseInt(meal.portions) - 1);
-                        dao.updateMeal(meal);
+                        dao.reserveMeal(meal);
                         setResult(RESULT_OK);
                         finish();
                     }
