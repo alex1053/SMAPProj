@@ -113,7 +113,6 @@ public class LoginActivity extends headerActivity {
                             setUpSubscriptions(userSub);
 
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            intent.putExtra("user", user.getDisplayName());
                             startActivityForResult(intent, 1);
                         } else {
                             // If sign in fails, display a message to the user.

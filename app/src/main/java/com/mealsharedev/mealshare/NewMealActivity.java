@@ -72,7 +72,7 @@ public class NewMealActivity extends AppCompatActivity {
     }
 
     private boolean CheckErrorFlags() {
-        ValidateDate();
+            boolean dateVal =ValidateDate();
         if (mealName.getText().toString().length() == 0)
             mealName.setError(getText(R.string.validate_empty_field));
         if (mealDescription.getText().toString().length() == 0)
@@ -90,13 +90,14 @@ public class NewMealActivity extends AppCompatActivity {
         if (mealPrice.getText().toString().length() == 0)
             mealPrice.setError(getText(R.string.validate_empty_field));
 
-        if (mealName.getError() == null ||
-                mealDescription.getError() == null ||
-                mealPrice.getError() == null ||
-                mealAmount.getError() == null ||
-                mealCity.getError() == null ||
-                mealZipCode.getError() == null ||
-                mealLocation.getError() == null) {
+        if (mealName.getError() == null &&
+                mealDescription.getError() == null &&
+                mealPrice.getError() == null &&
+                mealAmount.getError() == null &&
+                mealCity.getError() == null &&
+                mealZipCode.getError() == null &&
+                mealLocation.getError() == null &&
+                dateVal) {
             return true;
         } else {
             return false;
@@ -162,7 +163,7 @@ public class NewMealActivity extends AppCompatActivity {
         spinMinute.setAdapter(minutadapter);
     }
 
-    private void ValidateDate() {
+    private boolean ValidateDate() {
         String input = spinDay.getSelectedItem().toString() + " " + spinMonth.getSelectedItem().toString() + " " + spinYear.getSelectedItem().toString() + " " + spinHour.getSelectedItem().toString() + ":" + spinMinute.getSelectedItem().toString();
 
         SimpleDateFormat parser = new SimpleDateFormat("dd MM yyyy HH:mm");
@@ -185,7 +186,9 @@ public class NewMealActivity extends AppCompatActivity {
 
         if (mealdate.before(today)) {
             Toast.makeText(NewMealActivity.this, "You need to pick a valid date", Toast.LENGTH_SHORT).show();
+            return false;
         }
+        return true;
     }
 
     private void InitializeValidate() {
