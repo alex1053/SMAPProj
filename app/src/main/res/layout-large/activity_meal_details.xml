@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/txtPortionsLeft"
+        style="@style/InputHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="19dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="15dp"
+        android:text="@string/portions_left"
+        app:layout_constraintStart_toEndOf="@+id/txtPrice"
+        app:layout_constraintTop_toBottomOf="@+id/txtUserHeader" />
+
+    <TextView
+        android:id="@+id/txtLocationHeader"
+        style="@style/InputHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="26dp"
+        android:text="@string/location"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtDescription" />
+
+    <TextView
+        android:id="@+id/txtMealDetailHeader"
+        style="@style/ActivityHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Lasagna"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtPriceHeader"
+        style="@style/InputHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="@string/price"
+        app:layout_constraintStart_toStartOf="@+id/txtUserHeader"
+        app:layout_constraintTop_toBottomOf="@+id/txtUserHeader" />
+
+    <Button
+        android:id="@+id/btnBuy"
+        style="@style/MyButtons"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="18dp"
+        android:background="@drawable/button_style"
+        android:text="@string/buy"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnComment" />
+
+    <Button
+        android:id="@+id/btnBack"
+        style="@style/MyButtons"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/button_style"
+        android:text="@string/back"
+        app:layout_constraintBottom_toBottomOf="@+id/btnComment"
+        app:layout_constraintEnd_toStartOf="@+id/btnComment"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btnComment" />
+
+    <TextView
+        android:id="@+id/txtDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="24dp"
+        android:text="Description"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtMealDetailHeader" />
+
+    <TextView
+        android:id="@+id/txtLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="37dp"
+        android:layout_marginTop="26dp"
+        android:text="Finlandsgade 26, 8200 Aarhus N"
+        app:layout_constraintStart_toEndOf="@+id/txtLocationHeader"
+        app:layout_constraintTop_toBottomOf="@+id/txtDescription" />
+
+    <TextView
+        android:id="@+id/txtPortions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="15dp"
+        android:text="3"
+        app:layout_constraintStart_toEndOf="@+id/txtPortionsLeft"
+        app:layout_constraintTop_toBottomOf="@+id/txtUser" />
+
+    <TextView
+        android:id="@+id/txtPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="29 DKK"
+        app:layout_constraintStart_toStartOf="@+id/txtUser"
+        app:layout_constraintTop_toBottomOf="@+id/txtUser" />
+
+    <TextView
+        android:id="@+id/txtUserHeader"
+        style="@style/InputHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="@string/user"
+        app:layout_constraintEnd_toEndOf="@+id/txtTimeStampHeader"
+        app:layout_constraintStart_toEndOf="@+id/txtTimeStampHeader"
+        app:layout_constraintTop_toBottomOf="@+id/txtTimeStampHeader" />
+
+    <TextView
+        android:id="@+id/txtUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="Jens Jensen"
+        app:layout_constraintStart_toStartOf="@+id/txtTimeStamp"
+        app:layout_constraintTop_toBottomOf="@+id/txtTimeStamp" />
+
+    <TextView
+        android:id="@+id/txtTimeStampHeader"
+        style="@style/InputHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="18dp"
+        android:text="@string/time"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtLocationHeader" />
+
+    <TextView
+        android:id="@+id/txtTimeStamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="@+id/txtLocation"
+        app:layout_constraintTop_toBottomOf="@+id/txtLocation" />
+
+    <ListView
+        android:id="@+id/ListViewComment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="13dp"
+        android:layout_marginEnd="9dp"
+        android:layout_marginStart="9dp"
+        android:layout_marginTop="18dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnBack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txtCommentHeader" />
+
+    <Button
+        android:id="@+id/btnComment"
+        style="@style/MyButtons"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:background="@drawable/button_style"
+        android:text="Comment"
+        app:layout_constraintBottom_toBottomOf="@+id/btnBuy"
+        app:layout_constraintEnd_toStartOf="@+id/btnBuy"
+        app:layout_constraintStart_toEndOf="@+id/btnBack"
+        app:layout_constraintTop_toTopOf="@+id/btnBuy" />
+
+    <TextView
+        android:id="@+id/txtCommentHeader"
+        style="@style/InputHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        android:text="@string/comments"
+        app:layout_constraintEnd_toEndOf="@+id/txtPriceHeader"
+        app:layout_constraintStart_toEndOf="@+id/txtPriceHeader"
+        app:layout_constraintTop_toBottomOf="@+id/txtPriceHeader" />
+</android.support.constraint.ConstraintLayout>

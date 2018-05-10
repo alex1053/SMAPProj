@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <Button
+        android:id="@+id/btnSave"
+        style="@style/MyButtons"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginBottom="14dp"
+        android:layout_marginEnd="2dp"
+        android:background="@drawable/button_style"
+        android:text="@string/save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnRemove"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView" />
+
+    <Button
+        android:id="@+id/btnRemove"
+        style="@style/MyButtons"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/button_style"
+        android:text="@string/cancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnSave"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView" />
+
+    <TextView
+        android:id="@+id/txtNewMealHeader"
+        style="@style/ActivityHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/new_meal_header"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginEnd="11dp"
+        android:layout_marginStart="11dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnSave"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtNewMealHeader">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtMealNameHeader"
+                style="@style/InputHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/meal"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="147dp" />
+
+            <EditText
+                android:id="@+id/editMealName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                tools:layout_editor_absoluteX="209dp"
+                tools:layout_editor_absoluteY="147dp" />
+
+            <TextView
+                android:id="@+id/txtDescriptionHeader"
+                style="@style/InputHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/description"
+                tools:layout_editor_absoluteX="43dp"
+                tools:layout_editor_absoluteY="147dp" />
+
+            <EditText
+                android:id="@+id/editDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textMultiLine"
+                tools:layout_editor_absoluteX="43dp"
+                tools:layout_editor_absoluteY="166dp" />
+
+            <RelativeLayout
+                android:id="@+id/Portions_PriceLayout"
+                android:layout_width="match_parent"
+                android:layout_height="67dp"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="16dp">
+
+                <TextView
+                    android:id="@+id/txtAmountHeader"
+                    style="@style/InputHeader"
+                    android:layout_width="60dp"
+                    android:layout_height="16dp"
+                    android:text="@string/amount_of_portions"
+                    tools:layout_editor_absoluteX="43dp"
+                    tools:layout_editor_absoluteY="374dp" />
+
+                <EditText
+                    android:id="@+id/editAmount"
+                    android:layout_width="135dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/txtAmountHeader"
+                    android:ems="10"
+                    android:inputType="number"
+                    tools:layout_editor_absoluteX="43dp"
+                    tools:layout_editor_absoluteY="390dp" />
+
+                <TextView
+                    android:id="@+id/txtPriceHeader"
+                    style="@style/InputHeader"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/editPrice"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignStart="@+id/editPrice"
+                    android:text="@string/price"
+                    tools:layout_editor_absoluteX="190dp"
+                    tools:layout_editor_absoluteY="374dp" />
+
+                <EditText
+                    android:id="@+id/editPrice"
+                    android:layout_width="135dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtPriceHeader"
+                    android:layout_marginEnd="11dp"
+                    android:layout_marginRight="11dp"
+                    android:layout_toLeftOf="@+id/txtCurrency"
+                    android:layout_toStartOf="@+id/txtCurrency"
+                    android:ems="10"
+                    android:inputType="numberDecimal"
+                    tools:layout_editor_absoluteX="186dp"
+                    tools:layout_editor_absoluteY="393dp" />
+
+                <TextView
+                    android:id="@+id/txtCurrency"
+                    style="@style/Currency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/editPrice"
+                    android:layout_alignBottom="@+id/editPrice"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginRight="12dp"
+                    android:text="DKK"
+                    tools:layout_editor_absoluteX="32dp"
+                    tools:layout_editor_absoluteY="16dp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/DateLayout"
+                android:layout_width="match_parent"
+                android:layout_height="67dp"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="257dp">
+
+                <TextView
+                    android:id="@+id/txtDay"
+                    style="@style/InputHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="11dp"
+                    android:text="@string/day"
+                    tools:layout_editor_absoluteX="16dp"
+                    tools:layout_editor_absoluteY="349dp" />
+
+                <Spinner
+                    android:id="@+id/spinYear"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtYear"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginStart="18dp"
+                    android:layout_toEndOf="@+id/spinMonth"
+                    android:layout_toRightOf="@+id/spinMonth"
+                    tools:layout_editor_absoluteX="264dp"
+                    tools:layout_editor_absoluteY="367dp" />
+
+                <Spinner
+                    android:id="@+id/spinDay"
+                    android:layout_width="85dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/txtDay"
+                    tools:layout_editor_absoluteX="16dp"
+                    tools:layout_editor_absoluteY="367dp" />
+
+                <TextView
+                    android:id="@+id/txtMonth"
+                    style="@style/InputHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/spinMonth"
+                    android:layout_alignStart="@+id/spinMonth"
+                    android:layout_alignTop="@+id/txtDay"
+                    android:text="@string/month"
+                    tools:layout_editor_absoluteX="100dp"
+                    tools:layout_editor_absoluteY="349dp" />
+
+                <TextView
+                    android:id="@+id/txtYear"
+                    style="@style/InputHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/spinYear"
+                    android:layout_alignStart="@+id/spinYear"
+                    android:layout_alignTop="@+id/txtMonth"
+                    android:text="@string/year"
+                    tools:layout_editor_absoluteX="264dp"
+                    tools:layout_editor_absoluteY="349dp" />
+
+                <Spinner
+                    android:id="@+id/spinMonth"
+                    android:layout_width="85dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtMonth"
+                    android:layout_marginLeft="13dp"
+                    android:layout_marginStart="13dp"
+                    android:layout_toEndOf="@+id/spinDay"
+                    android:layout_toRightOf="@+id/spinDay"
+                    tools:layout_editor_absoluteX="100dp"
+                    tools:layout_editor_absoluteY="367dp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/TimeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="67dp">
+
+                <TextView
+                    android:id="@+id/txtHour"
+                    style="@style/InputHeader"
+                    android:layout_width="45dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/hour" />
+
+                <Spinner
+                    android:id="@+id/spinHour"
+                    android:layout_width="85dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/txtHour" />
+
+                <TextView
+                    android:id="@+id/txtMinute"
+                    style="@style/InputHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/spinHour"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginStart="14dp"
+                    android:layout_toEndOf="@+id/spinHour"
+                    android:layout_toRightOf="@+id/spinHour"
+                    android:text="@string/minute" />
+
+                <Spinner
+                    android:id="@+id/spinMinute"
+                    android:layout_width="85dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/spinHour"
+                    android:layout_alignLeft="@+id/txtMinute"
+                    android:layout_alignStart="@+id/txtMinute" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/txtAddressHeader"
+                style="@style/InputHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/address"
+                tools:layout_editor_absoluteX="43dp"
+                tools:layout_editor_absoluteY="225dp" />
+
+            <EditText
+                android:id="@+id/editLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                tools:layout_editor_absoluteX="43dp"
+                tools:layout_editor_absoluteY="243dp" />
+
+            <RelativeLayout
+                android:id="@+id/CityLayout"
+                android:layout_width="match_parent"
+                android:layout_height="67dp">
+
+                <TextView
+                    android:id="@+id/txtZipCode"
+                    style="@style/InputHeader"
+                    android:layout_width="110dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/zipcode"
+                    tools:layout_editor_absoluteX="43dp"
+                    tools:layout_editor_absoluteY="297dp" />
+
+                <EditText
+                    android:id="@+id/editZipCode"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/txtZipCode"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:maxLength="4"
+                    tools:layout_editor_absoluteX="43dp"
+                    tools:layout_editor_absoluteY="316dp" />
+
+                <TextView
+                    android:id="@+id/txtCityHeader"
+                    style="@style/InputHeader"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="21dp"
+                    android:layout_marginStart="21dp"
+                    android:layout_toEndOf="@+id/editZipCode"
+                    android:layout_toRightOf="@+id/editZipCode"
+                    android:text="@string/city"
+                    tools:layout_editor_absoluteX="186dp"
+                    tools:layout_editor_absoluteY="297dp" />
+
+                <EditText
+                    android:id="@+id/editCity"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/txtCityHeader"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignStart="@+id/txtCityHeader"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    tools:layout_editor_absoluteX="186dp"
+                    tools:layout_editor_absoluteY="316dp" />
+            </RelativeLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>
