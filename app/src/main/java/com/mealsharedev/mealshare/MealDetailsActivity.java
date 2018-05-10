@@ -21,16 +21,20 @@ import android.widget.Toast;
 import com.mealsharedev.mealshare.Adapters.CommentAdapter;
 import com.mealsharedev.mealshare.Models.Comment;
 import com.mealsharedev.mealshare.Models.Meal;
+import com.mealsharedev.mealshare.Models.UserSubscription;
 import com.mealsharedev.mealshare.dao.FirebaseDAO;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import static android.graphics.Color.GRAY;
 import static com.mealsharedev.mealshare.dao.FirebaseDAO.DAO_COMMENTS_EXTRA;
 import static com.mealsharedev.mealshare.dao.FirebaseDAO.DAO_GET_COMMENTS;
+import static com.mealsharedev.mealshare.dao.FirebaseDAO.DAO_GET_USERSUBSCRIPTIONS;
 import static com.mealsharedev.mealshare.dao.FirebaseDAO.DAO_MEAL_BY_ID;
 import static com.mealsharedev.mealshare.dao.FirebaseDAO.DAO_MEAL_BY_ID_EXTRA;
+import static com.mealsharedev.mealshare.dao.FirebaseDAO.DAO_USERSUBSCRIPTIONS_EXTRA;
 
 public class MealDetailsActivity extends AppCompatActivity {
 
@@ -40,6 +44,7 @@ public class MealDetailsActivity extends AppCompatActivity {
     Button btnBuy, btnBack, btnComment;
     TextView txtMeal, txtUser, txtLocation, txtTime, txtDescription, txtPrice, txtPortions;
     Meal meal;
+    Meal tmpMeal;
     ListView CommentListView;
     ArrayList<Comment> comments = new ArrayList<>();
 
@@ -67,7 +72,32 @@ public class MealDetailsActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             meal = intent.getParcelableExtra(DAO_MEAL_BY_ID_EXTRA);
             txtPortions.setText(meal.portions);
+            if (Integer.parseInt(meal.portions) < 1) {
+                btnBuy.setEnabled(false);
+                btnBuy.setBackgroundColor(GRAY);
+            }
             dao.getCommentsForMeal(meal.commentIdList);
+        }
+    };
+
+    private BroadcastReceiver userSubReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            UserSubscription subscription = intent.getParcelableExtra(DAO_USERSUBSCRIPTIONS_EXTRA);
+            for (String mealID : subscription.myMealList) {
+                if (tmpMeal.getMealId().equals(mealID)) {
+                    btnBuy.setEnabled(false);
+                    btnBuy.setBackgroundColor(GRAY);
+                    break;
+                }
+            }
+            for (String mealID : subscription.reservedMealsList) {
+                if (tmpMeal.getMealId().equals(mealID)) {
+                    btnBuy.setEnabled(false);
+                    btnBuy.setBackgroundColor(GRAY);
+                    break;
+                }
+            }
         }
     };
 
@@ -76,12 +106,16 @@ public class MealDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meal_details);
 
+        LocalBroadcastManager bMn = LocalBroadcastManager.getInstance(this);
         IntentFilter filter = new IntentFilter(DAO_GET_COMMENTS);
-        LocalBroadcastManager.getInstance(this).registerReceiver(commentsReceiver, filter);
+        bMn.registerReceiver(commentsReceiver, filter);
         IntentFilter filter1 = new IntentFilter(DAO_MEAL_BY_ID);
-        LocalBroadcastManager.getInstance(this).registerReceiver(mealReceiver, filter1);
+        bMn.registerReceiver(mealReceiver, filter1);
+        IntentFilter filter2 = new IntentFilter(DAO_GET_USERSUBSCRIPTIONS);
+        bMn.registerReceiver(userSubReceiver, filter2);
 
         dao = new FirebaseDAO(this);
+
 
         btnBuy = findViewById(R.id.btnBuy);
         btnBack = findViewById(R.id.btnBack);
@@ -115,7 +149,7 @@ public class MealDetailsActivity extends AppCompatActivity {
         txtUser = findViewById(R.id.txtUser);
 
 
-        Meal tmpMeal = getIntent().getParcelableExtra("meal");
+        tmpMeal = getIntent().getParcelableExtra("meal");
 
         txtMeal.setText(tmpMeal.mealName);
         txtDescription.setText(tmpMeal.description);
@@ -125,8 +159,18 @@ public class MealDetailsActivity extends AppCompatActivity {
         txtUser.setText(tmpMeal.displayName);
         txtPortions.setText("-");
         dao.getMealByID(tmpMeal.getMealId());
+        dao.getUsersubscriptionsForUser();
 
         InitializeListView();
+    }
+
+    @Override
+    protected void onDestroy() {
+        LocalBroadcastManager bMn = LocalBroadcastManager.getInstance(this);
+        bMn.unregisterReceiver(mealReceiver);
+        bMn.unregisterReceiver(commentsReceiver);
+        bMn.unregisterReceiver(userSubReceiver);
+        super.onDestroy();
     }
 
     public String getLocationString(Meal localMeal) {
