@@ -40,7 +40,8 @@
     <string name="main_info">Pick a meal from the list:</string>
     <string name="welcome">Welcome</string>
     <string name="comments">Comments</string>
-
+    <string name="no_portions">No portions left!</string>
+    <string name="still_updating_meal">Please wait a moment and try again</string>
     <string name="write_comment">Write a comment:</string>
     <string name="yes">YES</string>
     <string name="no">NO</string>
@@ -48,6 +49,22 @@
     <string name="reserve_question">Are you sure you want to reserve </string>
     <string name="put_comment_error">Failed to add comment</string>
     <string name="put_meal_error">Failed to create meal</string>
+    <string name="meal_shared">Your meal has been shared!</string>
+    <string name="meal_reserved">Meal reserved!</string>
+    <string name="meal_canceled">Meal reservation canceled!</string>
+    <string name="meal_deleted">Meal deleted!</string>
+    <string name="invalid_share_meal">Invalid input, check errors!</string>
+    <string name="mealWasJoined">Someone has joined your meal!</string>
+    <string name="mealWasJoined2">Someone has joined </string>
+    <string name="mealWasJoined3">. Portions left: </string>
+    <string name="mealWasCanceled">Your reservation has been cancelled!</string>
+    <string name="mealWasCanceled2">A user cancelled a meal you reserved</string>
+    <string name="mealWasCommented">A user commented on a meal!</string>
+    <string name="mealWasCommented2">A user commented on the same meal as you</string>
+    <string name="myMealWasCommented">A user commented your meal!</string>
+    <string name="myMealWasCommented2">A user wrote a comment on your meal: </string>
+
+
 
     <string-array name="day_array">
         <item>01</item>
