@@ -34,10 +34,11 @@ import static com.mealsharedev.mealshare.dao.FirebaseDAO.DAO_RESERVED_MEALS_EXTR
 public class SubscriptionService extends Service {
 
     private final IBinder binder = new SubscriptionServiceBinder();
-    public static final long UPDATE_INTERVAL_MILLIS = 120000/4; //3sek
+    public static final long UPDATE_INTERVAL_MILLIS = 120000/6; //3sek
     private Timer updateScheduler;
     public ArrayList<Meal> subscribedMeals;
     public ArrayList<Meal> myMeals;
+    public ArrayList<Meal> commentMeals;
     private FirebaseDAO dao;
     private NotificationHandler notificationHandler;
 
@@ -52,6 +53,8 @@ public class SubscriptionService extends Service {
         public void onReceive(Context context, Intent intent) {
             ArrayList<Meal> tempMeals = intent.getParcelableArrayListExtra(DAO_MY_MEALS_EXTRA);
             CheckForNewCommentsOnMyMeals(tempMeals);
+            CheckForNewAssignments(tempMeals);
+            myMeals = tempMeals;
         }
     };
 
@@ -121,17 +124,17 @@ public class SubscriptionService extends Service {
                     }
                 }
             }
-        }}
-        myMeals = newMyMealList;
+        }
+        }
     }
 
     public void CheckForNewCommentsOnSubscribedMeals(ArrayList<Meal> newMealList)
     {
-        if(subscribedMeals!=null)
+        if(commentMeals!=null)
         {
         for(Meal newItem : newMealList)
         {
-            for(Meal item : subscribedMeals)
+            for(Meal item : commentMeals)
             {
                 if(item.getMealId().equals(newItem.getMealId()))
                 {
@@ -141,8 +144,31 @@ public class SubscriptionService extends Service {
                     }
                 }
             }
-        }}
-        subscribedMeals = newMealList;
+        }
+        }
+        commentMeals = newMealList;
+    }
+
+    public void CheckForNewAssignments(ArrayList<Meal> newMyMealList)
+    {
+        if(myMeals!=null)
+        {
+            for(Meal newItem : newMyMealList)
+            {
+                for(Meal item : myMeals)
+                {
+                    if(item.getMealId().equals(newItem.getMealId()))
+                    {
+                        int newPortions = Integer.parseInt(newItem.portions);
+                        int oldPortions = Integer.parseInt(item.portions);
+                        if(newPortions < oldPortions)
+                        {
+                            notificationHandler.NotifyMealReserved(newItem);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public void CheckForRemovedMeals(ArrayList<Meal> newSubscribedList)

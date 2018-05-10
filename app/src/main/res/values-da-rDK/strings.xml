@@ -50,6 +50,16 @@
     <string name="meal_canceled">Reservation afmeldt!</string>
     <string name="meal_deleted">Måltid aflyst!</string>
     <string name="invalid_share_meal">Nogle felter havde fejl!</string>
+    <string name="mealWasJoined">En bruger har reserveret dit måltid!</string>
+    <string name="mealWasJoined2">En bruger har reserveret: </string>
+    <string name="mealWasJoined3">. Resterende portioner: </string>
+    <string name="mealWasCanceled">Din reservation blev annulleret!</string>
+    <string name="mealWasCanceled2">En bruger har aflyst et måltid du reserverede</string>
+    <string name="mealWasCommented">En bruger kommenterede et måltid!</string>
+    <string name="mealWasCommented2">En bruger kommenterede det samme måltid som dig!</string>
+    <string name="myMealWasCommented">En bruger kommenterede dit måltid</string>
+    <string name="myMealWasCommented2">En bruger kommenterede dit måltid: </string>
+
 
     <string-array name="day_array">
         <item>01</item>

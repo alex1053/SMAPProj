@@ -31,9 +31,9 @@ public class NotificationHandler {
 
         notificationManagerCompat = NotificationManagerCompat.from(context);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_launcher_background)
-                .setContentTitle("A meal has been cancelled!")
-                .setContentText("A user has cancelled a meal you were assigned to")
+                .setSmallIcon(R.drawable.notification_icon)
+                .setContentTitle(context.getString(R.string.mealWasCanceled))
+                .setContentText(context.getString(R.string.mealWasCanceled2))
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setContentIntent(getPendingIntentMain());
         notificationManagerCompat.notify(1,mBuilder.build());
@@ -45,9 +45,9 @@ public class NotificationHandler {
 
         notificationManagerCompat = NotificationManagerCompat.from(context);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_launcher_background)
-                .setContentTitle("Someone has joined your meal!")
-                .setContentText("A user has joined " + meal.mealName + ". Portions left: " + meal.portions)
+                .setSmallIcon(R.drawable.notification_icon)
+                .setContentTitle(context.getString(R.string.mealWasJoined))
+                .setContentText(context.getString(R.string.mealWasJoined2) + meal.mealName + context.getString(R.string.mealWasJoined3) + meal.portions)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setContentIntent(getPendingIntentMealDetails(meal));
         notificationManagerCompat.notify(1,mBuilder.build());
@@ -60,8 +60,8 @@ public class NotificationHandler {
         notificationManagerCompat = NotificationManagerCompat.from(context);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.notification_icon)
-                .setContentTitle("User has comment on a meal!")
-                .setContentText("A user has comment on the same meal as you")
+                .setContentTitle(context.getString(R.string.mealWasCommented))
+                .setContentText(context.getString(R.string.mealWasCommented2))
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setContentIntent(getPendingIntentMealDetails(meal));
         notificationManagerCompat.notify(1,mBuilder.build());
@@ -73,9 +73,9 @@ public class NotificationHandler {
 
         notificationManagerCompat = NotificationManagerCompat.from(context);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_launcher_background)
-                .setContentTitle("A user has comment on your meal!")
-                .setContentText("A user has written a comment on your meal: " + meal.mealName)
+                .setSmallIcon(R.drawable.notification_icon)
+                .setContentTitle(context.getString(R.string.myMealWasCommented))
+                .setContentText(context.getString(R.string.myMealWasCommented2) + meal.mealName)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setContentIntent(getPendingIntentMealDetails(meal));
         notificationManagerCompat.notify(1,mBuilder.build());
@@ -84,8 +84,8 @@ public class NotificationHandler {
     public void initChannel()
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            notificationChannel = new NotificationChannel(CHANNEL_ID, "Weather App", NotificationManager.IMPORTANCE_DEFAULT);
-            notificationChannel.setDescription("Weather App Channel");
+            notificationChannel = new NotificationChannel(CHANNEL_ID, "mealShare", NotificationManager.IMPORTANCE_DEFAULT);
+            notificationChannel.setDescription("MealShare Channel");
             notificationManager.createNotificationChannel(notificationChannel);
         }
     }
