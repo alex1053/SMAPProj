@@ -50,6 +50,10 @@
     <string name="put_comment_error">Failed to add comment</string>
     <string name="put_meal_error">Failed to create meal</string>
     <string name="meal_shared">Your meal has been shared!</string>
+    <string name="meal_reserved">Meal reserved!</string>
+    <string name="meal_canceled">Meal reservation canceled!</string>
+    <string name="meal_deleted">Meal deleted!</string>
+    <string name="invalid_share_meal">Invalid input, check errors!</string>
 
     <string-array name="day_array">
         <item>01</item>

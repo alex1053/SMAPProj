@@ -46,6 +46,10 @@
     <string name="put_comment_error">Kunne ikke oprette kommentar</string>
     <string name="put_meal_error">Kunne ikke oprette måltid</string>
     <string name="meal_shared">Dit måltid er delt!</string>
+    <string name="meal_reserved">Måltid reserveret!</string>
+    <string name="meal_canceled">Reservation afmeldt!</string>
+    <string name="meal_deleted">Måltid aflyst!</string>
+    <string name="invalid_share_meal">Nogle felter havde fejl!</string>
 
     <string-array name="day_array">
         <item>01</item>
