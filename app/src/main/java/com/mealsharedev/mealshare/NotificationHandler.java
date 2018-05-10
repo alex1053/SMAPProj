@@ -25,7 +25,7 @@ public class NotificationHandler {
         notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
-    public void NotifyMealRemoved(Meal meal)
+    public void NotifyMealRemoved()
     {
         initChannel();
 
@@ -33,7 +33,7 @@ public class NotificationHandler {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_launcher_background)
                 .setContentTitle("A meal has been cancelled!")
-                .setContentText("A user has cancelled " + meal.mealName + " at " + meal.timeStamp)
+                .setContentText("A user has cancelled a meal you were assigned to")
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setContentIntent(getPendingIntentMain());
         notificationManagerCompat.notify(1,mBuilder.build());

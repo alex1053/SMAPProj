@@ -48,6 +48,7 @@
         <activity android:name=".MyMealsActivity" />
 
         <service android:name=".services.MealUpdateService"/>
+        <service android:name=".services.SubscriptionService"/>
 
     </application>
 
