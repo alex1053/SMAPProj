@@ -31,6 +31,7 @@ public class FirebaseDAO {
     //Action names
     public static final String DAO_GET_ALL_MEALS = "getAllMeals";
     public static final String DAO_GET_MY_MEALS = "getMyMeals";
+    public static final String DAO_GET_USERSUBSCRIPTIONS = "userSubscriptions";
     public static final String DAO_GET_RESERVED_MEALS = "getReservedMeals";
     public static final String DAO_GET_COMMENTED_MEALS = "getCommentedMeals";
     public static final String DAO_GET_COMMENTS = "getCommentsForMeal";
@@ -39,6 +40,7 @@ public class FirebaseDAO {
     //Extra names
     public static final String DAO_ALL_MEALS_EXTRA = "allMealsExtra";
     public static final String DAO_MY_MEALS_EXTRA = "myMealsExtra";
+    public static final String DAO_USERSUBSCRIPTIONS_EXTRA = "userSubscriptions";
     public static final String DAO_RESERVED_MEALS_EXTRA = "reservedMealsExtra";
     public static final String DAO_COMMENTED_MEALS_EXTRA = "commentedMealsExtra";
     public static final String DAO_COMMENTS_EXTRA = "commentsExtra";
@@ -69,6 +71,22 @@ public class FirebaseDAO {
                             }
                             Intent intent = new Intent(DAO_GET_ALL_MEALS);
                             intent.putExtra(DAO_ALL_MEALS_EXTRA, tmpList);
+                            LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                        }
+                    }
+                });
+    }
+
+    public void getUsersubscriptionsForUser() {
+        String userID = getCurrentUserID();
+        mFF.collection(context.getString(R.string.subscriptionCollection)).document(userID).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            UserSubscription tmp = new UserSubscription(task.getResult().getData());
+                            Intent intent = new Intent(DAO_GET_USERSUBSCRIPTIONS);
+                            intent.putExtra(DAO_USERSUBSCRIPTIONS_EXTRA, tmp);
                             LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
                         }
                     }
