@@ -18,12 +18,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.mealsharedev.mealshare.Adapters.MealAdapter;
 import com.mealsharedev.mealshare.Models.Meal;
 import com.mealsharedev.mealshare.services.MealUpdateService;
+import com.mealsharedev.mealshare.services.SubscriptionService;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
 public class MainActivity extends headerActivity {
     MealUpdateService updateService;
+    SubscriptionService subscriptionService;
     private static final int NEW_MEAL_REQUEST_CODE = 1;
     private static final int DETAILS_REQUEST_CODE = 2;
     private static final int MY_MEALS_REQUEST_CODE = 3;
@@ -52,6 +54,18 @@ public class MainActivity extends headerActivity {
         }
     };
 
+    ServiceConnection subscriptionServiceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            subscriptionService = ((SubscriptionService.SubscriptionServiceBinder) service).getService();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    };
+
     BroadcastReceiver signOutReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -70,6 +84,7 @@ public class MainActivity extends headerActivity {
         setContentView(R.layout.activity_main);
         InitializaListView();
         bindToUpdateService();
+        bindToSubscriptionService();
 
         IntentFilter signOutFilter = new IntentFilter(SIGNOUT_BROADCAST);
         LocalBroadcastManager.getInstance(this).registerReceiver(signOutReceiver, signOutFilter);
@@ -100,6 +115,11 @@ public class MainActivity extends headerActivity {
         bindService(intent, updateServiceConnection, BIND_AUTO_CREATE);
         IntentFilter filter = new IntentFilter(MealUpdateService.NEW_MEALS_AVAILABLE);
         LocalBroadcastManager.getInstance(this).registerReceiver(updateReceiver, filter);
+    }
+
+    private void bindToSubscriptionService() {
+        Intent intent = new Intent(this, SubscriptionService.class);
+        bindService(intent, subscriptionServiceConnection, BIND_AUTO_CREATE);
     }
 
     public void OpenNewMealActivity() {
