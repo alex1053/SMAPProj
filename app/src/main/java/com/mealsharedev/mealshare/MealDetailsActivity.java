@@ -29,11 +29,13 @@ import java.util.Comparator;
 
 import static com.mealsharedev.mealshare.dao.FirebaseDAO.DAO_COMMENTS_EXTRA;
 import static com.mealsharedev.mealshare.dao.FirebaseDAO.DAO_GET_COMMENTS;
+import static com.mealsharedev.mealshare.dao.FirebaseDAO.DAO_MEAL_BY_ID;
+import static com.mealsharedev.mealshare.dao.FirebaseDAO.DAO_MEAL_BY_ID_EXTRA;
 
 public class MealDetailsActivity extends AppCompatActivity {
 
     CommentAdapter mealAdapter;
-    FirebaseDAO DAO;
+    FirebaseDAO dao;
 
     Button btnBuy, btnBack, btnComment;
     TextView txtMeal, txtUser, txtLocation, txtTime, txtDescription, txtPrice, txtPortions;
@@ -45,16 +47,27 @@ public class MealDetailsActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             ArrayList<Comment> tmpList = intent.getParcelableArrayListExtra(DAO_COMMENTS_EXTRA);
-            comments.clear();
-            comments.addAll(tmpList != null ? tmpList : new ArrayList<>());
+            if (tmpList != null) {
+                comments.clear();
+                comments.addAll(tmpList);
 
-            Collections.sort(comments, new Comparator<Comment>() {
-                @Override
-                public int compare(Comment o1, Comment o2) {
-                    return o1.getCommentDate().compareTo(o2.getCommentDate());
-                }
-            });
-            mealAdapter.notifyDataSetChanged();
+                Collections.sort(comments, new Comparator<Comment>() {
+                    @Override
+                    public int compare(Comment o1, Comment o2) {
+                        return o1.getCommentDate().compareTo(o2.getCommentDate());
+                    }
+                });
+                mealAdapter.notifyDataSetChanged();
+            }
+        }
+    };
+
+    private BroadcastReceiver mealReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            meal = intent.getParcelableExtra(DAO_MEAL_BY_ID_EXTRA);
+            txtPortions.setText(meal.portions);
+            dao.getCommentsForMeal(meal.commentIdList);
         }
     };
 
@@ -65,8 +78,10 @@ public class MealDetailsActivity extends AppCompatActivity {
 
         IntentFilter filter = new IntentFilter(DAO_GET_COMMENTS);
         LocalBroadcastManager.getInstance(this).registerReceiver(commentsReceiver, filter);
+        IntentFilter filter1 = new IntentFilter(DAO_MEAL_BY_ID);
+        LocalBroadcastManager.getInstance(this).registerReceiver(mealReceiver, filter1);
 
-        DAO = new FirebaseDAO(this);
+        dao = new FirebaseDAO(this);
 
         btnBuy = findViewById(R.id.btnBuy);
         btnBack = findViewById(R.id.btnBack);
@@ -74,6 +89,7 @@ public class MealDetailsActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                setResult(RESULT_OK);
                 finish();
             }
         });
@@ -90,10 +106,6 @@ public class MealDetailsActivity extends AppCompatActivity {
             }
         });
 
-
-        meal = getIntent().getParcelableExtra("meal");
-        DAO.getCommentsForMeal(meal.commentIdList);
-
         txtMeal = findViewById(R.id.txtMealDetailHeader);
         txtDescription = findViewById(R.id.txtDescription);
         txtLocation = findViewById(R.id.txtLocation);
@@ -102,49 +114,64 @@ public class MealDetailsActivity extends AppCompatActivity {
         txtPortions = findViewById(R.id.txtPortions);
         txtUser = findViewById(R.id.txtUser);
 
-        txtMeal.setText(meal.mealName);
-        txtDescription.setText(meal.description);
-        txtLocation.setText(getLocationString());
-        txtTime.setText(meal.timeStamp);
-        txtPrice.setText(meal.price + " " + getResources().getString(R.string.DKK));
-        txtUser.setText(meal.displayName);
-        txtPortions.setText(meal.portions);
+
+        Meal tmpMeal = getIntent().getParcelableExtra("meal");
+
+        txtMeal.setText(tmpMeal.mealName);
+        txtDescription.setText(tmpMeal.description);
+        txtLocation.setText(getLocationString(tmpMeal));
+        txtTime.setText(tmpMeal.timeStamp);
+        txtPrice.setText(tmpMeal.price + " " + getResources().getString(R.string.DKK));
+        txtUser.setText(tmpMeal.displayName);
+        txtPortions.setText("-");
+        dao.getMealByID(tmpMeal.getMealId());
 
         InitializeListView();
     }
 
-    public String getLocationString() {
-        return meal.address + ", " + meal.zipCode + " " + meal.city;
+    public String getLocationString(Meal localMeal) {
+        return localMeal.address + ", " + localMeal.zipCode + " " + localMeal.city;
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResult(RESULT_CANCELED);
+        super.onBackPressed();
     }
 
     //Inspired by: https://stackoverflow.com/questions/10903754/input-text-dialog-android?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
     public void OpenDialogWindow() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.reserve);
+        if (meal != null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(R.string.reserve);
 
-        builder.setMessage(getResources().getString(R.string.reserve_question) + " " + meal.mealName + " for " + meal.price + " " + getResources().getString(R.string.DKK) + "?");
+            builder.setMessage(getResources().getString(R.string.reserve_question) + " " + meal.mealName + " for " + meal.price + " " + getResources().getString(R.string.DKK) + "?");
 
-        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (Integer.parseInt(meal.portions) < 1) {
-                    Toast.makeText(getApplicationContext(), R.string.no_portions, Toast.LENGTH_LONG).show();
-                    dialog.cancel();
-                } else {
-                    meal.portions = String.valueOf(Integer.parseInt(meal.portions) - 1);
-                    DAO.updateMeal(meal);
-                    finish();
+            builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (Integer.parseInt(meal.portions) < 1) {
+                        Toast.makeText(getApplicationContext(), R.string.no_portions, Toast.LENGTH_LONG).show();
+                        dialog.cancel();
+                    } else {
+                        meal.portions = String.valueOf(Integer.parseInt(meal.portions) - 1);
+                        dao.updateMeal(meal);
+                        setResult(RESULT_OK);
+                        finish();
+                    }
                 }
-            }
-        });
-        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
+            });
+            builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
 
-        builder.show();
+            builder.show();
+        } else {
+            Toast.makeText(getApplicationContext(), R.string.still_updating_meal, Toast.LENGTH_LONG).show();
+        }
     }
 
     public void OpenCommentDialogWindow() {
@@ -159,8 +186,7 @@ public class MealDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Comment comment = new Comment(newComment.getText().toString());
-                DAO.putComment(comment, meal);
-                DAO.getCommentsForMeal(meal.commentIdList);
+                dao.putComment(comment, meal);
                 comments.add(comment);
                 mealAdapter.notifyDataSetChanged();
                 dialog.cancel();

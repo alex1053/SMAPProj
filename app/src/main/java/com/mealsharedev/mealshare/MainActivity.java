@@ -20,7 +20,6 @@ import com.mealsharedev.mealshare.Models.Meal;
 import com.mealsharedev.mealshare.services.MealUpdateService;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class MainActivity extends headerActivity {
     MealUpdateService updateService;
@@ -122,34 +121,13 @@ public class MainActivity extends headerActivity {
     public void OpenMealDetails(Meal meal) {
         Intent intent = new Intent(this, MealDetailsActivity.class);
         intent.putExtra("meal", meal);
-        startActivity(intent);
+        startActivityForResult(intent, DETAILS_REQUEST_CODE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case NEW_MEAL_REQUEST_CODE:
-                    Meal newMeal = data.getParcelableExtra("meal");
-                    meals.add(newMeal);
-                    break;
-                case MY_MEALS_REQUEST_CODE:
-                    ArrayList<Meal> tmpList = data.getParcelableArrayListExtra("deletedMeals");
-                    for (Meal meal : tmpList) {
-                        Iterator<Meal> i = meals.iterator();
-                        while (i.hasNext()) {
-                            Meal old = i.next();
-                            if(meal.getMealId().equals(old.getMealId())) {
-                                i.remove();
-                                break;
-                            }
-                        }
-                    }
-                    break;
-            }
-            mealOverviewAdapter.notifyDataSetChanged();
-        }
+        updateService.updateMeals();
     }
 
     @Override

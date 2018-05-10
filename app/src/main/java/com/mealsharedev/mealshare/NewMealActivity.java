@@ -15,11 +15,9 @@ import android.widget.Toast;
 import com.mealsharedev.mealshare.Models.Meal;
 import com.mealsharedev.mealshare.dao.FirebaseDAO;
 
-import java.util.ArrayList;
-
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class NewMealActivity extends AppCompatActivity {
@@ -74,7 +72,7 @@ public class NewMealActivity extends AppCompatActivity {
     }
 
     private boolean CheckErrorFlags() {
-            ValidateDate();
+        ValidateDate();
         if (mealName.getText().toString().length() == 0)
             mealName.setError(getText(R.string.validate_empty_field));
         if (mealDescription.getText().toString().length() == 0)
@@ -122,7 +120,7 @@ public class NewMealActivity extends AppCompatActivity {
                     Meal meal = writeNewMeal();
                     Intent intent = new Intent();
                     intent.putExtra("meal", meal);
-                    setResult(RESULT_OK, intent);
+                    setResult(RESULT_CANCELED, intent);
                     finish();
                 }
             }
@@ -165,7 +163,7 @@ public class NewMealActivity extends AppCompatActivity {
     }
 
     private void ValidateDate() {
-        String input = spinDay.getSelectedItem().toString() + " " + spinMonth.getSelectedItem().toString() + " " + spinYear.getSelectedItem().toString() + " " +  spinHour.getSelectedItem().toString() + ":" + spinMinute.getSelectedItem().toString();
+        String input = spinDay.getSelectedItem().toString() + " " + spinMonth.getSelectedItem().toString() + " " + spinYear.getSelectedItem().toString() + " " + spinHour.getSelectedItem().toString() + ":" + spinMinute.getSelectedItem().toString();
 
         SimpleDateFormat parser = new SimpleDateFormat("dd MM yyyy HH:mm");
         Date mealdate = null;
@@ -185,7 +183,7 @@ public class NewMealActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        if(mealdate.before(today)) {
+        if (mealdate.before(today)) {
             Toast.makeText(NewMealActivity.this, "You need to pick a valid date", Toast.LENGTH_SHORT).show();
         }
     }

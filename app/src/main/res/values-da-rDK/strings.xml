@@ -37,6 +37,7 @@
     <string name="welcome">Velkommen</string>
     <string name="comments">Kommentarer</string>
     <string name="no_portions">Ingen potioner tilbage!</string>
+    <string name="still_updating_meal">Vent venligst et øjeblik, og prøv igen</string>
     <string name="write_comment">Skriv en kommentar:</string>
     <string name="yes">JA</string>
     <string name="no">NEJ</string>
