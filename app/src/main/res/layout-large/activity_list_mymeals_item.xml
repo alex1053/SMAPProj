@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="132dp"
+        android:layout_width="630dp"
+        android:layout_height="114dp">
+
+        <TextView
+            android:id="@+id/txtMealName"
+            style="@style/MealName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="12dp"
+            android:text="Lasagna"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/txtTimeStamp"
+            style="@style/ListViewInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/txtMealName"
+            android:layout_marginEnd="33dp"
+            android:layout_marginRight="33dp"
+            android:text="TextView"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/txtLocation"
+            style="@style/ListViewInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/txtMealName"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:text="8200, Aarhus N"
+            android:textSize="24sp" />
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>

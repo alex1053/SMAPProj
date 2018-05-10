@@ -60,6 +60,7 @@
     <string name="myMealWasCommented">En bruger kommenterede dit måltid</string>
     <string name="myMealWasCommented2">En bruger kommenterede dit måltid: </string>
 
+
     <string-array name="day_array">
         <item>01</item>
         <item>02</item>

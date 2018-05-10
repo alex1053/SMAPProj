@@ -10,6 +10,7 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -77,7 +78,7 @@ public class LoginActivity extends headerActivity {
         });
         if (mAuth.getCurrentUser() != null) {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, 1);
         }
     }
 
@@ -85,19 +86,11 @@ public class LoginActivity extends headerActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
-    }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-//        setHeadings(currentUser.getDisplayName());
-        if (currentUser != null) {
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra("user", currentUser.getDisplayName());
-            //intent.putExtra("picURL", currentUser.getPhotoUrl().toString());
-            startActivity(intent);
+        if (requestCode == 1) {
+            if (resultCode == RESULT_CANCELED) {
+                finish();
+            }
         }
     }
 
@@ -120,8 +113,7 @@ public class LoginActivity extends headerActivity {
                             setUpSubscriptions(userSub);
 
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            intent.putExtra("user", user.getDisplayName());
-                            startActivity(intent);
+                            startActivityForResult(intent, 1);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("signinFail", "signInWithCredential:failure", task.getException());
@@ -155,8 +147,8 @@ public class LoginActivity extends headerActivity {
         mDB.collection(SUBSCRIPTIONS).document(user.getUserUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful() && task.getResult().getData() == null) {
-                   mDB.collection(SUBSCRIPTIONS).document(user.getUserUid()).set(user);
+                if (task.isSuccessful() && task.getResult().getData() == null) {
+                    mDB.collection(SUBSCRIPTIONS).document(user.getUserUid()).set(user);
                 }
             }
         });

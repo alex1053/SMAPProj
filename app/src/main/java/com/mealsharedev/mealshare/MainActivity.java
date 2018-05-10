@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.mealsharedev.mealshare.Adapters.MealAdapter;
 import com.mealsharedev.mealshare.Models.Meal;
@@ -21,7 +22,6 @@ import com.mealsharedev.mealshare.services.MealUpdateService;
 import com.mealsharedev.mealshare.services.SubscriptionService;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class MainActivity extends headerActivity {
     MealUpdateService updateService;
@@ -69,6 +69,7 @@ public class MainActivity extends headerActivity {
     BroadcastReceiver signOutReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            MainActivity.this.setResult(RESULT_OK);
             finish();
         }
     };
@@ -106,8 +107,13 @@ public class MainActivity extends headerActivity {
             }
         });
 
-        Intent intent = getIntent();
-        setHeadings(intent.getStringExtra("user"));
+        setHeadings(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResult(RESULT_CANCELED);
+        super.onBackPressed();
     }
 
     private void bindToUpdateService() {
@@ -135,34 +141,13 @@ public class MainActivity extends headerActivity {
     public void OpenMealDetails(Meal meal) {
         Intent intent = new Intent(this, MealDetailsActivity.class);
         intent.putExtra("meal", meal);
-        startActivity(intent);
+        startActivityForResult(intent, DETAILS_REQUEST_CODE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case NEW_MEAL_REQUEST_CODE:
-                    Meal newMeal = data.getParcelableExtra("meal");
-                    meals.add(newMeal);
-                    break;
-                case MY_MEALS_REQUEST_CODE:
-                    ArrayList<Meal> tmpList = data.getParcelableArrayListExtra("deletedMeals");
-                    for (Meal meal : tmpList) {
-                        Iterator<Meal> i = meals.iterator();
-                        while (i.hasNext()) {
-                            Meal old = i.next();
-                            if(meal.getMealId().equals(old.getMealId())) {
-                                i.remove();
-                                break;
-                            }
-                        }
-                    }
-                    break;
-            }
-            mealOverviewAdapter.notifyDataSetChanged();
-        }
+        updateService.updateMeals();
     }
 
     @Override

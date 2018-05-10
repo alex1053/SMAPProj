@@ -25,29 +25,37 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
+
 public class FirebaseDAO {
     //Action names
     public static final String DAO_GET_ALL_MEALS = "getAllMeals";
     public static final String DAO_GET_MY_MEALS = "getMyMeals";
+    public static final String DAO_GET_USERSUBSCRIPTIONS = "userSubscriptions";
     public static final String DAO_GET_RESERVED_MEALS = "getReservedMeals";
     public static final String DAO_GET_COMMENTED_MEALS = "getCommentedMeals";
     public static final String DAO_GET_COMMENTS = "getCommentsForMeal";
+    public static final String DAO_MEAL_BY_ID = "mealById";
 
     //Extra names
     public static final String DAO_ALL_MEALS_EXTRA = "allMealsExtra";
     public static final String DAO_MY_MEALS_EXTRA = "myMealsExtra";
+    public static final String DAO_USERSUBSCRIPTIONS_EXTRA = "userSubscriptions";
     public static final String DAO_RESERVED_MEALS_EXTRA = "reservedMealsExtra";
     public static final String DAO_COMMENTED_MEALS_EXTRA = "commentedMealsExtra";
     public static final String DAO_COMMENTS_EXTRA = "commentsExtra";
+    public static final String DAO_MEAL_BY_ID_EXTRA = "mealById";
 
     private FirebaseFirestore mFF;
     private FirebaseAuth mFA;
     private Context context;
+    private String userID;
 
     public FirebaseDAO(Context outsideContext) {
         context = outsideContext;
         mFF = FirebaseFirestore.getInstance();
         mFA = FirebaseAuth.getInstance();
+        userID = mFA.getCurrentUser().getUid();
     }
 
     public void getAllMeals() {
@@ -71,8 +79,22 @@ public class FirebaseDAO {
                 });
     }
 
+    public void getUsersubscriptionsForUser() {
+        mFF.collection(context.getString(R.string.subscriptionCollection)).document(userID).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            UserSubscription tmp = new UserSubscription(task.getResult().getData());
+                            Intent intent = new Intent(DAO_GET_USERSUBSCRIPTIONS);
+                            intent.putExtra(DAO_USERSUBSCRIPTIONS_EXTRA, tmp);
+                            LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                        }
+                    }
+                });
+    }
+
     public void getMyMeals() {
-        String userID = getCurrentUserID();
         ArrayList<Meal> mealList = new ArrayList<>();
         mFF.collection(context.getString(R.string.subscriptionCollection)).document(userID).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -106,9 +128,21 @@ public class FirebaseDAO {
                 });
     }
 
+    public void getMealByID(String id) {
+        mFF.collection(context.getString(R.string.mealCollection)).document(id).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            Intent intent = new Intent(DAO_MEAL_BY_ID);
+                            intent.putExtra(DAO_MEAL_BY_ID_EXTRA, new Meal(task.getResult().getData()));
+                            LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                        }
+                    }
+                });
+    }
 
     public void getReservedMeals() {
-        String userID = getCurrentUserID();
         ArrayList<Meal> mealList = new ArrayList<>();
         mFF.collection(context.getString(R.string.subscriptionCollection)).document(userID).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -143,7 +177,6 @@ public class FirebaseDAO {
     }
 
     public void getCommentedMealsForUser() {
-        String userID = getCurrentUserID();
         ArrayList<Meal> mealList = new ArrayList<>();
         mFF.collection(context.getString(R.string.subscriptionCollection)).document(userID).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -220,7 +253,6 @@ public class FirebaseDAO {
         meal.commentIdList.add(comment.getCommentId());
         mFF.collection(context.getString(R.string.mealCollection)).document(meal.getMealId()).set(meal);
 
-        String userID = getCurrentUserID();
         mFF.collection(context.getString(R.string.subscriptionCollection)).document(userID)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -246,7 +278,7 @@ public class FirebaseDAO {
                                 if (!found) {
                                     subscriptions.commentedList.add(meal.getMealId());
                                     mFF.collection(context.getString(R.string.subscriptionCollection))
-                                            .document(getCurrentUserID()).set(subscriptions);
+                                            .document(userID).set(subscriptions);
                                 }
                             }
                         }
@@ -254,8 +286,51 @@ public class FirebaseDAO {
                 });
     }
 
+    public void reserveMeal(Meal meal) {
+        updateMeal(meal, true);
+    }
+
+    public void optOutMeal(Meal meal) {
+        updateMeal(meal, false);
+    }
+
+    private void updateMeal(Meal meal, boolean reserve) {
+        mFF.collection(context.getString(R.string.mealCollection)).document(meal.getMealId()).set(meal).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                if (reserve) {
+                    Toast.makeText(getApplicationContext(), context.getString(R.string.meal_reserved), Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), context.getString(R.string.meal_canceled), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        mFF.collection(context.getString(R.string.subscriptionCollection)).document(userID).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            UserSubscription tmp = new UserSubscription(task.getResult().getData());
+                            if (reserve) {
+                                tmp.reservedMealsList.add(meal.getMealId());
+                            } else {
+                                Iterator<String> i = tmp.reservedMealsList.iterator();
+                                while (i.hasNext()) {
+                                    String mealId = i.next();
+                                    if (mealId.equals(meal.getMealId())) {
+                                        i.remove();
+                                        break;
+                                    }
+                                }
+                            }
+                            mFF.collection(context.getString(R.string.subscriptionCollection))
+                                    .document(userID).set(tmp);
+                        }
+                    }
+                });
+    }
+
     public void putMeal(Meal meal) {
-        String userID = getCurrentUserID();
         mFF.collection(context.getString(R.string.subscriptionCollection)).document(userID)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -265,7 +340,7 @@ public class FirebaseDAO {
                             UserSubscription subscriptions = new UserSubscription(task.getResult().getData());
                             subscriptions.myMealList.add(meal.getMealId());
                             mFF.collection(context.getString(R.string.subscriptionCollection))
-                                    .document(getCurrentUserID()).set(subscriptions);
+                                    .document(userID).set(subscriptions);
                         }
                     }
                 });
@@ -274,6 +349,7 @@ public class FirebaseDAO {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+                        Toast.makeText(getApplicationContext(), R.string.meal_shared, Toast.LENGTH_SHORT).show();
                         Log.d("putMeal", "Success");
                     }
                 })
@@ -298,7 +374,7 @@ public class FirebaseDAO {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 UserSubscription subscription = new UserSubscription(document.getData());
-                                if (subscription.getUserUid().equals(getCurrentUserID())) {
+                                if (subscription.getUserUid().equals(userID)) {
                                     Iterator<String> i = subscription.myMealList.iterator();
                                     while (i.hasNext()) {
                                         String tmp = i.next();
@@ -330,10 +406,6 @@ public class FirebaseDAO {
                         }
                     }
                 });
-    }
-
-    public String getCurrentUserID() {
-        return mFA.getCurrentUser().getUid();
     }
 
     public String getCurrentUserDisplayName() {

@@ -1,6 +1,5 @@
 package com.mealsharedev.mealshare;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -15,11 +14,9 @@ import android.widget.Toast;
 import com.mealsharedev.mealshare.Models.Meal;
 import com.mealsharedev.mealshare.dao.FirebaseDAO;
 
-import java.util.ArrayList;
-
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class NewMealActivity extends AppCompatActivity {
@@ -50,7 +47,7 @@ public class NewMealActivity extends AppCompatActivity {
 
     }
 
-    private Meal writeNewMeal() {
+    private void writeNewMeal() {
         String displayName = dao.getCurrentUserDisplayName();
         Meal meal = new Meal(displayName,
                 mealName.getText().toString(),
@@ -64,7 +61,6 @@ public class NewMealActivity extends AppCompatActivity {
                 new ArrayList<>());
 
         dao.putMeal(meal);
-        return meal;
     }
 
 
@@ -74,7 +70,7 @@ public class NewMealActivity extends AppCompatActivity {
     }
 
     private boolean CheckErrorFlags() {
-            ValidateDate();
+        boolean dateVal = ValidateDate();
         if (mealName.getText().toString().length() == 0)
             mealName.setError(getText(R.string.validate_empty_field));
         if (mealDescription.getText().toString().length() == 0)
@@ -92,15 +88,17 @@ public class NewMealActivity extends AppCompatActivity {
         if (mealPrice.getText().toString().length() == 0)
             mealPrice.setError(getText(R.string.validate_empty_field));
 
-        if (mealName.getError() == null ||
-                mealDescription.getError() == null ||
-                mealPrice.getError() == null ||
-                mealAmount.getError() == null ||
-                mealCity.getError() == null ||
-                mealZipCode.getError() == null ||
-                mealLocation.getError() == null) {
+        if (mealName.getError() == null &&
+                mealDescription.getError() == null &&
+                mealPrice.getError() == null &&
+                mealAmount.getError() == null &&
+                mealCity.getError() == null &&
+                mealZipCode.getError() == null &&
+                mealLocation.getError() == null &&
+                dateVal) {
             return true;
         } else {
+            Toast.makeText(this, getString(R.string.invalid_share_meal), Toast.LENGTH_SHORT).show();
             return false;
         }
     }
@@ -119,11 +117,8 @@ public class NewMealActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (CheckErrorFlags()) {
-                    Meal meal = writeNewMeal();
-                    Toast.makeText(NewMealActivity.this, "Your meal is now shared!", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent();
-                    intent.putExtra("meal", meal);
-                    setResult(RESULT_OK, intent);
+                    writeNewMeal();
+                    setResult(RESULT_OK);
                     finish();
                 }
             }
@@ -165,8 +160,8 @@ public class NewMealActivity extends AppCompatActivity {
         spinMinute.setAdapter(minutadapter);
     }
 
-    private void ValidateDate() {
-        String input = spinDay.getSelectedItem().toString() + " " + spinMonth.getSelectedItem().toString() + " " + spinYear.getSelectedItem().toString() + " " +  spinHour.getSelectedItem().toString() + ":" + spinMinute.getSelectedItem().toString();
+    private boolean ValidateDate() {
+        String input = spinDay.getSelectedItem().toString() + " " + spinMonth.getSelectedItem().toString() + " " + spinYear.getSelectedItem().toString() + " " + spinHour.getSelectedItem().toString() + ":" + spinMinute.getSelectedItem().toString();
 
         SimpleDateFormat parser = new SimpleDateFormat("dd MM yyyy HH:mm");
         Date mealdate = null;
@@ -186,9 +181,11 @@ public class NewMealActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        if(mealdate.before(today)) {
+        if (mealdate.before(today)) {
             Toast.makeText(NewMealActivity.this, "You need to pick a valid date", Toast.LENGTH_SHORT).show();
+            return false;
         }
+        return true;
     }
 
     private void InitializeValidate() {

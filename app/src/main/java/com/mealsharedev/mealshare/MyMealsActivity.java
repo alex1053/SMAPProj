@@ -8,7 +8,6 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -17,6 +16,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.mealsharedev.mealshare.Adapters.MyMealsAdapter;
 import com.mealsharedev.mealshare.Models.Meal;
 import com.mealsharedev.mealshare.dao.FirebaseDAO;
@@ -29,10 +29,10 @@ import static com.mealsharedev.mealshare.dao.FirebaseDAO.DAO_GET_RESERVED_MEALS;
 import static com.mealsharedev.mealshare.dao.FirebaseDAO.DAO_MY_MEALS_EXTRA;
 import static com.mealsharedev.mealshare.dao.FirebaseDAO.DAO_RESERVED_MEALS_EXTRA;
 
-public class MyMealsActivity extends AppCompatActivity {
+public class MyMealsActivity extends headerActivity {
 
     TextView txtMealHeader;
-    RadioButton btnMyMeals, btnAssignedMeals;
+    RadioButton btnMyMeals, btnReservedMeals;
     Button btnBack, btnDelete;
     ListView MealListView;
     ArrayList<Meal> meals = new ArrayList<>();
@@ -62,8 +62,16 @@ public class MyMealsActivity extends AppCompatActivity {
         }
     };
 
+    BroadcastReceiver signOutReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            MyMealsActivity.this.setResult(RESULT_OK);
+            finish();
+        }
+    };
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_meals);
 
@@ -76,11 +84,16 @@ public class MyMealsActivity extends AppCompatActivity {
         IntentFilter filterr = new IntentFilter(DAO_GET_RESERVED_MEALS);
         LocalBroadcastManager.getInstance(MyMealsActivity.this).registerReceiver(assignedMealsReceiver, filterr);
 
+        IntentFilter signOutFilter = new IntentFilter(SIGNOUT_BROADCAST);
+        LocalBroadcastManager.getInstance(this).registerReceiver(signOutReceiver, signOutFilter);
+
         InitializeButtons();
         SetViewByButtons(btnMyMeals.isChecked());
         InitializaListView();
         dao = new FirebaseDAO(this);
         dao.getMyMeals();
+
+        setHeadings(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
     }
 
     @Override
@@ -90,7 +103,7 @@ public class MyMealsActivity extends AppCompatActivity {
 
 
     private void setResultForActivity() {
-        if(deletedMeals.size() > 0) {
+        if (deletedMeals.size() > 0) {
             Intent intent = new Intent();
             intent.putExtra("deletedMeals", deletedMeals);
             setResult(RESULT_OK, intent);
@@ -129,7 +142,7 @@ public class MyMealsActivity extends AppCompatActivity {
                 Iterator<Meal> i = meals.iterator();
                 while (i.hasNext()) {
                     Meal tmp = i.next();
-                    if(tmp.getMealId().equals(mealToDelete.getMealId())) {
+                    if (tmp.getMealId().equals(mealToDelete.getMealId())) {
                         i.remove();
                         mealOverviewAdapter.notifyDataSetChanged();
                         break;
@@ -149,11 +162,16 @@ public class MyMealsActivity extends AppCompatActivity {
     }
 
     private void DeleteMeal(Meal mealToDelete) {
-        dao.deleteMeal(mealToDelete);
-        isDeleteButtonPressed = false;
-        deletedMeals.add(mealToDelete);
-        btnDelete.setText(getString(R.string.delete));
-        Toast.makeText(MyMealsActivity.this, "The meal is now deleted", Toast.LENGTH_SHORT).show();
+        if (btnMyMeals.isChecked()) {
+            dao.deleteMeal(mealToDelete);
+            isDeleteButtonPressed = false;
+            deletedMeals.add(mealToDelete);
+            btnDelete.setText(getString(R.string.delete));
+            Toast.makeText(MyMealsActivity.this, getString(R.string.meal_deleted), Toast.LENGTH_SHORT).show();
+        } else {
+            mealToDelete.portions = String.valueOf(Integer.parseInt(mealToDelete.portions) + 1);
+            dao.optOutMeal(mealToDelete);
+        }
     }
 
     public void OpenMealDetails(Meal meal) {
@@ -193,17 +211,17 @@ public class MyMealsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 btnMyMeals.setChecked(true);
-                btnAssignedMeals.setChecked(false);
+                btnReservedMeals.setChecked(false);
                 dao.getMyMeals();
                 SetViewByButtons(btnMyMeals.isChecked());
             }
         });
 
-        btnAssignedMeals = findViewById(R.id.btnAssignedMeals);
-        btnAssignedMeals.setOnClickListener(new View.OnClickListener() {
+        btnReservedMeals = findViewById(R.id.btnAssignedMeals);
+        btnReservedMeals.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                btnAssignedMeals.setChecked(true);
+                btnReservedMeals.setChecked(true);
                 btnMyMeals.setChecked(false);
                 dao.getReservedMeals();
                 SetViewByButtons(btnMyMeals.isChecked());
