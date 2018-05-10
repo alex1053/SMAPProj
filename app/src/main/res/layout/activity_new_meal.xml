@@ -238,7 +238,7 @@
 
                 <Spinner
                     android:id="@+id/spinMonth"
-                    android:layout_width="140dp"
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/txtMonth"
                     android:layout_marginLeft="13dp"
@@ -335,6 +335,7 @@
                     android:layout_below="@+id/txtZipCode"
                     android:ems="10"
                     android:inputType="number"
+                    android:maxLength="4"
                     tools:layout_editor_absoluteX="43dp"
                     tools:layout_editor_absoluteY="316dp" />
 

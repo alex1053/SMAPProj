@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.mealsharedev.mealshare.Adapters.MealAdapter;
 import com.mealsharedev.mealshare.Models.Meal;
@@ -91,8 +92,7 @@ public class MainActivity extends headerActivity {
             }
         });
 
-        Intent intent = getIntent();
-        setHeadings(intent.getStringExtra("user"));
+        setHeadings(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
     }
 
     @Override

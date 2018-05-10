@@ -17,6 +17,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.mealsharedev.mealshare.Adapters.MyMealsAdapter;
 import com.mealsharedev.mealshare.Models.Meal;
 import com.mealsharedev.mealshare.dao.FirebaseDAO;
@@ -29,7 +30,7 @@ import static com.mealsharedev.mealshare.dao.FirebaseDAO.DAO_GET_RESERVED_MEALS;
 import static com.mealsharedev.mealshare.dao.FirebaseDAO.DAO_MY_MEALS_EXTRA;
 import static com.mealsharedev.mealshare.dao.FirebaseDAO.DAO_RESERVED_MEALS_EXTRA;
 
-public class MyMealsActivity extends AppCompatActivity {
+public class MyMealsActivity extends headerActivity {
 
     TextView txtMealHeader;
     RadioButton btnMyMeals, btnAssignedMeals;
@@ -62,8 +63,16 @@ public class MyMealsActivity extends AppCompatActivity {
         }
     };
 
+    BroadcastReceiver signOutReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            MyMealsActivity.this.setResult(RESULT_OK);
+            finish();
+        }
+    };
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_meals);
 
@@ -76,11 +85,16 @@ public class MyMealsActivity extends AppCompatActivity {
         IntentFilter filterr = new IntentFilter(DAO_GET_RESERVED_MEALS);
         LocalBroadcastManager.getInstance(MyMealsActivity.this).registerReceiver(assignedMealsReceiver, filterr);
 
+        IntentFilter signOutFilter = new IntentFilter(SIGNOUT_BROADCAST);
+        LocalBroadcastManager.getInstance(this).registerReceiver(signOutReceiver, signOutFilter);
+
         InitializeButtons();
         SetViewByButtons(btnMyMeals.isChecked());
         InitializaListView();
         dao = new FirebaseDAO(this);
         dao.getMyMeals();
+
+        setHeadings(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
     }
 
     @Override
