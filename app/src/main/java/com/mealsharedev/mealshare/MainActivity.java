@@ -153,6 +153,7 @@ public class MainActivity extends headerActivity {
     @Override
     protected void onDestroy() {
         unbindService(updateServiceConnection);
+        unbindService(subscriptionServiceConnection);
         super.onDestroy();
     }
 
